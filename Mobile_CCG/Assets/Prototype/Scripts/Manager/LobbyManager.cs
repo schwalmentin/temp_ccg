@@ -10,49 +10,55 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
 
-public class LobbyManager : MonoBehaviour
+public class LobbyManager : NetworkSingleton<LobbyManager>
 {
     #region Variables
 
+    [SerializeField] private TextMeshProUGUI playerInfo;
     [SerializeField] private TextMeshProUGUI lobbyinfo;
-    [SerializeField] private TextMeshProUGUI joincode;
+    [SerializeField] private TextMeshProUGUI joincode;  
 
-    private string lobbyId;
-    private string lobbyName = "game_lobby";
+    private Lobby lobby;
     private int maxPlayers = 2;
-    private int heartbeatInterval = 15;
-    private IEnumerator heartBeatCoroutine;
-
     private int maxConnections = 1;
 
+    private readonly List<ulong> playersInLobby = new();
+
+    private IEnumerator heartBeatCoroutine;
+    private int heartbeatInterval = 15;
 
     private RelayHostData hostData;
     private RelayJoinData joinData;
+
     #endregion
 
     #region Unity Methods
 
-    private void Awake()
+    protected override void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        base.Awake();
+
+        this.playerInfo.text = AuthenticationManager.Instance.PlayerId;
     }
 
-    private void OnDestroy()
+    public override void OnDestroy()
     {
-        Lobbies.Instance.DeleteLobbyAsync(lobbyId);
+        if (this.lobby == null) { return; }
+
+        Lobbies.Instance.DeleteLobbyAsync(this.lobby.Id);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (!Input.GetKeyDown(KeyCode.K))
         {
-            PongClientRpc(Time.frameCount, "hello, world"); // Server -> Client
+            return;
         }
-    }
-    #endregion
 
-    [ClientRpc]
-    void PongClientRpc(int somenumber, string sometext) { Debug.Log($"some number: {somenumber} + some text: {sometext}"); }
+        Debug.Log(this.playersInLobby.Count);
+    }
+
+    #endregion
 
     #region Lobby Methods
 
@@ -103,13 +109,10 @@ public class LobbyManager : MonoBehaviour
                 this.joinData.hostConnectionData);
 
             // Start client
+            Debug.Log("Start Client");
             NetworkManager.Singleton.StartClient();
             this.lobbyinfo.text = lobby.Id;
             this.joincode.text = joinCode;
-
-            // Call RPC
-            Debug.Log("Switching Scene");
-            this.SwitchSceneServerRPC();
         }
         catch (LobbyServiceException e)
         {
@@ -153,9 +156,7 @@ public class LobbyManager : MonoBehaviour
             };
 
             // Create lobby
-            Lobby lobby = await Lobbies.Instance.CreateLobbyAsync(this.lobbyName, this.maxPlayers, options);
-            this.lobbyId = lobby.Id;
-
+            this.lobby = await Lobbies.Instance.CreateLobbyAsync("game_lobby", this.maxPlayers, options);
             Debug.Log($"Create lobby: {lobby.Id}");
 
             // Ping lobby
@@ -172,6 +173,7 @@ public class LobbyManager : MonoBehaviour
             );
 
             // Start host
+            Debug.Log("Start Host");
             NetworkManager.Singleton.StartHost();
             this.lobbyinfo.text = lobby.Id;
             this.joincode.text = hostData.joinCode;
@@ -190,27 +192,22 @@ public class LobbyManager : MonoBehaviour
     {
         try
         {
-            if (lobbyId == null)
+            if (this.lobby == null)
             {
                 return;
             }
 
-            await LobbyService.Instance.DeleteLobbyAsync(this.lobbyId);
-            Debug.Log($"Cancel lobby: {lobbyId}");
+            await LobbyService.Instance.DeleteLobbyAsync(this.lobby.Id);
+            Debug.Log($"Cancel lobby: {this.lobby.Id}");
 
             if (this.heartBeatCoroutine != null) { StopCoroutine(this.heartBeatCoroutine); }
-            this.lobbyId = null;
+            this.lobby = null;
+            NetworkManager.Singleton.Shutdown();
         }
         catch (LobbyServiceException e)
         {
             Debug.LogException(e);
         }
-    }
-
-    [ServerRpc]
-    private void SwitchSceneServerRPC()
-    {
-        Debug.Log("Switching Scene");
     }
 
     /// <summary>
@@ -230,5 +227,55 @@ public class LobbyManager : MonoBehaviour
             yield return delay;
         }
     }
+
+    #endregion
+
+    #region Network Methods
+
+    /// <summary>
+    /// Is called once the player spawns in the network. The server adds an OnClientCallback() event.
+    /// </summary>
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (this.IsServer)
+        {
+            NetworkManager.OnClientConnectedCallback += OnClientConnectedCallback;
+            this.playersInLobby.Add(NetworkManager.Singleton.LocalClientId);
+        }
+    }
+
+    /// <summary>
+    /// Adds the playerId to the lobby and starts the game once there are two players in the same lobby.
+    /// </summary>
+    /// <param name="playerId"></param>
+    private void OnClientConnectedCallback(ulong playerId)
+    {
+        if (!this.IsServer) { return; }
+
+        if (!this.playersInLobby.Contains(playerId))
+        {
+            this.playersInLobby.Add(playerId);
+        }
+
+        if (this.playersInLobby.Count == 2)
+        {
+            Debug.Log("Start the Game");
+
+            this.StartGameClientRpc();
+        }
+    }
+
+    /// <summary>
+    /// Informs all players to start the game and switch to the game scene.
+    /// </summary>
+    [ClientRpc]
+    private void StartGameClientRpc()
+    {
+        Debug.Log($"Switch to the Game Scene");
+        HandleSceneManager.Instance.SwitchSceneAsync("test");
+    }
+
     #endregion
 }

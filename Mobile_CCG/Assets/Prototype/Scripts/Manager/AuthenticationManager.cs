@@ -11,15 +11,19 @@ using ParrelSync;
 
 public class AuthenticationManager : Singleton<AuthenticationManager>
 {
-    public static string PlayerId { get; private set; }
+    private string playerId;
+
+    public string PlayerId { get { return this.playerId; } }
 
     protected override void Awake()
     {
         base.Awake();
 
         this.LoginAnonymously();
-        HandleSceneManager.Instance().SwitchSceneAsync("Lobby");
+        HandleSceneManager.Instance.SwitchSceneAsync("Lobby");
     }
+
+    #region Authentication Methods
 
     /// <summary>
     /// Inizialize unity services and login the player anonymously
@@ -84,7 +88,7 @@ public class AuthenticationManager : Singleton<AuthenticationManager>
         try
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            PlayerId = AuthenticationService.Instance.PlayerId;
+            this.playerId = AuthenticationService.Instance.PlayerId;
             Debug.Log("Sign in anonymously suceeded!");
         }
         catch (Exception e)
@@ -92,4 +96,6 @@ public class AuthenticationManager : Singleton<AuthenticationManager>
             Debug.LogException(e);
         }
     }
+
+    #endregion
 }

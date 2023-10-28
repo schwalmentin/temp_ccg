@@ -5,20 +5,23 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour, new(
     private static T instance = null;
     private static readonly object padlock = new object();
 
-    public static T Instance()
+    public static T Instance
     {      
-        if (instance == null)
+        get
         {
-            lock (padlock)
+            if (instance == null)
             {
-                if (instance == null)
+                lock (padlock)
                 {
-                    instance = new T();
+                    if (instance == null)
+                    {
+                        instance = new T();
+                    }
                 }
             }
-        }
 
-        return instance;      
+            return instance;
+        }        
     }
 
     protected virtual void Awake()
