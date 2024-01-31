@@ -1,20 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Guardian : Card
 {
-    private int cost;
+    [SerializeField] private int cost;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Guards")]
+    [SerializeField] private List<Guard> guards = new List<Guard>();
 
-    // Update is called once per frame
-    void Update()
+    [Header("Graphics")]
+    [SerializeField] private GameObject graphics;
+    [SerializeField] private TextMeshProUGUI nameGUI;
+    [SerializeField] private TextMeshProUGUI costGUI;
+
+    public List<Guard> Guards { get { return this.guards; } }
+
+    public override void InitializeCard(bool includeGraphic)
     {
-        
+        this.graphics.SetActive(includeGraphic);
+
+        foreach (Guard guard in this.guards)
+        {
+            guard.InitializeGuard(this, includeGraphic);
+        }
     }
 }

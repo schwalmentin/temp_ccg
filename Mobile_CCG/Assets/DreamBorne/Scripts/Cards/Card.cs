@@ -1,22 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Card : MonoBehaviour
+public abstract class Card : MonoBehaviour
 {
+    [Header("Card Attributes")]
+    [SerializeField] protected string cardName;
+    [SerializeField] protected uint uniqueId;
+    protected int cardId;
 
-    private int cardId;
-    private string cardName;
+    public abstract void InitializeCard(bool includeGraphic);
+}
 
-    // Start is called before the first frame update
-    void Start()
+public struct PlayedCard
+{
+    public PlayedCard(Card card, Vector2Int fieldPosition)
     {
-        
+        this.card = card;
+        this.fieldPosition = fieldPosition;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Card card { get; }
+    public Vector2Int fieldPosition { get; }
 }

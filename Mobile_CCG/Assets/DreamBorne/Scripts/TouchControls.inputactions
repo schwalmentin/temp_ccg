@@ -1,0 +1,94 @@
+{
+    "name": "TouchControls",
+    "maps": [
+        {
+            "name": "Touch",
+            "id": "bc655c03-58c6-46eb-a813-b08cd0885085",
+            "actions": [
+                {
+                    "name": "TouchPosition",
+                    "type": "Value",
+                    "id": "ff6bb87a-4493-4ff0-836e-82f301156db0",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ShortPress",
+                    "type": "Button",
+                    "id": "677b5205-7863-4033-92cb-04e051b36e1a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LongPress",
+                    "type": "Button",
+                    "id": "d49833ba-90ff-4acb-b3f5-81b0447bab31",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.5)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HoldPress",
+                    "type": "Button",
+                    "id": "a08a4560-2010-429e-bbfc-74af38d7b5d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a70f0b43-6fbe-481a-83dc-19f77aa81522",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03581dc2-93dd-4609-bd11-3ee26a0ad0bd",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShortPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7184cf87-336e-48e3-bb67-194dee6e6218",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "Hold(duration=0.7)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LongPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0f367a1-9d3b-4033-9e37-2cb7b96a296a",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HoldPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

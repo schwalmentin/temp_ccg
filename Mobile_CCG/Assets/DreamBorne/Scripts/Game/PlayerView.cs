@@ -50,16 +50,16 @@ public class PlayerView : MonoBehaviour
         this.playerName.text = userName;
         this.localClientId = NetworkManager.Singleton.LocalClientId;
 
-        EventManager.Instance.updClientJoinedGameMaster += this.updOnJoin;
-        EventManager.Instance.updClientPassTurnEvent += this.updPassTurn;
-        EventManager.Instance.updClientCurrencyEvent += this.updOpponentCurrency;
-        EventManager.Instance.updClientHardResetEvent += this.updHardReset;
-        EventManager.Instance.updEndGameEvent += this.updEndGame;
+        //EventManager.Instance.updClientJoinedGameMaster += this.updOnJoin;
+        //EventManager.Instance.updClientPassTurnEvent += this.updPassTurn;
+        //EventManager.Instance.updClientCurrencyEvent += this.updOpponentCurrency;
+        //EventManager.Instance.updClientHardResetEvent += this.updHardReset;
+        //EventManager.Instance.updEndGameEvent += this.updEndGame;
     }
 
     private void Start()
     {
-        EventManager.Instance.JoinGameMasterServerRpc(this.localClientId, userName);
+        // EventManager.Instance.JoinGameMasterServerRpc(this.localClientId, userName);
     }
 
     private void Update()
@@ -79,11 +79,11 @@ public class PlayerView : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventManager.Instance.updClientJoinedGameMaster -= this.updOnJoin;
-        EventManager.Instance.updClientPassTurnEvent -= this.updPassTurn;
-        EventManager.Instance.updClientCurrencyEvent -= this.updOpponentCurrency;
-        EventManager.Instance.updClientHardResetEvent -= this.updHardReset;
-        EventManager.Instance.updEndGameEvent -= this.updEndGame;
+        //EventManager.Instance.updClientJoinedGameMaster -= this.updOnJoin;
+        //EventManager.Instance.updClientPassTurnEvent -= this.updPassTurn;
+        //EventManager.Instance.updClientCurrencyEvent -= this.updOpponentCurrency;
+        //EventManager.Instance.updClientHardResetEvent -= this.updHardReset;
+        //EventManager.Instance.updEndGameEvent -= this.updEndGame;
     }
 
     #endregion
@@ -122,7 +122,7 @@ public class PlayerView : MonoBehaviour
         this.UpdateInfoUI(false);
 
         // Send server rpc
-        EventManager.Instance.PassTurnServerRpc(this.localClientId);
+        // EventManager.Instance.PassTurnServerRpc(this.localClientId);
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ public class PlayerView : MonoBehaviour
         this.UpdateInfoUI(true);
 
         Debug.Log("The Player wants to increase the currency!");
-        EventManager.Instance.IncreaseCurrencyServerRpc(this.localClientId, 1);
+        // EventManager.Instance.IncreaseCurrencyServerRpc(this.localClientId, 1);
     }
 
     /// <summary>

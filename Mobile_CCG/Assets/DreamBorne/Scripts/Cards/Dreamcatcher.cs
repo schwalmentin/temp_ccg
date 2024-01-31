@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Trap : Card
+public class Dreamcatcher : Card
 {
-    [SerializeField] private int cost;
+    [SerializeField] private int basePoints;
 
     [Header("Effects")]
     [SerializeField, SerializeReference] private List<Action> effects;
@@ -12,12 +12,12 @@ public class Trap : Card
     [Header("Graphics")]
     [SerializeField] private GameObject graphics;
     [SerializeField] private TextMeshProUGUI nameGUI;
-    [SerializeField] private TextMeshProUGUI costGUI;
+    [SerializeField] private TextMeshProUGUI basePointsGUI;
 
     public override void InitializeCard(bool includeGraphic)
     {
         this.graphics.SetActive(includeGraphic);
         this.nameGUI.text = this.cardName;
-        this.costGUI.text = this.cost.ToString();
+        this.basePointsGUI.text = this.basePoints.ToString();
     }
 }
