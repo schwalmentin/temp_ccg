@@ -18,6 +18,12 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
 
     private readonly List<ulong> playersInLobby = new();
 
+    SkillBasedMatchmaking mm = new SkillBasedMatchmaking();
+    AuthenticationManager authenticationManager = new AuthenticationManager();
+
+    [SerializeField] private Rank rankA;
+    [SerializeField] private Rank rankB;
+
     private IEnumerator heartBeatCoroutine;
     private int heartbeatInterval = 15;
 
@@ -69,6 +75,27 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
         {
             // Add lobby options
             QuickJoinLobbyOptions options = new QuickJoinLobbyOptions();
+
+            // Options or data should include the player's rating when creating a lobby. When a player looks for a lobby their rating should be -250 to +250 than their rating, alternatively if this does not work, ranks can be implemented and specific ranks are sought after in the querys
+
+            string playerId = authenticationManager.PlayerId;
+
+            SkillBasedMatchmaking.Player loadedPlayer = await mm.LoadData(playerId);
+
+            string rank = loadedPlayer.Rank.ToString();
+
+            var queryFilter = new List<QueryFilter>()
+            {
+                {
+                     new QueryFilter(
+                    field: QueryFilter.FieldOptions.S1,
+                    op: QueryFilter.OpOptions.EQ,
+                    value: rank
+                    )
+                }
+            };
+
+            options.Filter = queryFilter;
 
             // Quckjoin a random lobby
             Lobby lobby = await Lobbies.Instance.QuickJoinLobbyAsync(options);
@@ -124,6 +151,13 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
     {
         try
         {
+
+            string playerId = authenticationManager.PlayerId; //how do we get playerId?
+
+            SkillBasedMatchmaking.Player loadedPlayer = await mm.LoadData(playerId);
+
+            string rank = loadedPlayer.Rank.ToString();
+
             // Create relay object
             Allocation allocation = await Relay.Instance.CreateAllocationAsync(this.maxConnections);
             this.hostData = new RelayHostData
@@ -147,6 +181,13 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
                 {
                     "joinCode", new DataObject(DataObject.VisibilityOptions.Member, hostData.joinCode)
                 },
+
+                {
+                "Rank", new DataObject (
+                    visibility: DataObject.VisibilityOptions.Public,
+                    value: rank,
+                    index: DataObject.IndexOptions.S1)
+                }
             };
 
             // Create lobby
@@ -195,6 +236,26 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
             if (this.heartBeatCoroutine != null) { StopCoroutine(this.heartBeatCoroutine); }
             this.lobby = null;
             NetworkManager.Singleton.Shutdown();
+
+            /*
+            string player1Id = 1; //how do we get playerId?
+
+            double outcomePlayer1 = mm.getWinOutcome();
+
+            double outcomePlayer2 = mm.getLossOutcome();
+
+            ulong player2Id = 2; //how do we get playerId?
+
+            SkillBasedMatchmaking.Player loadedPlayer1 = await mm.LoadData(player1Id);
+
+            SkillBasedMatchmaking.Player loadedPlayer2 = await mm.LoadData(player2Id);
+
+
+            mm.UpdateRatingAsync(player1Id, player2Id, outcomePlayer1);
+
+            mm.UpdateRatingAsync(player2Id, player1Id, outcomePlayer2);
+            */
+
         }
         catch (LobbyServiceException e)
         {

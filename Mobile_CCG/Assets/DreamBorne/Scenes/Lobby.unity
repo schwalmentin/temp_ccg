@@ -2444,6 +2444,14 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 2989146824
       objectReference: {fileID: 0}
+    - target: {fileID: 1958324726554446461, guid: 33fa5a1a69e243e4bb7bf75af70fdda3, type: 3}
+      propertyPath: rankA
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1958324726554446461, guid: 33fa5a1a69e243e4bb7bf75af70fdda3, type: 3}
+      propertyPath: rankB
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5783916759603159217, guid: 33fa5a1a69e243e4bb7bf75af70fdda3, type: 3}
       propertyPath: m_Name
       value: LobbyManager
