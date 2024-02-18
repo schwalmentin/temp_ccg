@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public class GameContainerProxy
 {
     private GameContainer gameContainer;
@@ -8,4 +10,9 @@ public class GameContainerProxy
     }
 
     public GameState GameState { get { return this.gameContainer.gameState; } }
+
+    public List<Card> HandCards
+    {
+        get { return this.gameContainer.hand; }
+    }
 }

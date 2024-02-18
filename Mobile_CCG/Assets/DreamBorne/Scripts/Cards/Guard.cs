@@ -2,25 +2,39 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Guard : MonoBehaviour
+public class Guard : Card
 {
     [Header("Guard Attributes")]
     [SerializeField] private int maxPower;
     private int currentPower;
-    private Guardian guardian;
 
     [Header("Effects")]
     [SerializeField, SerializeReference] private List<Action> effects;
 
     [Header("Graphics")]
-    [SerializeField] private GameObject graphics;
+    [SerializeField] private GameObject graphic;
+    [SerializeField] private TextMeshProUGUI nameGUI;
     [SerializeField] private TextMeshProUGUI powerGUI;
 
-    public void InitializeGuard(Guardian guardian, bool includeGraphics)
+    public override void DisplayCardInfo()
     {
-        this.guardian = guardian;
+        Debug.Log("\n" +
+            $"Name: {this.cardName} \n" +
+            $"Power: {this.maxPower}");
+    }
 
-        this.graphics.SetActive(includeGraphics);
+    public override void InitializeCard(bool includeGraphic)
+    {
+        this.graphic.SetActive(includeGraphic);
+        this.nameGUI.text = this.cardName;
         this.powerGUI.text = this.maxPower.ToString();
+    }
+
+    public override void OnDeselect()
+    {
+    }
+
+    public override void OnSelect()
+    {
     }
 }
