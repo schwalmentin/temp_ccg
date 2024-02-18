@@ -13,16 +13,32 @@ public class Guardian : Card
     [SerializeField] private GameObject graphics;
     [SerializeField] private TextMeshProUGUI nameGUI;
     [SerializeField] private TextMeshProUGUI costGUI;
+    [SerializeField] private GameObject selectHighlight;
 
     public List<Guard> Guards { get { return this.guards; } }
+
+    public override void DisplayCardInfo()
+    {
+        Debug.Log ("\n" +
+            $"Name: {this.name} \n" +
+            $"Cost: {this.cost} \n" +
+            $"Guards Amount: {this.guards.Count}");
+    }
 
     public override void InitializeCard(bool includeGraphic)
     {
         this.graphics.SetActive(includeGraphic);
+        this.nameGUI.text = this.cardName;
+        this.costGUI.text = this.cost.ToString();
+    }
 
-        foreach (Guard guard in this.guards)
-        {
-            guard.InitializeGuard(this, includeGraphic);
-        }
+    public override void OnDeselect()
+    {
+        this.selectHighlight.SetActive(false);
+    }
+
+    public override void OnSelect()
+    {
+        this.selectHighlight.SetActive(true);
     }
 }

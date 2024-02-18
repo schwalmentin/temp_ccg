@@ -15,10 +15,10 @@ public class PlayerHub : MonoBehaviour
     private CommonPassTurn passTurn;
 
     // Data
-    private Stack<PlayedCard> playedCards;
+    // private Stack<PlayedCard> playedCards;
 
     // Properties
-    public GameContainerProxy GameContainerProxy { get { return this.gameContainerProxy; } }
+    // public GameContainerProxy GameContainerProxy { get { return this.gameContainerProxy; } }
 
     #endregion
 
@@ -27,7 +27,7 @@ public class PlayerHub : MonoBehaviour
     private void Awake()
     {
         // Initialize played cards
-        playedCards = new Stack<PlayedCard>();
+        // playedCards = new Stack<PlayedCard>();
 
         // Initialize game container
         this.gameContainer = new GameContainer(this.deckList);
@@ -44,22 +44,21 @@ public class PlayerHub : MonoBehaviour
 
     #region Input Methods
 
-    public void PassTurn()
+    public void PassTurn(List<PlayedCard> playedCards)
     {
-        this.gameEngine.PassTurn(this.playedCards);
-        this.playedCards.Clear();
+        // EventManager.Instance.PassTurnServerRpc();
     }
 
     public void PlayCard(Card card, Vector2Int fieldPosition)
     {
-        this.playedCards.Push(new PlayedCard(card, fieldPosition));
+        // this.playedCards.Push(new PlayedCard(card, fieldPosition));
     }
 
     public void UnplayCard()
     {
-        if (this.playedCards.Count < 1) {  return; }
+        // if (this.playedCards.Count < 1) {  return; }
 
-        this.playedCards.Pop();
+        // this.playedCards.Pop();
     }
 
     #endregion

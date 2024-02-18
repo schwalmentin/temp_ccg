@@ -12,9 +12,9 @@ public static class Tools
             return;
         }
 
-
         RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
         int n = list.Count;
+
         while (n > 1)
         {
             byte[] box = new byte[1];
@@ -28,7 +28,7 @@ public static class Tools
         }
     }
 
-    public static T[,] ArrayTo2DArray<T>(int sizeX, int sizeY, ref T[] array)
+    public static T[,] ArrayTo2DArray<T>(int sizeX, int sizeY, T[] array)
     {
         if (sizeX * sizeY != array.Length)
         {

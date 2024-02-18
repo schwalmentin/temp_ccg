@@ -18,6 +18,16 @@ public class Nightmare : Card
     [SerializeField] private TextMeshProUGUI nameGUI;
     [SerializeField] private TextMeshProUGUI costGUI;
     [SerializeField] private TextMeshProUGUI powerGUI;
+    [SerializeField] private GameObject selectHighlight;
+
+    public override void DisplayCardInfo()
+    {
+        Debug.Log("\n" +
+            $"Name: {this.name} \n" +
+            $"Cost: {this.cost} \n" +
+            $"Power: {this.maxPower}");
+    }
+
 
     public override void InitializeCard(bool includeGraphics)
     {
@@ -27,5 +37,15 @@ public class Nightmare : Card
         this.nameGUI.text = this.cardName;
         this.costGUI.text = this.cost.ToString();
         this.powerGUI.text = this.currentPower.ToString();
+    }
+
+    public override void OnDeselect()
+    {
+        this.selectHighlight.SetActive(false);
+    }
+
+    public override void OnSelect()
+    {
+        this.selectHighlight.SetActive(true);
     }
 }

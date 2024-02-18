@@ -13,11 +13,29 @@ public class Dreamcatcher : Card
     [SerializeField] private GameObject graphics;
     [SerializeField] private TextMeshProUGUI nameGUI;
     [SerializeField] private TextMeshProUGUI basePointsGUI;
+    [SerializeField] private GameObject selectHighlight;
+
+    public override void DisplayCardInfo()
+    {
+        Debug.Log ("\n" +
+            $"Name: {this.name} \n" + 
+            $"Base Points: {this.basePoints}");
+    }
 
     public override void InitializeCard(bool includeGraphic)
     {
         this.graphics.SetActive(includeGraphic);
         this.nameGUI.text = this.cardName;
         this.basePointsGUI.text = this.basePoints.ToString();
+    }
+
+    public override void OnDeselect()
+    {
+        this.selectHighlight.SetActive(false);
+    }
+
+    public override void OnSelect()
+    {
+        this.selectHighlight.SetActive(true);
     }
 }
