@@ -29,6 +29,9 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private CardSlot[] captureCardslotsArray;
     private Dictionary<Vector2Int, CardSlot> captureCardslots;
 
+    // Cards
+    private Stack<PlayedCard> playedCards;
+
     // Highlights
     [Header("Field Highlights")]
     [SerializeField] private GameObject invaderFieldHighlights; 
@@ -81,6 +84,7 @@ public class InputHandler : MonoBehaviour
         this.captureCardslots = this.InitializeCardSlots(new Vector2Int(3, 1), this.captureCardslotsArray);
 
         this.currentCardSlots = new List<CardSlot>();
+        this.playedCards = new Stack<PlayedCard>();
 
         // TEst
         foreach (var card in this.handCardTest)
@@ -88,6 +92,16 @@ public class InputHandler : MonoBehaviour
             card.InitializeCard(true);
             card.CardState = CardState.Hand;
         }
+    }
+
+    private void Start()
+    {
+        EventManager.Instance.p_endTurnDeploymentEvent += this.EndTurn;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.p_endTurnDeploymentEvent -= this.EndTurn;
     }
 
     private void Update()
@@ -269,7 +283,8 @@ public class InputHandler : MonoBehaviour
             Debug.Log($"The card {cards[i]} was placed at the cardslot {this.currentCardSlots[i]}");
         }
 
-        // Invoke Player Hub
+        // Save Card to played cards
+        this.playedCards.Push(new PlayedCard(card, GetPlacementOfCardSlot(this.currentCardSlots[0], field), this.currentCardSlots.Count));
 
         // Update the board and hand
         this.selectedCard = null;
@@ -410,6 +425,26 @@ public class InputHandler : MonoBehaviour
     public void TouchPosition(InputAction.CallbackContext context)
     {
         this.touchPosition = context.ReadValue<Vector2>();
+    }
+
+    #endregion
+
+
+    #region EventManager Invokations
+
+    public void PassTurn()
+    {
+        EventManager.Instance.PassTurnDeploymentServerRpc(this.playedCards.ToArray());
+        this.playedCards.Clear();
+    }
+
+    #endregion
+
+    #region EventManager Ovservation
+
+    private void EndTurn(PlayedCard[] playedCardsOpponent)
+    {
+        // instantiate card and place it on the battlefield
     }
 
     #endregion
