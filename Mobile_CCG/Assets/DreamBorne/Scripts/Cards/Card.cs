@@ -4,7 +4,7 @@ public abstract class Card : MonoBehaviour
 {
     [Header("Card Attributes")]
     [SerializeField] protected string cardName;
-    [SerializeField] protected int cardId; // Which type of card
+    [SerializeField] protected uint cardId; // Which type of card
     protected uint uniqueId; // Which instance of a type of card
     protected CardState cardState = CardState.Library;
 
@@ -15,6 +15,8 @@ public abstract class Card : MonoBehaviour
     }
 
     public string CardName { get { return this.cardName; } }
+
+    public uint CardId { get { return this.cardId; } }
 
     public abstract void InitializeCard(bool includeGraphic);
 

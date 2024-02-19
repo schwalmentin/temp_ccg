@@ -6,6 +6,9 @@ public class EventManager : NetworkSingleton<EventManager>
 {
     #region Delegates
 
+    public delegate void JoinMatchDelegate(uint[] deckIds, ServerRpcParams serverRpcParams);
+    public delegate void JoinedMatchDelegate(uint[] startingHandUniqueIds);
+
     public delegate void PassTurnDeploymentDelegate(PlayedCard[] playedCards, ServerRpcParams serverRpcParams);
 
     public delegate void EndTurnDeploymentDelegate(PlayedCard[] playedCardsOpponent);
@@ -13,15 +16,17 @@ public class EventManager : NetworkSingleton<EventManager>
 
     #endregion
 
-    #region ServerHub Events
+    #region Player Events
 
-    public event PassTurnDeploymentDelegate s_passTurnDeploymentEvent;
+    public event PassTurnDeploymentDelegate p_passTurnDeploymentEvent;
+    public event JoinMatchDelegate p_joinMatchEvent;
 
     #endregion
 
-    #region PlayerHub Events
+    #region Server Events
 
-    public event EndTurnDeploymentDelegate p_endTurnDeploymentEvent;
+    public event EndTurnDeploymentDelegate s_endTurnDeploymentEvent;
+    public event JoinedMatchDelegate s_joinedMatchEvent;
 
     #endregion
 
@@ -30,7 +35,13 @@ public class EventManager : NetworkSingleton<EventManager>
     [ServerRpc(RequireOwnership = false)]
     public void PassTurnDeploymentServerRpc(PlayedCard[] playedCards, ServerRpcParams serverRpcParams = default)
     {
-        this.s_passTurnDeploymentEvent.Invoke(playedCards, serverRpcParams);
+        this.p_passTurnDeploymentEvent.Invoke(playedCards, serverRpcParams);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void JoinMatchServerRpc(uint[] deckIds, ServerRpcParams serverRpcParams = default)
+    {
+        this.p_joinMatchEvent.Invoke(deckIds, serverRpcParams);
     }
 
     #endregion
@@ -38,9 +49,15 @@ public class EventManager : NetworkSingleton<EventManager>
     #region Client RPCs
 
     [ClientRpc]
-    public void EndTurnClientRpc(PlayedCard[] playedCardsOpponent)
+    public void EndTurnClientRpc(PlayedCard[] playedCardsOpponent, ClientRpcParams clientRpcParams)
     {
-        this.p_endTurnDeploymentEvent.Invoke(playedCardsOpponent);
+        this.s_endTurnDeploymentEvent.Invoke(playedCardsOpponent);
+    }
+
+    [ClientRpc]
+    public void JoinedMatchClientRpc(uint[] startingHandUniqueIds, ClientRpcParams clientRpcParams)
+    {
+        this.s_joinedMatchEvent.Invoke(startingHandUniqueIds);
     }
 
     #endregion

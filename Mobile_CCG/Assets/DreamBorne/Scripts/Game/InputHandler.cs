@@ -30,6 +30,8 @@ public class InputHandler : MonoBehaviour
     private Dictionary<Vector2Int, CardSlot> captureCardslots;
 
     // Cards
+    [Header("Deck")]
+    [SerializeField] private List<Card> deck;
     private Stack<PlayedCard> playedCards;
 
     // Highlights
@@ -79,6 +81,7 @@ public class InputHandler : MonoBehaviour
 
     private void Awake()
     {
+        // Create instances
         this.invaderCardslots = this.InitializeCardSlots(new Vector2Int(6, 2), this.invaderCardslotsArray);
         this.wardenCardslots = this.InitializeCardSlots(new Vector2Int(6, 4), this.wardenCardslotsArray);
         this.captureCardslots = this.InitializeCardSlots(new Vector2Int(3, 1), this.captureCardslotsArray);
@@ -94,14 +97,21 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        EventManager.Instance.p_endTurnDeploymentEvent += this.EndTurn;
+        EventManager.Instance.s_endTurnDeploymentEvent += this.EndTurn;
+        EventManager.Instance.s_joinedMatchEvent += this.JoinedMatch;
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.p_endTurnDeploymentEvent -= this.EndTurn;
+        EventManager.Instance.s_endTurnDeploymentEvent -= this.EndTurn;
+        EventManager.Instance.s_joinedMatchEvent -= this.JoinedMatch;
+    }
+
+    private void Start()
+    {
+        this.JoinMatch();
     }
 
     private void Update()
@@ -438,13 +448,23 @@ public class InputHandler : MonoBehaviour
         this.playedCards.Clear();
     }
 
+    public void JoinMatch()
+    {
+        EventManager.Instance.JoinMatchServerRpc(this.deck.Select(card => card.CardId).ToArray());
+    }
+
     #endregion
 
-    #region EventManager Ovservation
+    #region EventManager Observation
 
     private void EndTurn(PlayedCard[] playedCardsOpponent)
     {
         // instantiate card and place it on the battlefield
+    }
+
+    private void JoinedMatch(uint[] startingHandUniqueIds)
+    {
+        // fill hand with starting hand
     }
 
     #endregion
