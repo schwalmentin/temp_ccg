@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -6,23 +7,27 @@ using UnityEngine;
 public class ServerHub : MonoBehaviour
 {
 
-    public class Player
-    {
-        public uint[] deckId;
-
-    }
-
+    public Dictionary<ulong, Player> Players = new Dictionary<ulong, Player>();
 
     private void OnEnable()
     {
         EventManager.Instance.p_joinMatchEvent += this.JoinMatch;
-        EventManager.Instance.p_passTurnDeploymentEvent += PassTurn;
+        EventManager.Instance.p_passTurnDeploymentEvent += PassTurnDeployment;
+        EventManager.Instance.p_ChooseLaneToAttackEvent += this.ChooseLaneToAttack;
+        EventManager.Instance.p_combatEvent += this.Combat;
+        EventManager.Instance.p_byPassGuardianEvent += this.BypassGuardian;
+        EventManager.Instance.p_chooseInteractionEvent += this.ChooseInteraction; 
+
     }
 
     private void OnDisable()
     {
         EventManager.Instance.p_joinMatchEvent -= this.JoinMatch;
-        EventManager.Instance.p_passTurnDeploymentEvent -= PassTurn;
+        EventManager.Instance.p_passTurnDeploymentEvent -= PassTurnDeployment;
+        EventManager.Instance.p_ChooseLaneToAttackEvent -= this.ChooseLaneToAttack;
+        EventManager.Instance.p_combatEvent -= this.Combat;
+        EventManager.Instance.p_byPassGuardianEvent -= this.BypassGuardian;
+        EventManager.Instance.p_chooseInteractionEvent -= this.ChooseInteraction;
     }
 
     #region EventManager Invokations
@@ -61,22 +66,27 @@ public class ServerHub : MonoBehaviour
         EventManager.Instance.EndTurnClientRpc(opponentPlayedCards, clientRpcParams);
     }
 
-    private void InformLane(int laneToAttack) 
+    private void ChooseLaneToAttack(int laneToAttack, ServerRpcParams serverRpcParams) 
+    {
+        //EventManager.ChooseLaneToAttackLane(laneToAttack)
+    }
+
+    private void Combat(Card nightmare, ServerRpcParams serverRpcParams) 
     { 
     
     }
 
-    private void InfromFightingGuardian(Card fighter) 
-    { 
-    
-    }
-
-    private void InformByPassGuardian()
+    private void BypassGuardian(ServerRpcParams serverRpcParams)
     {
 
     }
 
-    private void InformInteraction (Boolean interactWithHiddenCard)
+    private void ChooseInteraction (bool interactWithHiddenCard, ServerRpcParams serverRpcParams)
+    {
+
+    }
+
+    private void MatchResult(bool hasWon)
     {
 
     }
@@ -93,9 +103,11 @@ public class ServerHub : MonoBehaviour
         ulong playerId = serverRpcParams.Receive.SenderClientId;
 
         // validate deck and add to player deck
+
+        if(Players .ContainsKey(playerId)) { }
     }
 
-    private void PassTurn(PlayedCard[] playedCards, ServerRpcParams serverRpcParams)
+    private void PassTurnDeployment(PlayedCard[] playedCards, ServerRpcParams serverRpcParams)
     {
         // validate player id
         ulong playerId = serverRpcParams.Receive.SenderClientId;
@@ -104,4 +116,22 @@ public class ServerHub : MonoBehaviour
     }
 
     #endregion
+}
+
+public struct Player
+{
+    public bool isInvader;
+    public Card[] deck;
+    public Stack<Card> library;
+    public Stack<Card> graveyard;
+    public List<Card> hand;
+    public ClientRpcParams rpcParams;
+    public PlayerState state;
+
+}
+
+public enum PlayerState
+{
+    DEPOLYMENT,
+    COMBAT
 }

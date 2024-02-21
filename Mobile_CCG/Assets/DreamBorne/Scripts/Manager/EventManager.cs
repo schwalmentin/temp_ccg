@@ -31,7 +31,7 @@ public class EventManager : NetworkSingleton<EventManager>
     public event p_PlayedCardArrayDelegate p_passTurnDeploymentEvent;
     public event p_CardArrayDelegate p_joinMatchEvent;
     public event p_IntDelegate p_ChooseLaneToAttackEvent;
-    public event p_CardDelegate p_fightGuardianEvent;
+    public event p_CardDelegate p_combatEvent;
     public event p_EmptyDelegate p_byPassGuardianEvent;
     public event p_BoolDelegate p_chooseInteractionEvent;
 
@@ -72,7 +72,7 @@ public class EventManager : NetworkSingleton<EventManager>
     [ServerRpc(RequireOwnership = false)]
     public void CombatServerRpc(Card nightmare, ServerRpcParams serverRpcParams = default)
     {
-        this.p_fightGuardianEvent.Invoke(nightmare, serverRpcParams);
+        this.p_combatEvent.Invoke(nightmare, serverRpcParams);
     }
 
     [ServerRpc(RequireOwnership = false)]
