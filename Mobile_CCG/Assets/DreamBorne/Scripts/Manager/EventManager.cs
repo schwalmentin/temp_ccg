@@ -6,8 +6,8 @@ public class EventManager : NetworkSingleton<EventManager>
 {
     #region Delegates
 
-    public delegate void JoinMatchDelegate(uint[] deckIds, ServerRpcParams serverRpcParams);
-    public delegate void JoinedMatchDelegate(uint[] startingHandUniqueIds);
+    public delegate void JoinMatchDelegate(Card[] deckIds, ServerRpcParams serverRpcParams);
+    public delegate void JoinedMatchDelegate(Card[] startingHandUniqueIds);
 
     public delegate void PassTurnDeploymentDelegate(PlayedCard[] playedCards, ServerRpcParams serverRpcParams);
 
@@ -39,7 +39,7 @@ public class EventManager : NetworkSingleton<EventManager>
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void JoinMatchServerRpc(uint[] deckIds, ServerRpcParams serverRpcParams = default)
+    public void JoinMatchServerRpc(Card[] deckIds, ServerRpcParams serverRpcParams = default)
     {
         this.p_joinMatchEvent.Invoke(deckIds, serverRpcParams);
     }
@@ -55,7 +55,7 @@ public class EventManager : NetworkSingleton<EventManager>
     }
 
     [ClientRpc]
-    public void JoinedMatchClientRpc(uint[] startingHandUniqueIds, ClientRpcParams clientRpcParams)
+    public void JoinedMatchClientRpc(Card[] startingHandUniqueIds, ClientRpcParams clientRpcParams)
     {
         this.s_joinedMatchEvent.Invoke(startingHandUniqueIds);
     }

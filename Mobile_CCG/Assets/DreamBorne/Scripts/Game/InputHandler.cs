@@ -450,7 +450,7 @@ public class InputHandler : MonoBehaviour
 
     public void JoinMatch()
     {
-        EventManager.Instance.JoinMatchServerRpc(this.deck.Select(card => card.CardId).ToArray());
+        EventManager.Instance.JoinMatchServerRpc(this.deck.ToArray());
     }
 
     #endregion
@@ -462,7 +462,7 @@ public class InputHandler : MonoBehaviour
         // instantiate card and place it on the battlefield
     }
 
-    private void JoinedMatch(uint[] startingHandUniqueIds)
+    private void JoinedMatch(Card[] startingHandUniqueIds)
     {
         // fill hand with starting hand
     }

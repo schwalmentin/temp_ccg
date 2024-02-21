@@ -20,7 +20,7 @@ public class ServerHub : MonoBehaviour
 
     private void JoinedMatch()
     {
-        uint[] handCardsUniqueId = new uint[0]; // nur test
+        Card[] handCardsUniqueId = new Card[0]; // nur test
         ulong clientId = 0; // nur test
 
         ClientRpcParams clientRpcParams = new ClientRpcParams // @nico die sollten nicht jedes mal auf neue erstellt werden.. anstatt dessen oben dem dictionary (mehr infos siehe joinmatch) statisch zuweisen... 
@@ -54,7 +54,7 @@ public class ServerHub : MonoBehaviour
 
     #region EventManager Observation
 
-    private void JoinMatch(uint[] deckIds, ServerRpcParams serverRpcParams)
+    private void JoinMatch(Card[] deckIds, ServerRpcParams serverRpcParams)
     {
         // @nico am besten oben ein player objekt mit allen infos wie deck etc (musst neu erstellen glaub ich) in einem Dictionary der ulong id des spielers erstellen
 
