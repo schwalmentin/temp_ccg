@@ -104,19 +104,19 @@ public class EventManager : NetworkSingleton<EventManager>
     }
 
     [ClientRpc]
-    public void InformAboutLane(int attackedLane, ClientRpcParams clientRpcParams)
+    public void InformAboutLaneClientRpc(int attackedLane, ClientRpcParams clientRpcParams)
     {
         this.s_informAboutLaneEvent.Invoke(attackedLane);
     }
 
     [ClientRpc]
-    public void InformCombat(Card nightmare, ClientRpcParams clientRpcParams)
+    public void InformCombatClientRpc(Card nightmare, ClientRpcParams clientRpcParams)
     {
         this.s_informCombatEvent.Invoke(nightmare);
     }
 
     [ClientRpc]
-    public void MatchResult(bool hasWon, ClientRpcParams clientRpcParams)
+    public void MatchResultClientRpc(bool hasWon, ClientRpcParams clientRpcParams)
     {
         this.s_matchResult.Invoke(hasWon);
     }
