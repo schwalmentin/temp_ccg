@@ -6,27 +6,46 @@ public class EventManager : NetworkSingleton<EventManager>
 {
     #region Delegates
 
-    public delegate void JoinMatchDelegate(Card[] deckIds, ServerRpcParams serverRpcParams);
-    public delegate void JoinedMatchDelegate(Card[] startingHandUniqueIds);
+    public delegate void p_CardArrayDelegate(Card[] cards, ServerRpcParams serverRpcParams);
+    public delegate void s_CardArrayDelegate(Card[] cards);
 
-    public delegate void PassTurnDeploymentDelegate(PlayedCard[] playedCards, ServerRpcParams serverRpcParams);
+    public delegate void p_PlayedCardArrayDelegate(PlayedCard[] playedCards, ServerRpcParams serverRpcParams);
+    public delegate void s_PlayedCardArrayDelegate(PlayedCard[] playedCards);
 
-    public delegate void EndTurnDeploymentDelegate(PlayedCard[] playedCardsOpponent);
+    public delegate void p_IntDelegate(int number, ServerRpcParams serverRpcParams);
+    public delegate void s_IntDelegate(int number);
 
+    public delegate void p_CardDelegate(Card card, ServerRpcParams serverRpcParams);
+    public delegate void s_CardDelegate(Card card);
+
+    public delegate void p_EmptyDelegate(ServerRpcParams serverRpcParams);
+    public delegate void s_EmptyDelegate();
+
+    public delegate void p_BoolDelegate(bool condition, ServerRpcParams serverRpcParams);
+    public delegate void s_BoolDelegate(bool condition);
 
     #endregion
 
     #region Player Events
 
-    public event PassTurnDeploymentDelegate p_passTurnDeploymentEvent;
-    public event JoinMatchDelegate p_joinMatchEvent;
+    public event p_PlayedCardArrayDelegate p_passTurnDeploymentEvent;
+    public event p_CardArrayDelegate p_joinMatchEvent;
+    public event p_IntDelegate p_ChooseLaneToAttackEvent;
+    public event p_CardDelegate p_fightGuardianEvent;
+    public event p_EmptyDelegate p_byPassGuardianEvent;
+    public event p_BoolDelegate p_chooseInteractionEvent;
 
     #endregion
 
     #region Server Events
 
-    public event EndTurnDeploymentDelegate s_endTurnDeploymentEvent;
-    public event JoinedMatchDelegate s_joinedMatchEvent;
+    public event s_PlayedCardArrayDelegate s_endTurnDeploymentEvent;
+    public event s_CardArrayDelegate s_joinedMatchEvent;
+    public event s_IntDelegate s_informAboutLaneEvent;
+    public event s_CardDelegate s_informCombatEvent;
+    public event s_EmptyDelegate s_informByPassGuardianEvent;
+    public event s_BoolDelegate s_informInteractionEvent;
+    public event s_BoolDelegate s_matchResult;
 
     #endregion
 
@@ -44,6 +63,30 @@ public class EventManager : NetworkSingleton<EventManager>
         this.p_joinMatchEvent.Invoke(deckIds, serverRpcParams);
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void ChooseLaneToAttackServerRpc(int laneToAttack, ServerRpcParams serverRpcParams = default)
+    {
+        this.p_ChooseLaneToAttackEvent.Invoke(laneToAttack, serverRpcParams);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void CombatServerRpc(Card nightmare, ServerRpcParams serverRpcParams = default)
+    {
+        this.p_fightGuardianEvent.Invoke(nightmare, serverRpcParams);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ByPassGuardianServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        this.p_byPassGuardianEvent.Invoke(serverRpcParams);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ChooseInteractionServerRpc(bool interactWithHiddenCard, ServerRpcParams serverRpcParams = default)
+    {
+        this.p_chooseInteractionEvent.Invoke(interactWithHiddenCard, serverRpcParams);
+    }
+
     #endregion
 
     #region Client RPCs
@@ -58,6 +101,24 @@ public class EventManager : NetworkSingleton<EventManager>
     public void JoinedMatchClientRpc(Card[] startingHandUniqueIds, ClientRpcParams clientRpcParams)
     {
         this.s_joinedMatchEvent.Invoke(startingHandUniqueIds);
+    }
+
+    [ClientRpc]
+    public void InformAboutLane(int attackedLane, ClientRpcParams clientRpcParams)
+    {
+        this.s_informAboutLaneEvent.Invoke(attackedLane);
+    }
+
+    [ClientRpc]
+    public void InformCombat(Card nightmare, ClientRpcParams clientRpcParams)
+    {
+        this.s_informCombatEvent.Invoke(nightmare);
+    }
+
+    [ClientRpc]
+    public void MatchResult(bool hasWon, ClientRpcParams clientRpcParams)
+    {
+        this.s_matchResult.Invoke(hasWon);
     }
 
     #endregion
