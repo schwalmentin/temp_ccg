@@ -1,9 +1,18 @@
+using System;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ServerHub : MonoBehaviour
 {
+
+    public class Player
+    {
+        public uint[] deckId;
+
+    }
+
+
     private void OnEnable()
     {
         EventManager.Instance.p_joinMatchEvent += this.JoinMatch;
@@ -32,6 +41,8 @@ public class ServerHub : MonoBehaviour
         };
 
         EventManager.Instance.JoinedMatchClientRpc(handCardsUniqueId, clientRpcParams);
+
+        Card[] startingHand = new Card[0];
     }
 
     private void EndTurnDeployment()
@@ -48,6 +59,26 @@ public class ServerHub : MonoBehaviour
         };
 
         EventManager.Instance.EndTurnClientRpc(opponentPlayedCards, clientRpcParams);
+    }
+
+    private void InformLane(int laneToAttack) 
+    { 
+    
+    }
+
+    private void InfromFightingGuardian(Card fighter) 
+    { 
+    
+    }
+
+    private void InformByPassGuardian()
+    {
+
+    }
+
+    private void InformInteraction (Boolean interactWithHiddenCard)
+    {
+
     }
 
     #endregion
