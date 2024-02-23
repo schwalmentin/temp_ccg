@@ -19,7 +19,6 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
     private readonly List<ulong> playersInLobby = new();
 
     SkillBasedMatchmaking mm = new SkillBasedMatchmaking();
-    AuthenticationManager authenticationManager = new AuthenticationManager();
 
     [SerializeField] private Rank rankA;
     [SerializeField] private Rank rankB;
@@ -78,7 +77,7 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
 
             // Options or data should include the player's rating when creating a lobby. When a player looks for a lobby their rating should be -250 to +250 than their rating, alternatively if this does not work, ranks can be implemented and specific ranks are sought after in the querys
 
-            string playerId = authenticationManager.PlayerId;
+            string playerId = AuthenticationManager.Instance.PlayerId;
 
             SkillBasedMatchmaking.Player loadedPlayer = await mm.LoadData(playerId);
 
@@ -152,7 +151,7 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
         try
         {
 
-            string playerId = authenticationManager.PlayerId; //how do we get playerId?
+            string playerId = AuthenticationManager.Instance.PlayerId; //how do we get playerId?
 
             SkillBasedMatchmaking.Player loadedPlayer = await mm.LoadData(playerId);
 

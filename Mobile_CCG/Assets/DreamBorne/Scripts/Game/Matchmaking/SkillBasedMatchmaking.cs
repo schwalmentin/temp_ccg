@@ -1,15 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Services.Core;
-using Unity.Services.Authentication;
 using Unity.Services.CloudSave;
 using System.Threading.Tasks;
 using Unity.Services.CloudSave.Models;
-using Newtonsoft.Json.Linq;
 
-public class SkillBasedMatchmaking : MonoBehaviour
+public class SkillBasedMatchmaking
 {
 
     // Glicko-2 coonstants
@@ -110,7 +106,7 @@ public class SkillBasedMatchmaking : MonoBehaviour
             {
                 if (item.Value is Player loadedPlayer)
                 {
-                    print(loadedPlayer);
+                    Debug.Log(loadedPlayer);
                     return loadedPlayer;
                 }
 
