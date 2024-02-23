@@ -45,6 +45,7 @@ public class EventManager : NetworkSingleton<EventManager>
     public event s_CardDelegate s_informCombatEvent;
     public event s_EmptyDelegate s_informByPassGuardianEvent;
     public event s_BoolDelegate s_informInteractionEvent;
+    public event s_CardDelegate s_endTurnCombatEvent;
     public event s_BoolDelegate s_matchResult;
 
     #endregion
@@ -113,6 +114,12 @@ public class EventManager : NetworkSingleton<EventManager>
     public void InformCombatClientRpc(Card nightmare, ClientRpcParams clientRpcParams)
     {
         this.s_informCombatEvent.Invoke(nightmare);
+    }
+
+    [ClientRpc]
+    public void EndTurnCombatClientRpc(Card cardToDraw, ClientRpcParams clientRpcParams)
+    {
+        this.s_endTurnCombatEvent.Invoke(cardToDraw);
     }
 
     [ClientRpc]

@@ -19,7 +19,7 @@ public abstract class Card : MonoBehaviour, INetworkSerializable
 
     public uint CardId { get { return this.cardId; } }
 
-    public abstract void InitializeCard(bool includeGraphic);
+    public abstract void InitializeCard(bool renderCard);
 
     public abstract void DisplayCardInfo();
 
