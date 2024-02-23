@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6209368232503532867, guid: cbc1a811d5c08a146afc797d4ce1f6a6, type: 3}
       propertyPath: m_Name
-      value: DayDream Variant
+      value: n_variant_DayDream
       objectReference: {fileID: 0}
     - target: {fileID: 7388552354656369951, guid: cbc1a811d5c08a146afc797d4ce1f6a6, type: 3}
       propertyPath: cost
@@ -34,15 +34,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8624847611501103939, guid: cbc1a811d5c08a146afc797d4ce1f6a6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.39
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8624847611501103939, guid: cbc1a811d5c08a146afc797d4ce1f6a6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.03
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8624847611501103939, guid: cbc1a811d5c08a146afc797d4ce1f6a6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.245
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8624847611501103939, guid: cbc1a811d5c08a146afc797d4ce1f6a6, type: 3}
       propertyPath: m_LocalRotation.w

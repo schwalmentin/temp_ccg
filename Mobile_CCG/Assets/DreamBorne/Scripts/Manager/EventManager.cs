@@ -93,7 +93,7 @@ public class EventManager : NetworkSingleton<EventManager>
     #region Client RPCs
 
     [ClientRpc]
-    public void EndTurnClientRpc(PlayedCard[] playedCardsOpponent, ClientRpcParams clientRpcParams)
+    public void EndTurnDeploymentClientRpc(PlayedCard[] playedCardsOpponent, ClientRpcParams clientRpcParams)
     {
         this.s_endTurnDeploymentEvent.Invoke(playedCardsOpponent);
     }

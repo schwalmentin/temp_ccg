@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3005260881665197232, guid: fb3483d216021a94baacae756d97571c, type: 3}
       propertyPath: m_Name
-      value: Guard5 Variant
+      value: g_variant_Guard5
       objectReference: {fileID: 0}
     - target: {fileID: 5132556847448787332, guid: fb3483d216021a94baacae756d97571c, type: 3}
       propertyPath: m_RootOrder
@@ -18,15 +18,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5132556847448787332, guid: fb3483d216021a94baacae756d97571c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.52
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5132556847448787332, guid: fb3483d216021a94baacae756d97571c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5132556847448787332, guid: fb3483d216021a94baacae756d97571c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.245
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5132556847448787332, guid: fb3483d216021a94baacae756d97571c, type: 3}
       propertyPath: m_LocalRotation.w

@@ -8,6 +8,7 @@ public class ServerHub : MonoBehaviour
 {
 
     public Dictionary<ulong, Player> Players = new Dictionary<ulong, Player>();
+    private int turnCount = 0;
 
     private void OnEnable()
     {
@@ -63,39 +64,25 @@ public class ServerHub : MonoBehaviour
             }
         };
 
-        EventManager.Instance.EndTurnClientRpc(opponentPlayedCards, clientRpcParams);
+        EventManager.Instance.EndTurnDeploymentClientRpc(opponentPlayedCards, clientRpcParams);
     }
 
-    private void ChooseLaneToAttack(int laneToAttack, ServerRpcParams serverRpcParams) 
+    // Inform About Lane
+
+    // Inform Combat
+
+    // End Turn Combat
+
+    private void MatchResult()
     {
-        //EventManager.ChooseLaneToAttackLane(laneToAttack)
-    }
-
-    private void Combat(Card nightmare, ServerRpcParams serverRpcParams) 
-    { 
-    
-    }
-
-    private void BypassGuardian(ServerRpcParams serverRpcParams)
-    {
-
-    }
-
-    private void ChooseInteraction (bool interactWithHiddenCard, ServerRpcParams serverRpcParams)
-    {
-
-    }
-
-    private void MatchResult(bool hasWon)
-    {
-
+        
     }
 
     #endregion
 
     #region EventManager Observation
 
-    private void JoinMatch(Card[] deckIds, ServerRpcParams serverRpcParams)
+    private void JoinMatch(Card[] deck, ServerRpcParams serverRpcParams)
     {
         // @nico am besten oben ein player objekt mit allen infos wie deck etc (musst neu erstellen glaub ich) in einem Dictionary der ulong id des spielers erstellen
 
@@ -115,6 +102,26 @@ public class ServerHub : MonoBehaviour
         // validate played cards and add to battlefield
     }
 
+    private void ChooseLaneToAttack(int laneToAttack, ServerRpcParams serverRpcParams)
+    {
+        //EventManager.ChooseLaneToAttackLane(laneToAttack)
+    }
+
+    private void Combat(Card nightmare, ServerRpcParams serverRpcParams)
+    {
+
+    }
+
+    private void BypassGuardian(ServerRpcParams serverRpcParams)
+    {
+
+    }
+
+    private void ChooseInteraction(bool interactWithHiddenCard, ServerRpcParams serverRpcParams)
+    {
+
+    }
+
     #endregion
 }
 
@@ -127,7 +134,7 @@ public struct Player
     public List<Card> hand;
     public ClientRpcParams rpcParams;
     public PlayerState state;
-
+    public int scorePoints;
 }
 
 public enum PlayerState

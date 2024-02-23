@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -28,6 +29,10 @@ public class InputHandler : MonoBehaviour
 
     [SerializeField] private CardSlot[] captureCardslotsArray;
     private Dictionary<Vector2Int, CardSlot> captureCardslots;
+
+    // Bases
+    private List<Card> hand;
+    private Stack<Card> graveyard;
 
     // Cards
     [Header("Deck")]
@@ -89,6 +94,9 @@ public class InputHandler : MonoBehaviour
         this.currentCardSlots = new List<CardSlot>();
         this.playedCards = new Stack<PlayedCard>();
 
+        this.hand = new List<Card>();
+        this.graveyard = new Stack<Card>();
+
         // TEst
         foreach (var card in this.handCardTest)
         {
@@ -99,14 +107,22 @@ public class InputHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.Instance.s_endTurnDeploymentEvent += this.EndTurn;
+        EventManager.Instance.s_endTurnDeploymentEvent += this.EndTurnDeployment;
         EventManager.Instance.s_joinedMatchEvent += this.JoinedMatch;
+        EventManager.Instance.s_informAboutLaneEvent += this.InformAboutLane;
+        EventManager.Instance.s_informCombatEvent += this.InformCombat;
+        EventManager.Instance.s_endTurnCombatEvent += this.EndTurnCombat;
+        EventManager.Instance.s_matchResult += this.MatchResult;
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.s_endTurnDeploymentEvent -= this.EndTurn;
+        EventManager.Instance.s_endTurnDeploymentEvent -= this.EndTurnDeployment;
         EventManager.Instance.s_joinedMatchEvent -= this.JoinedMatch;
+        EventManager.Instance.s_informAboutLaneEvent -= this.InformAboutLane;
+        EventManager.Instance.s_informCombatEvent -= this.InformCombat;
+        EventManager.Instance.s_endTurnCombatEvent -= this.EndTurnCombat;
+        EventManager.Instance.s_matchResult -= this.MatchResult;
     }
 
     private void Start()
@@ -457,14 +473,43 @@ public class InputHandler : MonoBehaviour
 
     #region EventManager Observation
 
-    private void EndTurn(PlayedCard[] playedCardsOpponent)
+    private void EndTurnDeployment(PlayedCard[] playedCardsOpponent)
     {
         // instantiate card and place it on the battlefield
+        foreach (PlayedCard playedCard in playedCardsOpponent)
+        {
+            Dictionary<Vector2Int, CardSlot> field = this.GetFieldByCard(playedCard.card);
+            field[playedCard.fieldPosition].Card = MappingManager.Instance.CreateCard(playedCard.card.CardId, true);
+        }
     }
 
-    private void JoinedMatch(Card[] startingHandUniqueIds)
+    private void JoinedMatch(Card[] startingHand)
     {
         // fill hand with starting hand
+        foreach (Card card in startingHand)
+        {
+            this.hand.Add(MappingManager.Instance.CreateCard(card.CardId, true));
+        }
+    }
+
+    private void InformAboutLane(int attackedLane)
+    {
+
+    }
+
+    private void InformCombat(Card nightmare)
+    {
+
+    }
+
+    private void EndTurnCombat(Card cardToDraw)
+    {
+
+    }
+
+    private void MatchResult(bool hasWon)
+    {
+
     }
 
     #endregion
