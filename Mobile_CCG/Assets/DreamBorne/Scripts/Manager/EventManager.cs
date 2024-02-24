@@ -123,7 +123,7 @@ public class EventManager : NetworkSingleton<EventManager>
     }
 
     [ClientRpc]
-    private void EndCombatClientRpc(bool successfulAttack, ClientRpcParams clientRpcParams = default)
+    public void EndCombatClientRpc(bool successfulAttack, ClientRpcParams clientRpcParams = default)
     {
         this.s_endCombatEvent.Invoke(successfulAttack);
     }

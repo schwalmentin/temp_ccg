@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.Services.CloudSave.Models;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -11,6 +12,20 @@ public class ServerHub : MonoBehaviour
 
     public Dictionary<ulong, Player> players = new Dictionary<ulong, Player>();
     private int turnCount = 0;
+
+    private Dictionary<Vector2Int, Card> invaderField = new Dictionary<Vector2Int, Card>();
+    
+    private Dictionary<Vector2Int, Card> wardenField = new Dictionary<Vector2Int, Card>();
+
+    private Dictionary<Vector2Int, Card> captureField = new Dictionary<Vector2Int, Card>();
+
+    private List<Card> defeatedGuards = new List<Card>();
+
+    private PlayedCard[] playedCardsWarden;
+
+    private PlayedCard[] playedCardsInvader;
+
+    private int laneToAttack;
 
     private void OnEnable()
     {
@@ -38,6 +53,29 @@ public class ServerHub : MonoBehaviour
         return this.players.FirstOrDefault(x => x.Key != playerId).Key;
     }
 
+    private Card GetGuardToAttack()
+    {
+        for (int x = 0; x < 6; x++)
+        {
+            for (int y = 0; y < 4; y++)
+            {
+                Card card = this.wardenField[new Vector2Int(x, y)];
+
+                if (card == null) { continue; }
+                if (defeatedGuards.Contains(card)) { continue; }
+                return card;
+            }
+
+        }
+        return null;
+    }
+
+    private Dictionary<Vector2Int, Card> GetFieldByCard(Card card)
+    {
+        return card.GetType() == typeof(Nightmare) ? this.invaderField :
+            card.GetType() == typeof(Guardian) ? this.wardenField : this.captureField;
+    }
+
     #region EventManager Invokations
 
     private void JoinedMatch(ulong playerId)
@@ -54,7 +92,7 @@ public class ServerHub : MonoBehaviour
         EventManager.Instance.JoinedMatchClientRpc(startingHand, this.players[playerId].rpcParams);
     }
 
-    private void EndTurnDeployment()
+    private void EndTurnDeployment(ulong playerId, PlayedCard[] playedCards)
     {
         PlayedCard[] opponentPlayedCards = new PlayedCard[0]; // nur test
         ulong clientId = 0; // nur test
@@ -72,10 +110,15 @@ public class ServerHub : MonoBehaviour
 
     // Inform About Lane
 
-    private void InformAboutLane(int attackedLane, Card guardToAttack)
+    private void InformAboutLane(int attackedLane)
     {
-        Player defender = players.FirstOrDefault(x => !x.Value.isInvader).Value;
-        EventManager.Instance.InformAboutLaneClientRpc(attackedLane, guardToAttack);
+        Card card = GetGuardToAttack();
+        if (card != null)
+        {
+            EventManager.Instance.InformAboutLaneClientRpc(attackedLane, card);
+            return;
+        }
+        this.EndCombat(true);
     }
 
     // Inform Combat
@@ -84,6 +127,12 @@ public class ServerHub : MonoBehaviour
     {
         Player defender = players.FirstOrDefault(x => !x.Value.isInvader).Value;
         EventManager.Instance.InformCombatClientRpc(hasAttacked, nightmare, attackedGuard, newGuard);
+    }
+
+    private void EndCombat(bool successfulAttack)
+    {
+        EventManager.Instance.EndCombatClientRpc(successfulAttack);
+        defeatedGuards.Clear();
     }
 
     // End Turn Combat
@@ -151,12 +200,26 @@ public class ServerHub : MonoBehaviour
         // validate player id
         ulong playerId = serverRpcParams.Receive.SenderClientId;
 
-        // validate played cards and add to battlefield
+        if (this.players[playerId].isInvader) { this.playedCardsInvader = playedCards; } else { this.playedCardsWarden = playedCards; }
+
+        foreach (PlayedCard playedCard in playedCards)
+        {
+            Dictionary<Vector2Int, Card> field = GetFieldByCard(playedCard.card);
+            field.Add(playedCard.fieldPosition, MappingManager.Instance.CreateCard(playedCard.card.CardId, false));
+        }
+
+        Player player = this.players[playerId];
+        player.state = PlayerState.COMBAT;
+
+        if (this.players[GetOpponent(playerId)].state == PlayerState.COMBAT)
+        {
+            EndTurnDeployment(playerId, playedCards);
+        }
     }
 
     private void ChooseLaneToAttack(int laneToAttack, ServerRpcParams serverRpcParams)
     {
-        //EventManager.ChooseLaneToAttackLane(laneToAttack)
+        InformAboutLane(laneToAttack);
     }
 
     private void Combat(Card nightmare, ServerRpcParams serverRpcParams)
