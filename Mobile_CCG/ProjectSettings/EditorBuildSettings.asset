@@ -11,13 +11,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/DreamBorne/Scenes/Lobby.unity
     guid: 465c61adbe7ff2147bda105b3cb7ca84
-  - enabled: 0
-    path: Assets/DreamBorne/Scenes/TestingScenes/Test.unity
-    guid: 226433bd288a07149bb4932cd678c01e
   - enabled: 1
     path: Assets/DreamBorne/Scenes/TestingScenes/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/DreamBorne/Scenes/game_Invader.unity
     guid: 87d2af44b4fb2674ca969689e12a8434
+  - enabled: 1
+    path: Assets/DreamBorne/Scenes/game_Server.unity
+    guid: 85ed59648615e734bb46ecabf2b86532
+  - enabled: 1
+    path: Assets/DreamBorne/Scenes/game_Warden.unity
+    guid: a8535f6e86cafcb439e5c8ff362d81b1
   m_configObjects: {}

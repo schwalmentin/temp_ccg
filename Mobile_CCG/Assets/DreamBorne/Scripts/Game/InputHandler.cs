@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
+using Unity.Properties;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -31,13 +33,15 @@ public class InputHandler : MonoBehaviour
     private Dictionary<Vector2Int, CardSlot> captureCardslots;
 
     // Bases
-    private List<Card> hand;
+    [SerializeField] private List<Card> hand;
     private Stack<Card> graveyard;
 
     // Cards
     [Header("Deck")]
-    [SerializeField] private List<Card> deck;
+    [SerializeField] private Card[] invaderDeck;
+    [SerializeField] private GameObject[] wardenDeck;
     private Stack<PlayedCard> playedCards;
+    private bool isInvader;
 
     // Highlights
     [Header("Field Highlights")]
@@ -57,7 +61,6 @@ public class InputHandler : MonoBehaviour
 
     // Handcards Rendering
     [Header("Handcard Rendering")]
-    [SerializeField] private List<Card> handCardTest;
     [SerializeField] private Transform handTransform;
     [SerializeField] private float maxHandWidth;
     [SerializeField] private float cardRadius;
@@ -96,13 +99,6 @@ public class InputHandler : MonoBehaviour
 
         this.hand = new List<Card>();
         this.graveyard = new Stack<Card>();
-
-        // TEst
-        foreach (var card in this.handCardTest)
-        {
-            card.InitializeCard(true);
-            card.CardState = CardState.Hand;
-        }
     }
 
     private void OnEnable()
@@ -111,6 +107,7 @@ public class InputHandler : MonoBehaviour
         EventManager.Instance.s_joinedMatchEvent += this.JoinedMatch;
         EventManager.Instance.s_informAboutLaneEvent += this.InformAboutLane;
         EventManager.Instance.s_informCombatEvent += this.InformCombat;
+        EventManager.Instance.s_endCombatEvent += this.EndCombat;
         EventManager.Instance.s_endTurnCombatEvent += this.EndTurnCombat;
         EventManager.Instance.s_matchResult += this.MatchResult;
     }
@@ -121,6 +118,7 @@ public class InputHandler : MonoBehaviour
         EventManager.Instance.s_joinedMatchEvent -= this.JoinedMatch;
         EventManager.Instance.s_informAboutLaneEvent -= this.InformAboutLane;
         EventManager.Instance.s_informCombatEvent -= this.InformCombat;
+        EventManager.Instance.s_endCombatEvent -= this.EndCombat;
         EventManager.Instance.s_endTurnCombatEvent -= this.EndTurnCombat;
         EventManager.Instance.s_matchResult -= this.MatchResult;
     }
@@ -133,7 +131,7 @@ public class InputHandler : MonoBehaviour
     private void Update()
     {
         this.CardInteraction(this.currentCard, this.selectedCard);
-        this.RenderHandCards(this.handCardTest);
+        this.RenderHandCards(this.hand);
     }
 
     private void OnDrawGizmos()
@@ -318,7 +316,7 @@ public class InputHandler : MonoBehaviour
 
         card.CardState = CardState.Field;
         card.OnDeselect();
-        this.handCardTest.Remove(card);
+        this.hand.Remove(card);
     }
 
     // Utility classes
@@ -466,12 +464,49 @@ public class InputHandler : MonoBehaviour
 
     public void JoinMatch()
     {
-        EventManager.Instance.JoinMatchServerRpc(this.deck.ToArray());
+        this.isInvader = LobbyManager.Instance.IsServer;
+
+        #if UNITY_EDITOR
+        this.isInvader = NetworkManager.Singleton.IsServer;
+        #endif
+
+        Card[] deck = this.invaderDeck;
+
+        if (!this.isInvader)
+        {
+            deck = new Card[this.wardenDeck.Length];
+
+            for (int i = 0; i < this.wardenDeck.Length; i++)
+            {
+                Card card = this.wardenDeck[i].GetComponent<Card>();
+
+                if (card == null)
+                {
+                    card = this.wardenDeck[i].GetComponentInChildren<Card>();
+                }
+
+                deck[i] = card;
+            }
+        }
+
+
+        EventManager.Instance.JoinMatchServerRpc(deck, this.isInvader);
     }
 
     #endregion
 
     #region EventManager Observation
+
+    private void JoinedMatch(Card[] startingHand)
+    {
+        // fill hand with starting hand
+        foreach (Card card in startingHand)
+        {
+            this.hand.Add(MappingManager.Instance.CreateCard(card.CardId, true));
+        }
+
+        print($"Player {AuthenticationManager.Instance.PlayerId} joined the match!");
+    }
 
     private void EndTurnDeployment(PlayedCard[] playedCardsOpponent)
     {
@@ -483,21 +518,17 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    private void JoinedMatch(Card[] startingHand)
-    {
-        // fill hand with starting hand
-        foreach (Card card in startingHand)
-        {
-            this.hand.Add(MappingManager.Instance.CreateCard(card.CardId, true));
-        }
-    }
-
     private void InformAboutLane(int attackedLane, Card guardToAttack)
     {
 
     }
 
     private void InformCombat(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard)
+    {
+
+    }
+
+    private void EndCombat(bool successful)
     {
 
     }

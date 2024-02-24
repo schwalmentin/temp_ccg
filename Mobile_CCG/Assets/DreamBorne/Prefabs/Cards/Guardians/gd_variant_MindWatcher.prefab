@@ -71,6 +71,18 @@ PrefabInstance:
       propertyPath: guards.Array.data[2]
       value: 
       objectReference: {fileID: 3131801156613371486}
+    - target: {fileID: 3262569073920366823, guid: e296b292835ab3a428977b334355829f, type: 3}
+      propertyPath: m_text
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6943984433135242173, guid: e296b292835ab3a428977b334355829f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7128554163358050571, guid: e296b292835ab3a428977b334355829f, type: 3}
+      propertyPath: m_text
+      value: Mind Watcher
+      objectReference: {fileID: 0}
     - target: {fileID: 7736366234262256769, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_Name
       value: MindWatcher
@@ -81,15 +93,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -3.3
       objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_LocalRotation.w

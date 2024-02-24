@@ -142,6 +142,18 @@ PrefabInstance:
       propertyPath: guards.Array.data[0]
       value: 
       objectReference: {fileID: 2653433199147820620}
+    - target: {fileID: 3262569073920366823, guid: e296b292835ab3a428977b334355829f, type: 3}
+      propertyPath: m_text
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6943984433135242173, guid: e296b292835ab3a428977b334355829f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7128554163358050571, guid: e296b292835ab3a428977b334355829f, type: 3}
+      propertyPath: m_text
+      value: Mind Bug
+      objectReference: {fileID: 0}
     - target: {fileID: 7736366234262256769, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_Name
       value: MindBug

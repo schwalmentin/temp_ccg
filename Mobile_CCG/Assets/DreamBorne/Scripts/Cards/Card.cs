@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public abstract class Card : MonoBehaviour, INetworkSerializable
+public class Card : MonoBehaviour, INetworkSerializable
 {
     [Header("Card Attributes")]
     [SerializeField] protected string cardName;
@@ -19,12 +19,29 @@ public abstract class Card : MonoBehaviour, INetworkSerializable
 
     public uint CardId { get { return this.cardId; } }
 
-    public abstract void InitializeCard(bool renderCard);
+    public Card()
+    {
 
-    public abstract void DisplayCardInfo();
+    }
 
-    public abstract void OnSelect();
-    public abstract void OnDeselect();
+    public virtual void InitializeCard(bool renderCard)
+    {
+
+    }
+
+    public virtual void DisplayCardInfo()
+    {
+
+    }
+
+    public virtual void OnSelect()
+    {
+
+    }
+    public virtual void OnDeselect()
+    {
+
+    }
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {

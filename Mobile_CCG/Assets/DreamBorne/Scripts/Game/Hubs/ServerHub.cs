@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class ServerHub : MonoBehaviour
 {
 
-    public Dictionary<ulong, Player> Players = new Dictionary<ulong, Player>();
+    public Dictionary<ulong, Player> players = new Dictionary<ulong, Player>();
     private int turnCount = 0;
 
     private void OnEnable()
@@ -32,24 +33,25 @@ public class ServerHub : MonoBehaviour
         EventManager.Instance.p_chooseInteractionEvent -= this.ChooseInteraction;
     }
 
+    private ulong GetOpponent(ulong playerId)
+    {
+        return this.players.FirstOrDefault(x => x.Key != playerId).Key;
+    }
+
     #region EventManager Invokations
 
-    private void JoinedMatch()
+    private void JoinedMatch(ulong playerId)
     {
-        Card[] handCardsUniqueId = new Card[0]; // nur test
-        ulong clientId = 0; // nur test
+        Card[] startingHand = new Card[4];
 
-        ClientRpcParams clientRpcParams = new ClientRpcParams // @nico die sollten nicht jedes mal auf neue erstellt werden.. anstatt dessen oben dem dictionary (mehr infos siehe joinmatch) statisch zuweisen... 
+        for (int i = 0; i < startingHand.Length; i++)
         {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { clientId }
-            }
-        };
-
-        EventManager.Instance.JoinedMatchClientRpc(handCardsUniqueId, clientRpcParams);
-
-        Card[] startingHand = new Card[0];
+            Card card = this.players[playerId].library.Pop();
+            this.players[playerId].hand.Add(card);
+            startingHand[i] = card;
+        }
+        Debug.Log($"Inform player they joined");
+        EventManager.Instance.JoinedMatchClientRpc(startingHand, this.players[playerId].rpcParams);
     }
 
     private void EndTurnDeployment()
@@ -72,7 +74,7 @@ public class ServerHub : MonoBehaviour
 
     private void InformAboutLane(int attackedLane, Card guardToAttack)
     {
-        Player defender = Players.FirstOrDefault(x => !x.Value.isInvader).Value;
+        Player defender = players.FirstOrDefault(x => !x.Value.isInvader).Value;
         EventManager.Instance.InformAboutLaneClientRpc(attackedLane, guardToAttack);
     }
 
@@ -80,7 +82,7 @@ public class ServerHub : MonoBehaviour
 
     private void InformCombat(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard)
     {
-        Player defender = Players.FirstOrDefault(x => !x.Value.isInvader).Value;
+        Player defender = players.FirstOrDefault(x => !x.Value.isInvader).Value;
         EventManager.Instance.InformCombatClientRpc(hasAttacked, nightmare, attackedGuard, newGuard);
     }
 
@@ -88,7 +90,7 @@ public class ServerHub : MonoBehaviour
 
     private void EndTurnCombat(Card cardToDraw, int earnedAttackerPoitns, int earnedDefenderPoints)
     {
-        foreach (Player player in Players.Values)
+        foreach (Player player in players.Values)
         {
             EventManager.Instance.EndTurnCombatClientRpc(cardToDraw, earnedAttackerPoitns, earnedDefenderPoints);
         }
@@ -103,16 +105,45 @@ public class ServerHub : MonoBehaviour
 
     #region EventManager Observation
 
-    private void JoinMatch(Card[] deck, ServerRpcParams serverRpcParams)
+    private void JoinMatch(Card[] deck, bool isInvader, ServerRpcParams serverRpcParams)
     {
-        // @nico am besten oben ein player objekt mit allen infos wie deck etc (musst neu erstellen glaub ich) in einem Dictionary der ulong id des spielers erstellen
-
-        // validate player and add to player list
+        // Get player id
         ulong playerId = serverRpcParams.Receive.SenderClientId;
 
-        // validate deck and add to player deck
+        if(players.ContainsKey(playerId) || players.Count >= 2) { return; }
 
-        if(Players .ContainsKey(playerId)) { }
+        // Get player data
+        Stack<Card> library = new Stack<Card>();
+        deck.ToList().ForEach(card => { library.Push(MappingManager.Instance.CreateCard(card.CardId, false)); });
+
+        ClientRpcParams clientRpcParams = new ClientRpcParams 
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new ulong[] { playerId }
+            }
+        };
+
+        // Join player
+        Player player = new Player(
+            isInvader,
+            deck,
+            library,
+            new Stack<Card>(),
+            new List<Card>(),
+            clientRpcParams,
+            PlayerState.DEPOLYMENT,
+            0);
+
+        this.players.Add(playerId, player);
+        Debug.Log($"{this.players.Count} currently in the match!");
+
+        // Check
+        if (this.players.Count == 2)
+        {
+            this.JoinedMatch(playerId);
+            this.JoinedMatch(this.GetOpponent(playerId));
+        }
     }
 
     private void PassTurnDeployment(PlayedCard[] playedCards, ServerRpcParams serverRpcParams)
@@ -156,6 +187,26 @@ public struct Player
     public ClientRpcParams rpcParams;
     public PlayerState state;
     public int scorePoints;
+
+    public Player(
+        bool isInvader,
+        Card[] deck,
+        Stack<Card> library,
+        Stack<Card> graveyard,
+        List<Card> hand,
+        ClientRpcParams rpcParams,
+        PlayerState state,
+        int scorePoints)
+    {
+        this.isInvader = isInvader;
+        this.deck = deck;
+        this.library = library;
+        this.graveyard = graveyard;
+        this.hand = hand;
+        this.rpcParams = rpcParams;
+        this.state = state;
+        this.scorePoints = scorePoints;
+    }
 }
 
 public enum PlayerState

@@ -27,6 +27,7 @@ public class EventManager : NetworkSingleton<EventManager>
     public delegate void s_BoolDelegate(bool condition);
 
     public delegate void s_BoolCardCardCardDelegate(bool condition, Card card, Card card2, Card card3);
+    public delegate void p_CardArrayBoolDelegate(Card[] card, bool condition, ServerRpcParams serverRpcParams);
     public delegate void s_CardIntIntDelegate(Card card, int number, int number2);
 
     #endregion
@@ -34,7 +35,7 @@ public class EventManager : NetworkSingleton<EventManager>
     #region Player Events
 
     public event p_PlayedCardArrayDelegate p_passTurnDeploymentEvent;
-    public event p_CardArrayDelegate p_joinMatchEvent;
+    public event p_CardArrayBoolDelegate p_joinMatchEvent;
     public event p_IntDelegate p_ChooseLaneToAttackEvent;
     public event p_CardDelegate p_combatEvent;
     public event p_EmptyDelegate p_byPassGuardianEvent;
@@ -58,9 +59,9 @@ public class EventManager : NetworkSingleton<EventManager>
     #region Server RPCs
 
     [ServerRpc(RequireOwnership = false)]
-    public void JoinMatchServerRpc(Card[] deckIds, ServerRpcParams serverRpcParams = default)
+    public void JoinMatchServerRpc(Card[] deck, bool isInvader, ServerRpcParams serverRpcParams = default)
     {
-        this.p_joinMatchEvent.Invoke(deckIds, serverRpcParams);
+        this.p_joinMatchEvent.Invoke(deck, isInvader, serverRpcParams);
     }
 
     [ServerRpc(RequireOwnership = false)]
