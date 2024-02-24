@@ -492,17 +492,17 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    private void InformAboutLane(int attackedLane)
+    private void InformAboutLane(int attackedLane, Card guardToAttack)
     {
 
     }
 
-    private void InformCombat(Card nightmare)
+    private void InformCombat(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard)
     {
 
     }
 
-    private void EndTurnCombat(Card cardToDraw)
+    private void EndTurnCombat(Card cardToDraw, int earnedAttackerPoints, int earnedDefenderPoints)
     {
 
     }

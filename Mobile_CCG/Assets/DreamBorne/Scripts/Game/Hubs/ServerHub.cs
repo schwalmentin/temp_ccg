@@ -70,27 +70,27 @@ public class ServerHub : MonoBehaviour
 
     // Inform About Lane
 
-    private void InformAboutLane(int attackedLane)
+    private void InformAboutLane(int attackedLane, Card guardToAttack)
     {
         Player defender = Players.FirstOrDefault(x => !x.Value.isInvader).Value;
-        EventManager.Instance.InformAboutLaneClientRpc(attackedLane, defender.rpcParams);
+        EventManager.Instance.InformAboutLaneClientRpc(attackedLane, guardToAttack, defender.rpcParams);
     }
 
     // Inform Combat
 
-    private void InfromCombat(Card nightmare)
+    private void InformCombat(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard)
     {
         Player defender = Players.FirstOrDefault(x => !x.Value.isInvader).Value;
-        EventManager.Instance.InformCombatClientRpc(nightmare, defender.rpcParams);
+        EventManager.Instance.InformCombatClientRpc(hasAttacked, nightmare, attackedGuard, newGuard);
     }
 
     // End Turn Combat
 
-    private void EndTurnCombat(Card cardToDraw)
+    private void EndTurnCombat(Card cardToDraw, int earnedAttackerPoitns, int earnedDefenderPoints)
     {
         foreach (Player player in Players.Values)
         {
-            EventManager.Instance.EndTurnCombatClientRpc(cardToDraw, player.rpcParams);
+            EventManager.Instance.EndTurnCombatClientRpc(cardToDraw, earnedAttackerPoitns, earnedDefenderPoints);
         }
     }
 

@@ -15,6 +15,8 @@ public class EventManager : NetworkSingleton<EventManager>
     public delegate void p_IntDelegate(int number, ServerRpcParams serverRpcParams);
     public delegate void s_IntDelegate(int number);
 
+    public delegate void s_IntCardDelegate(int number, Card card);
+
     public delegate void p_CardDelegate(Card card, ServerRpcParams serverRpcParams);
     public delegate void s_CardDelegate(Card card);
 
@@ -23,6 +25,9 @@ public class EventManager : NetworkSingleton<EventManager>
 
     public delegate void p_BoolDelegate(bool condition, ServerRpcParams serverRpcParams);
     public delegate void s_BoolDelegate(bool condition);
+
+    public delegate void s_BoolCardCardCardDelegate(bool condition, Card card, Card card2, Card card3);
+    public delegate void s_CardIntIntDelegate(Card card, int number, int number2);
 
     #endregion
 
@@ -41,11 +46,11 @@ public class EventManager : NetworkSingleton<EventManager>
 
     public event s_PlayedCardArrayDelegate s_endTurnDeploymentEvent;
     public event s_CardArrayDelegate s_joinedMatchEvent;
-    public event s_IntDelegate s_informAboutLaneEvent;
-    public event s_CardDelegate s_informCombatEvent;
+    public event s_IntCardDelegate s_informAboutLaneEvent;
+    public event s_BoolCardCardCardDelegate s_informCombatEvent;
     public event s_EmptyDelegate s_informByPassGuardianEvent;
-    public event s_BoolDelegate s_informInteractionEvent;
-    public event s_CardDelegate s_endTurnCombatEvent;
+    public event s_BoolDelegate s_endCombatEvent;
+    public event s_CardIntIntDelegate s_endTurnCombatEvent;
     public event s_BoolDelegate s_matchResult;
 
     #endregion
@@ -53,15 +58,15 @@ public class EventManager : NetworkSingleton<EventManager>
     #region Server RPCs
 
     [ServerRpc(RequireOwnership = false)]
-    public void PassTurnDeploymentServerRpc(PlayedCard[] playedCards, ServerRpcParams serverRpcParams = default)
-    {
-        this.p_passTurnDeploymentEvent.Invoke(playedCards, serverRpcParams);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
     public void JoinMatchServerRpc(Card[] deckIds, ServerRpcParams serverRpcParams = default)
     {
         this.p_joinMatchEvent.Invoke(deckIds, serverRpcParams);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PassTurnDeploymentServerRpc(PlayedCard[] playedCards, ServerRpcParams serverRpcParams = default)
+    {
+        this.p_passTurnDeploymentEvent.Invoke(playedCards, serverRpcParams);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -93,33 +98,39 @@ public class EventManager : NetworkSingleton<EventManager>
     #region Client RPCs
 
     [ClientRpc]
-    public void EndTurnDeploymentClientRpc(PlayedCard[] playedCardsOpponent, ClientRpcParams clientRpcParams)
+    public void JoinedMatchClientRpc(Card[] startingHand, ClientRpcParams clientRpcParams)
     {
-        this.s_endTurnDeploymentEvent.Invoke(playedCardsOpponent);
+        this.s_joinedMatchEvent.Invoke(startingHand);
     }
 
     [ClientRpc]
-    public void JoinedMatchClientRpc(Card[] startingHandUniqueIds, ClientRpcParams clientRpcParams)
+    public void EndTurnDeploymentClientRpc(PlayedCard[] opponentPlayedCards, ClientRpcParams clientRpcParams)
     {
-        this.s_joinedMatchEvent.Invoke(startingHandUniqueIds);
+        this.s_endTurnDeploymentEvent.Invoke(opponentPlayedCards);
     }
 
     [ClientRpc]
-    public void InformAboutLaneClientRpc(int attackedLane, ClientRpcParams clientRpcParams)
+    public void InformAboutLaneClientRpc(int attackedLane, Card guard, ClientRpcParams clientRpcParams = default)
     {
-        this.s_informAboutLaneEvent.Invoke(attackedLane);
+        this.s_informAboutLaneEvent.Invoke(attackedLane, guard);
     }
 
     [ClientRpc]
-    public void InformCombatClientRpc(Card nightmare, ClientRpcParams clientRpcParams)
+    public void InformCombatClientRpc(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard, ClientRpcParams clientRpcParams = default)
     {
-        this.s_informCombatEvent.Invoke(nightmare);
+        this.s_informCombatEvent.Invoke(hasAttacked, nightmare, attackedGuard, newGuard);
     }
 
     [ClientRpc]
-    public void EndTurnCombatClientRpc(Card cardToDraw, ClientRpcParams clientRpcParams)
+    private void EndCombat(bool successfulAttack, ClientRpcParams clientRpcParams = default)
     {
-        this.s_endTurnCombatEvent.Invoke(cardToDraw);
+        this.s_endCombatEvent.Invoke(successfulAttack);
+    }
+
+    [ClientRpc]
+    public void EndTurnCombatClientRpc(Card cardToDraw, int earnedAttackerPoints, int earnedDefenderPoints, ClientRpcParams clientRpcParams = default)
+    {
+        this.s_endTurnCombatEvent.Invoke(cardToDraw, earnedAttackerPoints, earnedDefenderPoints);
     }
 
     [ClientRpc]
