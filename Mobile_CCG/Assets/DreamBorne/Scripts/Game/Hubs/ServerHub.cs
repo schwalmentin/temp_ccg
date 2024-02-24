@@ -73,7 +73,7 @@ public class ServerHub : MonoBehaviour
     private void InformAboutLane(int attackedLane, Card guardToAttack)
     {
         Player defender = Players.FirstOrDefault(x => !x.Value.isInvader).Value;
-        EventManager.Instance.InformAboutLaneClientRpc(attackedLane, guardToAttack, defender.rpcParams);
+        EventManager.Instance.InformAboutLaneClientRpc(attackedLane, guardToAttack);
     }
 
     // Inform Combat
@@ -94,7 +94,7 @@ public class ServerHub : MonoBehaviour
         }
     }
 
-    private void MatchResult()
+    private void MatchResult(bool hasWon)
     {
         
     }
