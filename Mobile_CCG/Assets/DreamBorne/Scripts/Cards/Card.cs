@@ -7,7 +7,7 @@ public class Card : MonoBehaviour, INetworkSerializable
     [SerializeField] protected string cardName;
     [SerializeField] protected uint cardId; // Which type of card
     protected uint uniqueId; // Which instance of a type of card
-    protected CardState cardState = CardState.Library;
+    [SerializeField] protected CardState cardState = CardState.Library;
 
     public CardState CardState
     { 

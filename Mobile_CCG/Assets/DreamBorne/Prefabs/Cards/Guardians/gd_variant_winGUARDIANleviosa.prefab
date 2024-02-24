@@ -32,7 +32,7 @@ Transform:
   - {fileID: 2007581935607761639}
   - {fileID: 1417214525538291377}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7222111035088275788
 PrefabInstance:
@@ -244,21 +244,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: winGUARDIANleviosa
       objectReference: {fileID: 0}
+    - target: {fileID: 7736366234262256769, guid: e296b292835ab3a428977b334355829f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_RootOrder
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8456441697906464778, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_LocalRotation.w

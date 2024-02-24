@@ -502,11 +502,14 @@ public class InputHandler : MonoBehaviour
         // fill hand with starting hand
         foreach (Card card in startingHand)
         {
-            this.hand.Add(MappingManager.Instance.CreateCard(card.CardId, true));
+            Card newCard = MappingManager.Instance.CreateCard(card.CardId, true);
+            newCard.CardState = CardState.Hand;
+            this.hand.Add(newCard);
+            print("fish: " + card.CardName);
         }
 
         print($"Player {AuthenticationManager.Instance.PlayerId} joined the match!");
-    }
+    }           
 
     private void EndTurnDeployment(PlayedCard[] playedCardsOpponent)
     {

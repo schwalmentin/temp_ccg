@@ -46,7 +46,7 @@ public class MappingManager : Singleton<MappingManager>
             card = cardPrefab.GetComponentInChildren<Card>();
         }
 
-        GameObject newCardPrefab = Instantiate(cardPrefab);
+        GameObject newCardPrefab = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         Card newCard = newCardPrefab.GetComponent<Card>();
 
         if (newCard == null)
