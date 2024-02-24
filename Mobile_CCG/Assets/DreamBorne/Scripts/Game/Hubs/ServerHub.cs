@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEditor.PackageManager;
 using UnityEngine;
@@ -69,9 +70,29 @@ public class ServerHub : MonoBehaviour
 
     // Inform About Lane
 
+    private void InformAboutLane(int attackedLane)
+    {
+        Player defender = Players.FirstOrDefault(x => !x.Value.isInvader).Value;
+        EventManager.Instance.InformAboutLaneClientRpc(attackedLane, defender.rpcParams);
+    }
+
     // Inform Combat
 
+    private void InfromCombat(Card nightmare)
+    {
+        Player defender = Players.FirstOrDefault(x => !x.Value.isInvader).Value;
+        EventManager.Instance.InformCombatClientRpc(nightmare, defender.rpcParams);
+    }
+
     // End Turn Combat
+
+    private void EndTurnCombat(Card cardToDraw)
+    {
+        foreach (Player player in Players.Values)
+        {
+            EventManager.Instance.EndTurnCombatClientRpc(cardToDraw, player.rpcParams);
+        }
+    }
 
     private void MatchResult()
     {
