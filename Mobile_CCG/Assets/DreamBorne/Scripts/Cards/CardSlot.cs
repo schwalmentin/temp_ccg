@@ -23,7 +23,7 @@ public class CardSlot : MonoBehaviour
         get { return this.card; }
         set
         {
-            this.meshRenderer.material = value == null ? availableMaterial : selectedMaterial;
+            // this.meshRenderer.material = value == null ? availableMaterial : selectedMaterial;
             this.card = value;
         }
     }

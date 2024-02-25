@@ -876,7 +876,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7736366234262256769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.686, y: 0.59, z: -0.245}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -897,7 +897,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardName: Guardian
-  uniqueId: 0
+  cardId: 0
+  cardState: 0
   cost: 0
   guards: []
   graphics: {fileID: 6943984433135242173}

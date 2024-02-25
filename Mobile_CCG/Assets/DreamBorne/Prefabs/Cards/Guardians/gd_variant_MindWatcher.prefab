@@ -56,6 +56,10 @@ PrefabInstance:
       value: Mind Watcher
       objectReference: {fileID: 0}
     - target: {fileID: 2591688309340150650, guid: e296b292835ab3a428977b334355829f, type: 3}
+      propertyPath: cardState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2591688309340150650, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: guards.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -77,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943984433135242173, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7128554163358050571, guid: e296b292835ab3a428977b334355829f, type: 3}
       propertyPath: m_text

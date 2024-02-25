@@ -14,18 +14,41 @@ public class ServerHub : MonoBehaviour
     private int turnCount = 0;
 
     private Dictionary<Vector2Int, Card> invaderField = new Dictionary<Vector2Int, Card>();
-    
     private Dictionary<Vector2Int, Card> wardenField = new Dictionary<Vector2Int, Card>();
-
     private Dictionary<Vector2Int, Card> captureField = new Dictionary<Vector2Int, Card>();
 
     private List<Card> defeatedGuards = new List<Card>();
 
-    private PlayedCard[] playedCardsWarden;
-
-    private PlayedCard[] playedCardsInvader;
-
     private int laneToAttack;
+
+    private void Awake()
+    {
+        this.SetField(new Vector2Int(6, 2), this.invaderField);
+        this.SetField(new Vector2Int(6, 4), this.wardenField);
+        this.SetField(new Vector2Int(3, 1), this.captureField);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            foreach (var player in this.wardenField)
+            {
+                print(player.Value);
+            }
+        }
+    }
+
+    private void SetField(Vector2Int size, Dictionary<Vector2Int, Card> field)
+    {
+        for (int x = 0; x < size.x; x++)
+        {
+            for (int y = 0; y < size.y; y++)
+            {
+                field[new Vector2Int(x, y)] = null;
+            }
+        }
+    }
 
     private void OnEnable()
     {
@@ -35,7 +58,6 @@ public class ServerHub : MonoBehaviour
         EventManager.Instance.p_combatEvent += this.Combat;
         EventManager.Instance.p_byPassGuardianEvent += this.BypassGuardian;
         EventManager.Instance.p_chooseInteractionEvent += this.ChooseInteraction; 
-
     }
 
     private void OnDisable()
@@ -88,24 +110,13 @@ public class ServerHub : MonoBehaviour
             this.players[playerId].hand.Add(card);
             startingHand[i] = card;
         }
-        Debug.Log($"Inform player they joined");
+        
         EventManager.Instance.JoinedMatchClientRpc(startingHand, this.players[playerId].rpcParams);
     }
 
-    private void EndTurnDeployment(ulong playerId, PlayedCard[] playedCards)
+    private void EndTurnDeployment(ulong playerId, PlayedCard[] opponentPlayedCards)
     {
-        PlayedCard[] opponentPlayedCards = new PlayedCard[0]; // nur test
-        ulong clientId = 0; // nur test
-
-        ClientRpcParams clientRpcParams = new ClientRpcParams // @nico die sollten nicht jedes mal auf neue erstellt werden.. anstatt dessen oben dem dictionary (mehr infos siehe joinmatch) statisch zuweisen... 
-        {
-            Send = new ClientRpcSendParams
-            {
-                TargetClientIds = new ulong[] { clientId }
-            }
-        };
-
-        EventManager.Instance.EndTurnDeploymentClientRpc(opponentPlayedCards, clientRpcParams);
+        EventManager.Instance.EndTurnDeploymentClientRpc(opponentPlayedCards, this.players[playerId].rpcParams);
     }
 
     // Inform About Lane
@@ -182,10 +193,11 @@ public class ServerHub : MonoBehaviour
             new List<Card>(),
             clientRpcParams,
             PlayerState.DEPOLYMENT,
-            0);
+            0,
+            new PlayedCard[0]);
 
         this.players.Add(playerId, player);
-        Debug.Log($"{this.players.Count} currently in the match!");
+        Debug.Log($"{this.players.Count} players joined the match!");
 
         // Check
         if (this.players.Count == 2)
@@ -197,23 +209,87 @@ public class ServerHub : MonoBehaviour
 
     private void PassTurnDeployment(PlayedCard[] playedCards, ServerRpcParams serverRpcParams)
     {
-        // validate player id
+        // Get player and opponent id
         ulong playerId = serverRpcParams.Receive.SenderClientId;
-
-        if (this.players[playerId].isInvader) { this.playedCardsInvader = playedCards; } else { this.playedCardsWarden = playedCards; }
-
-        foreach (PlayedCard playedCard in playedCards)
-        {
-            Dictionary<Vector2Int, Card> field = GetFieldByCard(playedCard.card);
-            field.Add(playedCard.fieldPosition, MappingManager.Instance.CreateCard(playedCard.card.CardId, false));
-        }
+        ulong opponentPlayerId = GetOpponent(playerId);
 
         Player player = this.players[playerId];
+        Player opponent = this.players[opponentPlayerId];
+
+        // Set played cards and player state for palyer
+        player.playedCards = this.CopyPlayedCards(playedCards).ToArray();
         player.state = PlayerState.COMBAT;
 
-        if (this.players[GetOpponent(playerId)].state == PlayerState.COMBAT)
+        ////// Play cards on the battlefield
+        ////for (int i = 0; i < playedCards.Length; i++)
+        ////{
+        ////    Card card = MappingManager.Instance.CreateCard(playedCards[i].card.CardId, false);
+        ////    Vector2Int fieldPosition = playedCards[i].fieldPosition;
+        ////    int cardSlotAmount = playedCards[i].cardSlotAmount;
+
+        ////    player.playedCards[i] = new PlayedCard(card, fieldPosition, cardSlotAmount);
+
+        ////    Dictionary<Vector2Int, Card> field = GetFieldByCard(card);
+        ////    field.Add(playedCards[i].fieldPosition, card);
+
+        ////}
+
+        // End turn if both players are ready
+        if (opponent.state == PlayerState.COMBAT)
         {
-            EndTurnDeployment(playerId, playedCards);
+            EndTurnDeployment(playerId, this.CopyPlayedCards(opponent.playedCards).ToArray());
+            EndTurnDeployment(opponentPlayerId, this.CopyPlayedCards(playedCards).ToArray());
+            Debug.Log("2 Player passed the turn!");
+            return;
+        }
+
+        Debug.Log("1 Player passed the turn!");
+    }
+
+    private List<PlayedCard> CopyPlayedCards(PlayedCard[] playedCardsO)
+    {
+        // Set played cards and player state for palyer
+        var playedCards = new List<PlayedCard>();
+
+        // Play cards on the battlefield
+        for (int i = 0; i < playedCardsO.Length; i++)
+        {
+            Card card = MappingManager.Instance.CreateCard(playedCardsO[i].cardId, false);
+            Vector2Int fieldPosition = playedCardsO[i].fieldPosition;
+            int cardSlotAmount = playedCardsO[i].cardSlotAmount;
+
+            playedCards.Add(new PlayedCard(fieldPosition, cardSlotAmount, card.CardId));
+
+            // field[playedCards[i].fieldPosition] = card;
+            this.PlacePrivateCard(card, playedCards[i].fieldPosition);
+        }
+
+        return playedCards;      
+    }
+
+    private void PlacePrivateCard(Card card, Vector2Int fieldPosition)
+    {
+        // Check if a card is played and a valid cardslot is selected
+        if (card == null) { return; }
+
+        // Get cards
+        Dictionary<Vector2Int, Card> field = GetFieldByCard(card);
+        Card[] cards = card.GetType() == typeof(Guardian) ? ((Guardian)card).Guards.ToArray() : new Card[] { card };
+
+        // Place card on board
+
+        for (int i = 0; i < cards.Length; i++)
+        {
+            Vector2Int placement = new Vector2Int(fieldPosition.x + i, fieldPosition.y);
+
+            if (field[placement] != null)
+            {
+                // field[placement].gameObject.SetActive(false);
+                // Move card into graveyard
+            }
+
+            field[placement] = cards[i];
+            cards[i].CardState = CardState.Field;
         }
     }
 
@@ -240,7 +316,7 @@ public class ServerHub : MonoBehaviour
     #endregion
 }
 
-public struct Player
+public class Player
 {
     public bool isInvader;
     public Card[] deck;
@@ -250,6 +326,7 @@ public struct Player
     public ClientRpcParams rpcParams;
     public PlayerState state;
     public int scorePoints;
+    public PlayedCard[] playedCards;
 
     public Player(
         bool isInvader,
@@ -259,7 +336,8 @@ public struct Player
         List<Card> hand,
         ClientRpcParams rpcParams,
         PlayerState state,
-        int scorePoints)
+        int scorePoints,
+        PlayedCard[] playedCards)
     {
         this.isInvader = isInvader;
         this.deck = deck;
@@ -269,6 +347,7 @@ public struct Player
         this.rpcParams = rpcParams;
         this.state = state;
         this.scorePoints = scorePoints;
+        this.playedCards = playedCards;
     }
 }
 

@@ -3,11 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Netcode;
 using Unity.Properties;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class InputHandler : MonoBehaviour
 {
@@ -82,6 +84,14 @@ public class InputHandler : MonoBehaviour
 
     [SerializeField] private Card currentCard;
     [SerializeField] private Card selectedCard;
+
+    // UI
+    [Header("UI")]
+    [SerializeField] private Button skipGuardButton;
+    [SerializeField] private Button passTurnButton;
+    [SerializeField] private TextMeshProUGUI mana;
+    [SerializeField] private TextMeshProUGUI player, playerPoints;
+    [SerializeField] private TextMeshProUGUI opponent, opponentPoints;
 
     #endregion
 
@@ -308,7 +318,7 @@ public class InputHandler : MonoBehaviour
         }
 
         // Save Card to played cards
-        this.playedCards.Push(new PlayedCard(card, GetPlacementOfCardSlot(this.currentCardSlots[0], field), this.currentCardSlots.Count));
+        this.playedCards.Push(new PlayedCard(GetPlacementOfCardSlot(this.currentCardSlots[0], field), this.currentCardSlots.Count, card.CardId));
 
         // Update the board and hand
         this.selectedCard = null;
@@ -317,6 +327,38 @@ public class InputHandler : MonoBehaviour
         card.CardState = CardState.Field;
         card.OnDeselect();
         this.hand.Remove(card);
+    }
+
+    private void PlacePrivateCard(Card card, Vector2Int fieldPosition)
+    {
+        // Check if a card is played and a valid cardslot is selected
+        if (card == null) { return; }
+
+        // Get cards
+        Dictionary<Vector2Int, CardSlot> field = GetFieldByCard(card);
+        Card[] cards = card.GetType() == typeof(Guardian) ? ((Guardian)card).Guards.ToArray() : new Card[] { card };
+
+        // Place card on board
+        card.gameObject.SetActive(false);
+
+        for (int i = 0; i < cards.Length; i++)
+        {
+            Vector2Int placement = new Vector2Int(fieldPosition.x + i, fieldPosition.y);
+
+            if (field[placement].Card != null)
+            {
+                field[placement].Card.gameObject.SetActive(false);
+                // Move card into graveyard
+            }
+
+            field[placement].Card = cards[i];
+            cards[i].transform.position = field[placement].transform.position;
+            cards[i].CardState = CardState.Field;
+            cards[i].gameObject.SetActive(true);
+            cards[i].InitializeCard(true);
+
+            Debug.Log($"The card {cards[i]} was placed at the cardslot {field[placement]}");
+        }
     }
 
     // Utility classes
@@ -361,6 +403,8 @@ public class InputHandler : MonoBehaviour
     {
         if (context.started)
         {
+            print("PHEWW");
+
             // Reset
             this.currentCard = null;
             this.isTouching = false;
@@ -380,7 +424,7 @@ public class InputHandler : MonoBehaviour
                 }
                 return;
             }
-            
+
             this.currentCard = hit.collider.GetComponent<Card>();
             this.isTouching = this.currentCard != null;
             this.startPosition = this.touchPosition;
@@ -460,14 +504,15 @@ public class InputHandler : MonoBehaviour
     {
         EventManager.Instance.PassTurnDeploymentServerRpc(this.playedCards.ToArray());
         this.playedCards.Clear();
+        this.passTurnButton.interactable = false;
     }
 
     public void JoinMatch()
     {
-        this.isInvader = LobbyManager.Instance.IsServer;
+        this.isInvader = !LobbyManager.Instance.IsServer;
 
         #if UNITY_EDITOR
-        this.isInvader = NetworkManager.Singleton.IsServer;
+        this.isInvader = !NetworkManager.Singleton.IsServer;
         #endif
 
         Card[] deck = this.invaderDeck;
@@ -493,6 +538,11 @@ public class InputHandler : MonoBehaviour
         EventManager.Instance.JoinMatchServerRpc(deck, this.isInvader);
     }
 
+    public void BypassGuard()
+    {
+        this.skipGuardButton.interactable = false;
+    }
+
     #endregion
 
     #region EventManager Observation
@@ -505,20 +555,38 @@ public class InputHandler : MonoBehaviour
             Card newCard = MappingManager.Instance.CreateCard(card.CardId, true);
             newCard.CardState = CardState.Hand;
             this.hand.Add(newCard);
-            print("fish: " + card.CardName);
         }
 
+        this.passTurnButton.interactable = true;
         print($"Player {AuthenticationManager.Instance.PlayerId} joined the match!");
     }           
 
     private void EndTurnDeployment(PlayedCard[] playedCardsOpponent)
     {
+        if (playedCardsOpponent == null)
+        {
+            Debug.Log("playedCardsOpponent is null");
+            return;
+        }
+
         // instantiate card and place it on the battlefield
         foreach (PlayedCard playedCard in playedCardsOpponent)
         {
-            Dictionary<Vector2Int, CardSlot> field = this.GetFieldByCard(playedCard.card);
-            field[playedCard.fieldPosition].Card = MappingManager.Instance.CreateCard(playedCard.card.CardId, true);
+            Card card = MappingManager.Instance.CreateCard(playedCard.cardId, true);
+            Dictionary<Vector2Int, CardSlot> field = this.GetFieldByCard(card);
+            field[playedCard.fieldPosition].Card = card;
+
+            this.PlacePrivateCard(card, playedCard.fieldPosition);
         }
+
+        Debug.Log("Deployment turn was ended!");
+
+        if (!this.isInvader)
+        {
+            return;
+        }
+
+        // Implement Lane Choosing
     }
 
     private void InformAboutLane(int attackedLane, Card guardToAttack)

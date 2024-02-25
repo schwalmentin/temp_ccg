@@ -39,19 +39,13 @@ public class MappingManager : Singleton<MappingManager>
             return null;
         }
 
-        Card card = cardPrefab.GetComponent<Card>();
+        GameObject newCardPrefab = Instantiate(cardPrefab, new Vector3(0, 0, 2), Quaternion.identity);
 
-        if (card == null)
-        {
-            card = cardPrefab.GetComponentInChildren<Card>();
-        }
-
-        GameObject newCardPrefab = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         Card newCard = newCardPrefab.GetComponent<Card>();
 
         if (newCard == null)
         {
-            newCard = cardPrefab.GetComponentInChildren<Card>();
+            newCard = newCardPrefab.GetComponentInChildren<Card>();
         }
 
         newCard.InitializeCard(renderCard);
