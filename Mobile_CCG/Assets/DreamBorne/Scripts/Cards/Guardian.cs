@@ -41,4 +41,9 @@ public class Guardian : Card
     {
         this.selectHighlight.SetActive(true);
     }
+
+    public override int GetCost()
+    {
+        return this.cost;
+    }
 }
