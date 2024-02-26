@@ -383,7 +383,10 @@ public class ServerHub : MonoBehaviour
         }
         else
         {
-            Debug.Log("Interact with the Base");
+            string myBase = this.laneToAttack == 1 ? "Hand" :
+                this.laneToAttack == 2 ? "Library" :
+                "Graveyard";
+            Debug.Log($"Interact with the Base: {myBase}");
         }
 
         foreach (var item in this.players)

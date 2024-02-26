@@ -102,6 +102,8 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI laneInfo;
     [SerializeField] private Animator laneInfoAnimator;
     [SerializeField] private GameObject interactionButtons;
+    private int turn;
+    [SerializeField] private TextMeshProUGUI turnUI;
 
     #endregion
 
@@ -122,6 +124,9 @@ public class InputHandler : MonoBehaviour
 
         this.manaAmount = 8;
         this.mana.text = manaAmount.ToString();
+
+        this.turn = 1;
+        this.turnUI.text = this.turn.ToString();
     }
 
     private void OnEnable()
@@ -617,6 +622,7 @@ public class InputHandler : MonoBehaviour
     {
         this.skipGuardButton.interactable = false;
         EventManager.Instance.ByPassGuardianServerRpc();
+        this.currentGuard.OnDeselect();
         this.currentGuard = null;
     }
 
@@ -766,6 +772,9 @@ public class InputHandler : MonoBehaviour
 
         this.manaAmount = 8;
         this.mana.text = this.manaAmount.ToString();
+
+        this.turn += 1;
+        this.turnUI.text = this.turn.ToString();
     }
 
     private void MatchResult(bool hasWon)
