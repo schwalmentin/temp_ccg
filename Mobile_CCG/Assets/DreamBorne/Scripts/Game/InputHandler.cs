@@ -92,6 +92,7 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI mana;
     [SerializeField] private TextMeshProUGUI player, playerPoints;
     [SerializeField] private TextMeshProUGUI opponent, opponentPoints;
+    [SerializeField] private GameObject laneButtons;
 
     #endregion
 
@@ -314,7 +315,7 @@ public class InputHandler : MonoBehaviour
             cards[i].gameObject.SetActive(true);
             cards[i].InitializeCard(true);
 
-            Debug.Log($"The card {cards[i]} was placed at the cardslot {this.currentCardSlots[i]}");
+            // Debug.Log($"The card {cards[i]} was placed at the cardslot {this.currentCardSlots[i]}");
         }
 
         // Save Card to played cards
@@ -403,8 +404,6 @@ public class InputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            print("PHEWW");
-
             // Reset
             this.currentCard = null;
             this.isTouching = false;
@@ -538,6 +537,12 @@ public class InputHandler : MonoBehaviour
         EventManager.Instance.JoinMatchServerRpc(deck, this.isInvader);
     }
 
+    public void ChooseLane(int lane)
+    {
+        EventManager.Instance.ChooseLaneToAttackServerRpc(lane);
+        this.laneButtons.SetActive(false);
+    }
+
     public void BypassGuard()
     {
         this.skipGuardButton.interactable = false;
@@ -581,17 +586,27 @@ public class InputHandler : MonoBehaviour
 
         Debug.Log("Deployment turn was ended!");
 
+        // Implement lane choosing if player is invader
         if (!this.isInvader)
         {
             return;
         }
 
-        // Implement Lane Choosing
+        this.laneButtons.SetActive(true);
     }
 
     private void InformAboutLane(int attackedLane, Card guardToAttack)
     {
+        Debug.Log($"Attack on lane {attackedLane} was confirmed and the guard {guardToAttack.CardName} is defending it!");
 
+        if (!this.isInvader)
+        {
+            // show info
+            return;
+        }
+
+        // Attack or bypass
+        // get guard with id
     }
 
     private void InformCombat(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard)
@@ -601,7 +616,8 @@ public class InputHandler : MonoBehaviour
 
     private void EndCombat(bool successful)
     {
-
+        string success = successful ? "" : "not ";
+        Debug.Log($"The combat has ended and the attack was {success}successful");
     }
 
     private void EndTurnCombat(Card cardToDraw, int earnedAttackerPoints, int earnedDefenderPoints)

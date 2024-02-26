@@ -32,9 +32,13 @@ public class ServerHub : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-            foreach (var player in this.wardenField)
+            for (int y = 0; y < 4; y++)
             {
-                print(player.Value);
+                for (int x = 0; x < 6; x++)
+                {
+                    print(wardenField[new Vector2Int(x, y)]);
+                }
+                print("----------:----------");
             }
         }
     }
@@ -75,9 +79,12 @@ public class ServerHub : MonoBehaviour
         return this.players.FirstOrDefault(x => x.Key != playerId).Key;
     }
 
-    private Card GetGuardToAttack()
+    private Card GetGuardToAttack(int lane)
     {
-        for (int x = 0; x < 6; x++)
+        int minX = (lane - 1) * 2;
+        int maxX = minX + 1;
+
+        for (int x = minX; x < maxX; x++)
         {
             for (int y = 0; y < 4; y++)
             {
@@ -123,12 +130,14 @@ public class ServerHub : MonoBehaviour
 
     private void InformAboutLane(int attackedLane)
     {
-        Card card = GetGuardToAttack();
+        Card card = GetGuardToAttack(attackedLane);
+
         if (card != null)
         {
             EventManager.Instance.InformAboutLaneClientRpc(attackedLane, card);
             return;
         }
+
         this.EndCombat(true);
     }
 
@@ -295,6 +304,7 @@ public class ServerHub : MonoBehaviour
 
     private void ChooseLaneToAttack(int laneToAttack, ServerRpcParams serverRpcParams)
     {
+        Debug.Log($"Lane {laneToAttack} was successfully chosen!");
         InformAboutLane(laneToAttack);
     }
 
