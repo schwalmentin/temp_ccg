@@ -42,6 +42,20 @@ public class Card : MonoBehaviour, INetworkSerializable
     {
 
     }
+    public virtual void GetDamage(int amount)
+    {
+
+    }
+
+    public virtual void UpdateUI()
+    {
+
+    }
+
+    public virtual int GetCost()
+    {
+        return 0;
+    }
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {

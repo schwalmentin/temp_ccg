@@ -74,6 +74,9 @@ public class InputHandler : MonoBehaviour
     [SerializeField] private float detectionRadius;
     private List<CardSlot> currentCardSlots;
 
+    // Combat
+    private Card currentGuard;
+
     // Input
     private Vector2 touchPosition;
     private Vector2 touchPositionWorldSpace;
@@ -81,6 +84,8 @@ public class InputHandler : MonoBehaviour
 
     private bool isTouching;
     private bool isMoving;
+    private bool chooseNightmareToAttack;
+    private bool cardInteractionAllowed;
 
     [SerializeField] private Card currentCard;
     [SerializeField] private Card selectedCard;
@@ -89,10 +94,14 @@ public class InputHandler : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Button skipGuardButton;
     [SerializeField] private Button passTurnButton;
+    private int manaAmount;
     [SerializeField] private TextMeshProUGUI mana;
     [SerializeField] private TextMeshProUGUI player, playerPoints;
     [SerializeField] private TextMeshProUGUI opponent, opponentPoints;
     [SerializeField] private GameObject laneButtons;
+    [SerializeField] private TextMeshProUGUI laneInfo;
+    [SerializeField] private Animator laneInfoAnimator;
+    [SerializeField] private GameObject interactionButtons;
 
     #endregion
 
@@ -110,6 +119,9 @@ public class InputHandler : MonoBehaviour
 
         this.hand = new List<Card>();
         this.graveyard = new Stack<Card>();
+
+        this.manaAmount = 8;
+        this.mana.text = manaAmount.ToString();
     }
 
     private void OnEnable()
@@ -290,6 +302,9 @@ public class InputHandler : MonoBehaviour
         // Check if a card is played and a valid cardslot is selected
         if (card == null || this.currentCardSlots.Count == 0) {  return; }
 
+        this.manaAmount -= card.GetCost();
+        this.mana.text = manaAmount.ToString();
+
         // Get cards
         Dictionary<Vector2Int, CardSlot> field = GetFieldByCard(card);
         Card[] cards = card.GetType() == typeof(Guardian) ? ((Guardian)card).Guards.ToArray() : new Card[] { card };
@@ -395,6 +410,10 @@ public class InputHandler : MonoBehaviour
         return cardSlots;
     }
 
+    private Card GetGuardById(uint cardId)
+    {
+        return this.wardenCardslots.Where(x => x.Value.Card.CardId == cardId).FirstOrDefault().Value.Card;
+    }
 
     #endregion
 
@@ -404,6 +423,57 @@ public class InputHandler : MonoBehaviour
     {
         if (context.started)
         {
+            if (this.chooseNightmareToAttack)
+            {
+                Ray ray2 = this.mainCamera.ScreenPointToRay(this.touchPosition);
+                RaycastHit hit2;
+
+                if (!Physics.Raycast(ray2, out hit2, 100, this.cardMask)) { return; }
+
+                Card nightmare = hit2.collider.GetComponent<Card>();
+                if (nightmare == null) { return; }
+                if (nightmare.GetType() != typeof(Nightmare) || nightmare.CardState != CardState.Field) { return; }
+
+                // Implement combat
+                int nightmareDamage = ((Nightmare)nightmare).Power;
+                int guardDamage = ((Guard)this.currentGuard).Power;
+                nightmare.GetDamage(guardDamage);
+                this.currentGuard.GetDamage(nightmareDamage);
+
+                nightmare.UpdateUI();
+                this.currentGuard.UpdateUI();
+
+                if (((Nightmare)nightmare).Power <= 0)
+                {
+                    // Delete nightmare
+                    this.invaderCardslots.Where(x => x.Value.Card == nightmare).FirstOrDefault().Value.Card = null;
+                    nightmare.InitializeCard(false);
+                    nightmare.transform.position = new Vector3(10, 0, 0);
+                }
+
+                if (((Guard)this.currentGuard).Power <= 0)
+                {
+                    // Delete guard
+                    this.wardenCardslots.Where(x => x.Value.Card == this.currentGuard).FirstOrDefault().Value.Card = null;
+                    this.currentGuard.InitializeCard(false);
+                    this.currentGuard.transform.position = new Vector3(10, 0, 0);
+                }
+
+                // Reset stuff
+                EventManager.Instance.CombatServerRpc(nightmare);
+                print("COMBAT!!!!!!!!!!!!!!!!!!!!!!!!");
+                this.currentGuard.OnDeselect();
+                this.currentGuard = null;
+                this.skipGuardButton.interactable = false;
+                this.chooseNightmareToAttack = false;
+                return;
+            }
+
+            if (!this.cardInteractionAllowed)
+            {
+                return;
+            }
+
             // Reset
             this.currentCard = null;
             this.isTouching = false;
@@ -496,7 +566,6 @@ public class InputHandler : MonoBehaviour
 
     #endregion
 
-
     #region EventManager Invokations
 
     public void PassTurn()
@@ -504,6 +573,7 @@ public class InputHandler : MonoBehaviour
         EventManager.Instance.PassTurnDeploymentServerRpc(this.playedCards.ToArray());
         this.playedCards.Clear();
         this.passTurnButton.interactable = false;
+        this.cardInteractionAllowed = false;
     }
 
     public void JoinMatch()
@@ -546,6 +616,14 @@ public class InputHandler : MonoBehaviour
     public void BypassGuard()
     {
         this.skipGuardButton.interactable = false;
+        EventManager.Instance.ByPassGuardianServerRpc();
+        this.currentGuard = null;
+    }
+
+    public void ChooseInteraction(bool interactWithHiddenCard)
+    {
+        EventManager.Instance.ChooseInteractionServerRpc(interactWithHiddenCard);
+        this.interactionButtons.SetActive(false);
     }
 
     #endregion
@@ -563,6 +641,7 @@ public class InputHandler : MonoBehaviour
         }
 
         this.passTurnButton.interactable = true;
+        this.cardInteractionAllowed = true;
         print($"Player {AuthenticationManager.Instance.PlayerId} joined the match!");
     }           
 
@@ -595,34 +674,98 @@ public class InputHandler : MonoBehaviour
         this.laneButtons.SetActive(true);
     }
 
-    private void InformAboutLane(int attackedLane, Card guardToAttack)
+    private void InformAboutLane(int attackedLane, PlayedCard guardToAttack)
     {
-        Debug.Log($"Attack on lane {attackedLane} was confirmed and the guard {guardToAttack.CardName} is defending it!");
+        Debug.Log($"Attack on lane {attackedLane} was confirmed and the guard {guardToAttack.cardId} is defending it!");
 
         if (!this.isInvader)
         {
             // show info
+            this.laneInfo.text = $"Invader chose lane {attackedLane}!";
+            this.laneInfoAnimator.SetTrigger("Trigger");
             return;
         }
 
         // Attack or bypass
-        // get guard with id
+        this.skipGuardButton.interactable = true;
+        this.chooseNightmareToAttack = true;
+
+        this.currentGuard = this.wardenCardslots[guardToAttack.fieldPosition].Card;
+        this.currentGuard.OnSelect();
     }
 
-    private void InformCombat(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard)
+    private void InformCombat(bool hasAttacked, PlayedCard nightmareR, PlayedCard attackedGuard, PlayedCard newGuard)
     {
+        Debug.Log("Player was informed about combat!");
+        if (!this.isInvader)
+        {
+            if (hasAttacked)
+            {
+                Card nightmare = this.invaderCardslots[nightmareR.fieldPosition].Card;
+                Card guard = this.wardenCardslots[attackedGuard.fieldPosition].Card;
 
+                // Implement combat
+                int nightmareDamage = ((Nightmare)nightmare).Power;
+                int guardDamage = ((Guard)guard).Power;
+                nightmare.GetDamage(guardDamage);
+                guard.GetDamage(nightmareDamage);
+
+                nightmare.UpdateUI();
+                guard.UpdateUI();
+
+                if (((Nightmare)nightmare).Power <= 0)
+                {
+                    // Delete nightmare
+                    this.invaderCardslots.Where(x => x.Value.Card == nightmare).FirstOrDefault().Value.Card = null;
+                    nightmare.InitializeCard(false);
+                    nightmare.transform.position = new Vector3(10, 0, 0);
+                }
+
+                if (((Guard)guard).Power <= 0)
+                {
+                    // Delete guard
+                    this.wardenCardslots.Where(x => x.Value.Card == guard).FirstOrDefault().Value.Card = null;
+                    guard.InitializeCard(false);
+                    guard.transform.position = new Vector3(10, 0, 0);
+                }
+
+                return;
+            }
+            
+            // Update about skip
+            return;
+        }
+
+        // Attack or bypass
+        this.skipGuardButton.interactable = true;
+        this.chooseNightmareToAttack = true;
+
+        this.currentGuard = this.wardenCardslots[newGuard.fieldPosition].Card;
+        this.currentGuard.OnSelect();
     }
 
     private void EndCombat(bool successful)
     {
         string success = successful ? "" : "not ";
         Debug.Log($"The combat has ended and the attack was {success}successful");
+
+        if (!this.isInvader)
+        {
+            return;
+        }
+
+        this.interactionButtons.SetActive(true);
     }
 
     private void EndTurnCombat(Card cardToDraw, int earnedAttackerPoints, int earnedDefenderPoints)
     {
+        Card card = MappingManager.Instance.CreateCard(cardToDraw.CardId, true);
+        this.hand.Add(card);
+        this.passTurnButton.interactable = true;
+        this.cardInteractionAllowed = true;
 
+        this.manaAmount = 8;
+        this.mana.text = this.manaAmount.ToString();
     }
 
     private void MatchResult(bool hasWon)

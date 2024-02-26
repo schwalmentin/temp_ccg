@@ -20,6 +20,7 @@ public class ServerHub : MonoBehaviour
     private List<Card> defeatedGuards = new List<Card>();
 
     private int laneToAttack;
+    private PlayedCard currentGuard;
 
     private void Awake()
     {
@@ -79,12 +80,12 @@ public class ServerHub : MonoBehaviour
         return this.players.FirstOrDefault(x => x.Key != playerId).Key;
     }
 
-    private Card GetGuardToAttack(int lane)
+    private PlayedCard GetGuardToAttack(int lane)
     {
         int minX = (lane - 1) * 2;
         int maxX = minX + 1;
 
-        for (int x = minX; x < maxX; x++)
+        for (int x = minX; x <= maxX; x++)
         {
             for (int y = 0; y < 4; y++)
             {
@@ -92,11 +93,10 @@ public class ServerHub : MonoBehaviour
 
                 if (card == null) { continue; }
                 if (defeatedGuards.Contains(card)) { continue; }
-                return card;
+                return new PlayedCard(new Vector2Int(x,y), 0, card.CardId);
             }
-
         }
-        return null;
+        return new PlayedCard(new Vector2Int(0, 0), 0, 0);
     }
 
     private Dictionary<Vector2Int, Card> GetFieldByCard(Card card)
@@ -130,11 +130,12 @@ public class ServerHub : MonoBehaviour
 
     private void InformAboutLane(int attackedLane)
     {
-        Card card = GetGuardToAttack(attackedLane);
+        PlayedCard playedCard = GetGuardToAttack(attackedLane);
+        this.currentGuard = playedCard;
 
-        if (card != null)
+        if (playedCard.cardId != 0)
         {
-            EventManager.Instance.InformAboutLaneClientRpc(attackedLane, card);
+            EventManager.Instance.InformAboutLaneClientRpc(attackedLane, playedCard);
             return;
         }
 
@@ -143,9 +144,9 @@ public class ServerHub : MonoBehaviour
 
     // Inform Combat
 
-    private void InformCombat(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard)
+    private void InformCombat(bool hasAttacked, PlayedCard nightmare, PlayedCard attackedGuard, PlayedCard newGuard)
     {
-        Player defender = players.FirstOrDefault(x => !x.Value.isInvader).Value;
+        this.currentGuard = newGuard;
         EventManager.Instance.InformCombatClientRpc(hasAttacked, nightmare, attackedGuard, newGuard);
     }
 
@@ -306,21 +307,89 @@ public class ServerHub : MonoBehaviour
     {
         Debug.Log($"Lane {laneToAttack} was successfully chosen!");
         InformAboutLane(laneToAttack);
+        this.laneToAttack = laneToAttack;
     }
 
-    private void Combat(Card nightmare, ServerRpcParams serverRpcParams)
+    private void Combat(Card nightmareR, ServerRpcParams serverRpcParams)
     {
+        Debug.Log($"The invader attacked with the nightmare {nightmareR.CardName}!");
+        Card nightmare = this.invaderField.Where(x => x.Value?.CardId == nightmareR.CardId)?.FirstOrDefault().Value;
 
+        if (nightmare == null)
+        {
+            Debug.LogError("Fischer fritzt fische frische!");
+            return;
+        }
+
+        // Combat
+        Card guard = this.wardenField[this.currentGuard.fieldPosition];
+
+        if (guard == null)
+        {
+            Debug.LogError("Why is guard null HUH?");
+        }
+
+        int nightmareDamage = ((Nightmare)nightmare).Power;
+        int guardDamage = ((Guard)guard).Power;
+        nightmare.GetDamage(guardDamage);
+        guard.GetDamage(nightmareDamage);
+
+        if (((Nightmare)nightmare).Power <= 0)
+        {
+            // Delete nightmare
+            this.invaderField[this.invaderField.Where(x => x.Value == nightmare).FirstOrDefault().Key] = null;
+        }
+
+        if (((Guard)guard).Power <= 0)
+        {
+            // Delete guard
+            this.wardenField[this.wardenField.Where(x => x.Value == guard).FirstOrDefault().Key] = null;
+        }
+
+        // TryInformingCombat
+        PlayedCard playedNightmare = new PlayedCard(this.invaderField.FirstOrDefault(x => x.Value == nightmare).Key, 0, nightmare.CardId);
+        this.TryInformingCombat(true, playedNightmare);
     }
 
     private void BypassGuardian(ServerRpcParams serverRpcParams)
     {
+        Debug.Log($"The invader skipped the guardian");
 
+        // Skipping
+        this.defeatedGuards.Add(this.wardenField[this.currentGuard.fieldPosition]);
+
+        // TryInformingCombat
+        this.TryInformingCombat(true, new PlayedCard(new Vector2Int(0,0), 0, 0));
+    }
+
+    private void TryInformingCombat(bool hasAttacked, PlayedCard nightmare)
+    {
+        PlayedCard newGuard = this.GetGuardToAttack(this.laneToAttack);
+
+        if (newGuard.cardId == 0)
+        {
+            this.EndCombat(true);
+            return;
+        }
+
+        this.InformCombat(hasAttacked, nightmare, this.currentGuard, newGuard);
     }
 
     private void ChooseInteraction(bool interactWithHiddenCard, ServerRpcParams serverRpcParams)
     {
+        if (interactWithHiddenCard)
+        {
+            Debug.Log("Interact with the Hidden Card");
+        }
+        else
+        {
+            Debug.Log("Interact with the Base");
+        }
 
+        foreach (var item in this.players)
+        {
+            EventManager.Instance.EndTurnCombatClientRpc(item.Value.library.Pop(), 0, 0, item.Value.rpcParams);
+        }
     }
 
     #endregion

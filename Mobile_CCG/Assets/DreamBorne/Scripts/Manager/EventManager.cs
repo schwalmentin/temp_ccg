@@ -26,9 +26,11 @@ public class EventManager : NetworkSingleton<EventManager>
     public delegate void p_BoolDelegate(bool condition, ServerRpcParams serverRpcParams);
     public delegate void s_BoolDelegate(bool condition);
 
-    public delegate void s_BoolCardCardCardDelegate(bool condition, Card card, Card card2, Card card3);
+    public delegate void s_BoolCardCardCardDelegate(bool condition, PlayedCard card, PlayedCard card2, PlayedCard card3);
     public delegate void p_CardArrayBoolDelegate(Card[] card, bool condition, ServerRpcParams serverRpcParams);
     public delegate void s_CardIntIntDelegate(Card card, int number, int number2);
+
+    public delegate void s_IntPlayedCardDelegate(int number, PlayedCard playedCard);
 
     #endregion
 
@@ -47,7 +49,7 @@ public class EventManager : NetworkSingleton<EventManager>
 
     public event s_PlayedCardArrayDelegate s_endTurnDeploymentEvent;
     public event s_CardArrayDelegate s_joinedMatchEvent;
-    public event s_IntCardDelegate s_informAboutLaneEvent;
+    public event s_IntPlayedCardDelegate s_informAboutLaneEvent;
     public event s_BoolCardCardCardDelegate s_informCombatEvent;
     public event s_EmptyDelegate s_informByPassGuardianEvent;
     public event s_BoolDelegate s_endCombatEvent;
@@ -111,13 +113,13 @@ public class EventManager : NetworkSingleton<EventManager>
     }
 
     [ClientRpc]
-    public void InformAboutLaneClientRpc(int attackedLane, Card guard, ClientRpcParams clientRpcParams = default)
+    public void InformAboutLaneClientRpc(int attackedLane, PlayedCard guard, ClientRpcParams clientRpcParams = default)
     {
         this.s_informAboutLaneEvent.Invoke(attackedLane, guard);
     }
 
     [ClientRpc]
-    public void InformCombatClientRpc(bool hasAttacked, Card nightmare, Card attackedGuard, Card newGuard, ClientRpcParams clientRpcParams = default)
+    public void InformCombatClientRpc(bool hasAttacked, PlayedCard nightmare, PlayedCard attackedGuard, PlayedCard newGuard, ClientRpcParams clientRpcParams = default)
     {
         this.s_informCombatEvent.Invoke(hasAttacked, nightmare, attackedGuard, newGuard);
     }

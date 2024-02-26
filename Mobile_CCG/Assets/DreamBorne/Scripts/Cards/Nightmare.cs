@@ -20,6 +20,11 @@ public class Nightmare : Card
     [SerializeField] private TextMeshProUGUI powerGUI;
     [SerializeField] private GameObject selectHighlight;
 
+    public int Power
+    {
+        get { return this.currentPower;  }
+    }
+
     public override void DisplayCardInfo()
     {
         Debug.Log("\n" +
@@ -47,5 +52,22 @@ public class Nightmare : Card
     public override void OnSelect()
     {
         this.selectHighlight.SetActive(true);
+    }
+
+    public override void GetDamage(int amount)
+    {
+        this.currentPower -= amount;
+    }
+
+    public override void UpdateUI()
+    {
+        this.nameGUI.text = this.cardName;
+        this.costGUI.text = this.cost.ToString();
+        this.powerGUI.text = this.currentPower.ToString();
+    }
+
+    public override int GetCost()
+    {
+        return this.cost;
     }
 }
