@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="DataBase" uuid="8f9fe417-cde7-46ec-a07e-ee2b6012c068">
+    <data-source source="LOCAL" name="Cards_Database" uuid="9c861649-f69f-49a1-859a-d6d6805fa295">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\schwa\Documents\Mobile_CCG\temp_ccg\Mobile_CCG\Assets\StreamingAssets\DataBase.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\schwa\Documents\Mobile_CCG\temp_ccg\Mobile_CCG\Assets\Resources\DataBase.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

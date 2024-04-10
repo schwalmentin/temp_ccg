@@ -5,17 +5,26 @@ using UnityEngine;
 public class TestingManager : MonoBehaviour
 {
     private bool pressed;
+    [SerializeField] private int cardId;
 
     private void Start()
     {
-        this.StartCoroutine("Timer");
+        // this.StartCoroutine("Timer");
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            this.pressed = true;
+            // this.pressed = true;
+            try
+            {
+                Card card = DatabaseManager.Instance.GetCardById(this.cardId);
+            }
+            catch(KeyNotFoundException e)
+            {
+                Debug.LogException(e);
+            }
         }
     }
 
