@@ -1,16 +1,82 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestingManager : MonoBehaviour
 {
-    private bool pressed;
-    [SerializeField] private int cardId;
+    #region Timer
 
-    private void Start()
+        private bool pressed;
+        
+        private IEnumerator Timer()
+        {
+            while (!pressed)
+            {
+                yield return new WaitForSeconds(3);
+                print("Trying: " + this.pressed);
+            }
+        }
+
+    #endregion
+    
+    #region ActionMapper
+
+        private readonly Dictionary<string, Action<string>> staticActions = new Dictionary<string, Action<string>>();
+        private readonly Dictionary<string, Delegate> dynamicActions = new Dictionary<string, Delegate>();
+        
+        private void DynamicTest1(int x, int y, int z)
+        {
+            
+        }
+        private void DynamicTest2(string x, int y)
+        {
+            
+        }
+
+        private void StaticTest1(string jsonBody)
+        {
+            
+        }
+        private void StaticTest2(string jsonBody)
+        {
+            
+        }
+
+    #endregion
+
+    #region Json Converter
+
+        private void TestJsonConverter()
+        {
+            Example1Parameters example1 = new Example1Parameters("fish", 69);
+            Debug.Log("Example1 Object: " + example1.helloWorld);
+
+            string example1String = JsonUtility.ToJson(example1);
+            Debug.Log("Example1 Json: " + example1String);
+
+            Example1Parameters final1 = JsonUtility.FromJson<Example1Parameters>(example1String);
+            Debug.Log("Final1 Object: " + final1.helloWorld);
+        }
+
+    #endregion
+
+    private void Awake()
     {
         // this.StartCoroutine("Timer");
+        
+        this.dynamicActions.Add("test1", new Action<int, int, int>(this.DynamicTest1));
+        this.dynamicActions.Add("test2", new Action<string, int>(this.DynamicTest2));
+
+        this.staticActions.Add("test1", this.StaticTest1);
+        this.staticActions.Add("test2", this.StaticTest2);
+        
+        this.TestJsonConverter();
     }
+
+
 
     private void Update()
     {
@@ -19,21 +85,29 @@ public class TestingManager : MonoBehaviour
             // this.pressed = true;
             try
             {
-                Card card = DatabaseManager.Instance.GetCardById(this.cardId);
+                Card card = DatabaseManager.Instance.GetCardById(1);
             }
             catch(KeyNotFoundException e)
             {
                 Debug.LogException(e);
             }
         }
-    }
 
-    private IEnumerator Timer()
-    {
-        while (!pressed)
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            yield return new WaitForSeconds(3);
-            print("Trying: " + this.pressed);
+            this.staticActions["test1"].Invoke("test");
+        }
+        
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            this.dynamicActions["test1"].DynamicInvoke("test");
+        }        
+        
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            this.dynamicActions["test1"].DynamicInvoke(1, 2, 3);
         }
     }
+
+
 }

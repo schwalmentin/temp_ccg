@@ -5,32 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6482e687-d718-43c2-a611-8d14765a610f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/Materials/mat_Card 1.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/Materials/mat_Card 1.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game/Card.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game/Card.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/DatabaseManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/DatabaseManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/DataBase.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Resources/DataBase.db.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DataBase.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fish.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Game.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Game.unity.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/GameScene.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/GameScene.unity.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/Test.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/Test.unity.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/Testing.unity" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/Testing.unity.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources/9c861649-f69f-49a1-859a-d6d6805fa295.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources/9c861649-f69f-49a1-859a-d6d6805fa295.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Art/Materials/mat_ArenaGround.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/Materials/mat_ArenaGround.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Authenticate.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Authenticate.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Testing.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Testing.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/GameScene.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/GameScene.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Test.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Test.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Testing.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Testing.unity.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestingManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestingManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Data Base Code/ConvertDataBaseToMultiPlatform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/Data Base Code/ConvertDataBaseToMultiPlatform.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets/DataBase.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets/DataBase.db.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/DataBase.db" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/DataBase.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,9 +35,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/schwa/Documents/Mobile_CCG/temp_ccg/Mobile_CCG/Assets/DreamBorne/Scenes/Authenticate.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Plugins/Data Base Code/ConvertDataBaseToMultiPlatform.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/Downloads/schwalm_RPG-ItemDB/RPG-ItemDB/RPG-ItemDB/Assets/DBManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/Downloads/schwalm_RPG-ItemDB/RPG-ItemDB/RPG-ItemDB/Assets/Item.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -139,7 +132,9 @@
       <workItem from="1712607588135" duration="835000" />
       <workItem from="1712611285962" duration="4272000" />
       <workItem from="1712665408635" duration="3678000" />
-      <workItem from="1712767367824" duration="5686000" />
+      <workItem from="1712767367824" duration="6261000" />
+      <workItem from="1713134483838" duration="2062000" />
+      <workItem from="1713185671134" duration="3697000" />
     </task>
     <servers />
   </component>
