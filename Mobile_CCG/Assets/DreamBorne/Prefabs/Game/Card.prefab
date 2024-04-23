@@ -891,6 +891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useGraphic: 1
+  highlights: {fileID: 4908402596421327540}
   nameGui: {fileID: 1335734780933261847}
   costGui: {fileID: 7009363613762056989}
   powerGui: {fileID: 2440747236962774568}

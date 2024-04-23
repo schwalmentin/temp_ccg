@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestingManager : MonoBehaviour
@@ -51,14 +49,14 @@ public class TestingManager : MonoBehaviour
 
         private void TestJsonConverter()
         {
-            Example1Parameters example1 = new Example1Parameters("fish", 69);
-            Debug.Log("Example1 Object: " + example1.helloWorld);
+            DrawCardParams example1 = new DrawCardParams(1, 69);
+            Debug.Log("Example1 Object: " + example1.id);
 
             string example1String = JsonUtility.ToJson(example1);
             Debug.Log("Example1 Json: " + example1String);
 
-            Example1Parameters final1 = JsonUtility.FromJson<Example1Parameters>(example1String);
-            Debug.Log("Final1 Object: " + final1.helloWorld);
+            DrawCardParams final1 = JsonUtility.FromJson<DrawCardParams>(example1String);
+            Debug.Log("Final1 Object: " + final1.id);
         }
 
     #endregion
@@ -75,9 +73,7 @@ public class TestingManager : MonoBehaviour
         
         this.TestJsonConverter();
     }
-
-
-
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
@@ -108,6 +104,4 @@ public class TestingManager : MonoBehaviour
             this.dynamicActions["test1"].DynamicInvoke(1, 2, 3);
         }
     }
-
-
 }

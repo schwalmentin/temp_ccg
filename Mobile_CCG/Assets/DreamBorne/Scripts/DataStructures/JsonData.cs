@@ -1,27 +1,115 @@
-using System.Collections.Generic;
+using UnityEngine;
 
-[System.Serializable]
-public struct Example1Parameters
-{
-    public string helloWorld;
-    public int x;
+#region Action Params
 
-    public Example1Parameters(string helloWorld, int x)
+    [System.Serializable]
+    public struct DrawCardParams
     {
-        this.helloWorld = helloWorld;
-        this.x = x;
+        public int id;
+        public int uniqueId;
+
+        public DrawCardParams(int id, int uniqueId)
+        {
+            this.id = id;
+            this.uniqueId = uniqueId;
+        }
     }
-}
 
-[System.Serializable]
-public struct Example2Parameters
-{
-    public List<string> stringList;
-    public int[] array;
-
-    public Example2Parameters(List<string> stringList, int[] array)
+    [System.Serializable]
+    public struct PlayCardParams
     {
-        this.stringList = stringList;
-        this.array = array;
+        public int uniqueId;
+        public Vector2Int position;
+
+        public PlayCardParams(int uniqueId, Vector2Int position)
+        {
+            this.uniqueId = uniqueId;
+            this.position = position;
+        }
     }
-}
+
+#endregion
+
+#region Rpc Params
+
+    // Server Rpc Params
+    [System.Serializable]
+    public struct JoinMatchParams
+    {
+        public int[] deckIds;
+        public string playerName;
+
+        public JoinMatchParams(int[] deckIds, string playerName)
+        {
+            this.deckIds = deckIds;
+            this.playerName = playerName;
+        }
+    }
+
+    [System.Serializable]
+    public struct PassTurnParams
+    {
+        public int[] playedCardUniqueIds;
+        public Vector2Int[] positions;
+        
+        public PassTurnParams(int[] playedCardUniqueIds, Vector2Int[] positions)
+        {
+            this.playedCardUniqueIds = playedCardUniqueIds;
+            this.positions = positions;
+        }
+    }
+
+    // Client Rpc Params
+    [System.Serializable]
+    public struct StartMatchParams
+    {
+        public int[] handIds;
+        public int[] handUniqueIds;
+        public string opponentName;
+
+        public StartMatchParams(int[] handIds, int[] handUniqueIds, string opponentName)
+        {
+            this.handIds = handIds;
+            this.handUniqueIds = handUniqueIds;
+            this.opponentName = opponentName;
+        }
+    }
+
+    [System.Serializable]
+    public struct SyncPlayerParams
+    {
+        public int[] playedCards;
+        public string[] actionParams;
+
+        public SyncPlayerParams(int[] playedCards, string[] actionParams)
+        {
+            this.playedCards = playedCards;
+            this.actionParams = actionParams;
+        }
+    }
+
+    [System.Serializable]
+    public struct EndTurnParams
+    {
+        public int drawnCardId;
+        public int drawnCardUniqueId;
+
+        public EndTurnParams(int drawnCardId, int drawnCardUniqueId)
+        {
+            this.drawnCardId = drawnCardId;
+            this.drawnCardUniqueId = drawnCardUniqueId;
+        }
+    }
+
+    [System.Serializable]
+    public struct EndGameParams
+    {
+        public bool won;
+
+        public EndGameParams(bool won)
+        {
+            this.won = won;
+        }
+    }
+
+#endregion

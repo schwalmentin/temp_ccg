@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -7,13 +8,14 @@ public class Card : MonoBehaviour
 
         private int id;
         private int uniqueId;
-        private new string name;
+        private string cardName;
         private int cost;
         private int power;
         private int actionId;
 
-        [Header("Utility")]
+        [Header("Graphic")]
         [SerializeField] private bool useGraphic;
+        [SerializeField] private GameObject highlights;
         
         [Header("GUI")]
         [SerializeField] private TextMeshProUGUI nameGui;
@@ -37,7 +39,7 @@ public class Card : MonoBehaviour
         {
             this.id = id;
             this.uniqueId = uniqueId;
-            this.name = name;
+            this.name = this.cardName = name;
             this.cost = cost;
             this.power = power;
             this.actionId = actionId;
@@ -48,17 +50,35 @@ public class Card : MonoBehaviour
         /// <summary>
         /// Updates all information on a card.
         /// </summary>
-        private void UpdateGraphic()
+        public void UpdateGraphic()
         {
             if (!this.useGraphic)
             {
                 return;
             }
 
-            this.nameGui.text = this.name;
+            this.nameGui.text = this.cardName;
             this.costGui.text = this.cost.ToString();
             this.powerGui.text = this.power.ToString();
         }
 
-    #endregion
+        /// <summary>
+        /// Displays a detailed version of the card including all important information about it.
+        /// (Only prints the card name and its action for now!)
+        /// </summary>
+        public void ShowInfo()
+        {
+            Debug.Log($"{this.cardName}: {this.actionId}");
+        }
+
+        /// <summary>
+        /// Toggles the highlight graphic based on the parameter.
+        /// </summary>
+        /// <param name="selected"></param>
+        public void SelectCard(bool selected)
+        {
+            this.highlights.SetActive(selected);
+        }
+
+        #endregion
 }

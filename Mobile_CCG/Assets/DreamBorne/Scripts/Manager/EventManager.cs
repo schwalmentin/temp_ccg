@@ -1,120 +1,137 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
 public class EventManager : NetworkSingleton<EventManager>
 {
-    #region Delegates
+    #region Player Events
 
-    public delegate void PlayerDataDelegate(ulong playerId, string playerName);
-
-    public delegate void DefaultDelegeate();
-    public delegate void PlayerIdDelegate(ulong playerId);
-    public delegate void PlayerJoin(string playerName, bool isStarting);
-
-    public delegate void AmountDelegate(int amount);
-    public delegate void PlayerAmountDelegate(ulong palyerId, int amount);
-
-    public delegate void HardResetDelegate(string playerName, string opponentName, int playerAmount, int opponentAmount, bool yourTurn, int currentTurn);
-
-    public delegate void EndGameDelegate(bool isWinning);
+        public event Action<string, ServerRpcParams> p_joinMatch;
+        public event Action<string, ServerRpcParams> p_passTurn;
 
     #endregion
+    
+    #region Server Events
 
-    #region GameMaster Events
-
-    public event PlayerDataDelegate joinGameMasterEvent;
-
-    public event PlayerIdDelegate passTurnEvent;
-
-    public event PlayerAmountDelegate increaseCurrencyEvent;
-
-    #endregion
-
-    #region PlayerView Events
-
-    public event PlayerJoin updClientJoinedGameMaster;
-
-    public event HardResetDelegate updClientHardResetEvent;
-
-    public event DefaultDelegeate updClientPassTurnEvent;
-
-    public event AmountDelegate updClientCurrencyEvent;
-
-    public event EndGameDelegate updEndGameEvent;
+        public event Action<string> s_startMatch;
+        public event Action<string> s_syncPlayer;
+        public event Action<string> s_syncOpponent;
+        public event Action<string> s_endTurn;
+        public event Action<string> s_endGame;
 
     #endregion
-
+    
     #region Server RPCs
 
-    [ServerRpc(RequireOwnership = false)]
-    public void JoinGameMasterServerRpc(ulong playerId, string playerName)
-    {
-        this.joinGameMasterEvent?.Invoke(playerId, playerName);
-    }
+        /// <summary>
+        /// Is called by the player to join the match and provide their deck list. The server listens for the call.
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="serverRpcParams"></param>
+        [ServerRpc(RequireOwnership = false)]
+        public void JoinMatchServerRpc(string jsonParams, ServerRpcParams serverRpcParams = default)
+        {
+            this.p_joinMatch?.Invoke(jsonParams, serverRpcParams);
+        }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void PassTurnServerRpc(ulong playerId)
-    {
-        passTurnEvent?.Invoke(playerId);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void IncreaseCurrencyServerRpc(ulong playerId, int amount)
-    {
-        Debug.Log("EventManager invokes the increaseCurrency process!");
-        increaseCurrencyEvent?.Invoke(playerId, amount);
-    }
+        /// <summary>
+        /// Is called by the player to pass the turn and provide the played cards of the current turn. The server listens for the call.
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="serverRpcParams"></param>
+        [ServerRpc(RequireOwnership = false)]
+        public void PassTurnServerRpc(string jsonParams, ServerRpcParams serverRpcParams = default)
+        {
+            this.p_passTurn?.Invoke(jsonParams, serverRpcParams);
+        }
 
     #endregion
 
     #region Client RPCs
 
-    [ClientRpc]
-    public void JoinGameMasterClientRpc(string opponentName, bool isStarting, ClientRpcParams clientRpcParams = default)
-    {
-        this.updClientJoinedGameMaster?.Invoke(opponentName, isStarting);
-    }
-
-    [ClientRpc]
-    public void HardResetPlayerClientRpc(string playerName, string opponentName, int playerAmount, int opponentAmount, bool yourTurn, int currentTurn, ClientRpcParams clientRpcParams = default)
-    {
-        this.updClientHardResetEvent?.Invoke(playerName, opponentName, playerAmount, opponentAmount, yourTurn, currentTurn);
-    }
-
-    [ClientRpc]
-    public void PassTurnClientRpc(ClientRpcParams clientRpcParams = default)
-    {
-        this.updClientPassTurnEvent?.Invoke();
-    }
-
-    [ClientRpc]
-    public void UpdateOpponentCurrencyClientRpc(int amount, ClientRpcParams clientRpcParams = default)
-    {
-        this.updClientCurrencyEvent?.Invoke(amount);
-    }
-
-    [ClientRpc]
-    public void EndGameClientRpc(bool isWinning, ClientRpcParams clientRpcParams = default)
-    {
-        this.updEndGameEvent?.Invoke(isWinning);
-    }
+        /// <summary>
+        /// Is called by the server to start the match and provide the starting hand of the players.
+        /// The players listen for the call.
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="clientRpcParams"></param>
+        [ClientRpc]
+        public void StartMatchClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
+        {
+            this.s_startMatch?.Invoke(jsonParams);
+        }
+        
+        /// <summary>
+        /// Is called by the server to sync each players own board state.
+        /// The players listen for the call.
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="clientRpcParams"></param>
+        [ClientRpc]
+        public void SyncPlayerClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
+        {
+            this.s_syncPlayer?.Invoke(jsonParams);
+        }
+        
+        /// <summary>
+        /// Is called by the server to sync each players board state of the opponent.
+        /// The players listen for the call.
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="clientRpcParams"></param>
+        [ClientRpc]
+        public void SyncOpponentClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
+        {
+            this.s_syncOpponent?.Invoke(jsonParams);
+        }
+        
+        /// <summary>
+        /// Is called by the server to end the turn and provide the drawn card for the next turn.
+        /// The players listen for the call.
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="clientRpcParams"></param>
+        [ClientRpc]
+        public void EndTurnClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
+        {
+            this.s_endTurn?.Invoke(jsonParams);
+        }
+        
+        /// <summary>
+        /// Is called by the server to end the game and provide the information whether a player has won or lost.
+        /// The players listens for the call.
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="clientRpcParams"></param>
+        [ClientRpc]
+        public void EndGameClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
+        {
+            this.s_endGame?.Invoke(jsonParams);
+        }
 
     #endregion
 
     #region Debug RPCs
 
-    [ServerRpc(RequireOwnership = false)]
-    public void LogMessageServerRpc(string message)
-    {
-        Debug.Log("CLIENT: " + message);
-    }
+        /// <summary>
+        /// A server rpc for the player to send test messages to the server.
+        /// </summary>
+        /// <param name="message"></param>
+        [ServerRpc(RequireOwnership = false)]
+        public void LogMessageServerRpc(string message)
+        {
+            Debug.Log("CLIENT: " + message);
+        }
 
-    [ClientRpc]
-    public void LogMessageClientRpc(string message)
-    {
-        Debug.Log("SERVER: " + message);
-    }
-
-
+        /// <summary>
+        /// A client rpc for the server to send test messages to all players.
+        /// </summary>
+        /// <param name="message"></param>
+        [ClientRpc]
+        public void LogMessageClientRpc(string message)
+        {
+            Debug.Log("SERVER: " + message);
+        }
+    
     #endregion
 }
