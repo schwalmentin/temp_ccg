@@ -5,48 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6482e687-d718-43c2-a611-8d14765a610f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/Icons/icon_Person.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/Icons/icon_Person.png.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game/CardSlot.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game/CardSlot.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/TouchState.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/TouchState.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/CardSlot.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/CardSlot.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/InputHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/InputHandler.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerEngine.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerEngine.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerEngine.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerEngine.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ValidationEngine.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ValidationEngine.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/TouchControls.inputactions" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/TouchControls.inputactions.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerDataProxy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerDataProxy.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game/Card.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game/Card.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Art/Materials/mat_CardSlot.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/Materials/mat_CardSlot.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Game.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/PlayerData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/PlayerData.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/GameMaster.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/GameMaster.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/PlayerView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/PlayerView.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/EventManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/CardSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/CardSlot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/InputHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerEngine.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/PlaytestManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/PlaytestManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestingManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestingManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +29,9 @@
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/TouchState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerDataProxy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.2/Runtime/Core/NetworkBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/UIBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/Downloads/schwalm_RPG-ItemDB/RPG-ItemDB/RPG-ItemDB/Assets/DBManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/Downloads/schwalm_RPG-ItemDB/RPG-ItemDB/RPG-ItemDB/Assets/Item.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -77,28 +48,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;bachelor-thesis-2-prototype&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "bachelor-thesis-2-prototype",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\schwa\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\schwa\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\schwa\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\schwa\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
+      "C:\\Users\\schwa\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
+      "C:\\Users\\schwa\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/../../DreamBorne_DevelopmentBuilds\DreamBorne.exe" />
@@ -134,10 +106,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="4032">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="4032" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -167,6 +139,7 @@
       <workItem from="1713708551652" duration="4360000" />
       <workItem from="1713713493877" duration="9854000" />
       <workItem from="1713792113364" duration="13592000" />
+      <workItem from="1713873995015" duration="11984000" />
     </task>
     <servers />
   </component>

@@ -26,6 +26,7 @@ public class PlayerData : MonoBehaviour
         [Space]
         [SerializeField] private Image[] turn;
         [SerializeField] private TextMeshProUGUI mana;
+        public int currentMana;
 
         // Properties
         public List<Card> Hand => this.hand;
@@ -39,6 +40,7 @@ public class PlayerData : MonoBehaviour
         private void Awake()
         {
             this.playerName.text = PlaytestManager.Instance.GetRandomName();
+            this.currentMana = 5;
             // this.hand = new List<Card>();
             this.playerField = this.CardSlotsToField(this.cardSlots, new Vector2Int(2, 3));
             this.opponentField = new Card[2, 3];
@@ -69,6 +71,7 @@ public class PlayerData : MonoBehaviour
             int x = i % fieldSize.x;
             int y = Mathf.FloorToInt(i / fieldSize.x);
             field[x, y] = cardSlots[i];
+            this.cardSlots[i].FieldPosition = new Vector2Int(x, y);
         }
 
         return field;

@@ -13,6 +13,8 @@ public class Card : MonoBehaviour
         private int power;
         private int actionId;
 
+        private CardState cardState;
+
         [Header("Graphic")]
         [SerializeField] private bool useGraphic;
         [SerializeField] private GameObject highlights;
@@ -21,8 +23,26 @@ public class Card : MonoBehaviour
         [SerializeField] private TextMeshProUGUI nameGui;
         [SerializeField] private TextMeshProUGUI costGui;
         [SerializeField] private TextMeshProUGUI powerGui;
+        
+        // Properties
+        public int UniqueId => this.uniqueId;
+        public int Cost => this.cost;
+        public CardState CardState
+        {
+            get { return this.cardState; }
+            set { this.cardState = value; }
+        }
 
     #endregion
+
+    private void Start()
+    {
+        this.uniqueId = PlaytestManager.Instance.GetIncrementalId();
+        this.cardName = PlaytestManager.Instance.GetRandomName();
+        this.cost = 5;
+        this.UpdateGraphic();
+        this.cardState = CardState.Hand;
+    }
 
     #region Card Methods
 
@@ -43,6 +63,8 @@ public class Card : MonoBehaviour
             this.cost = cost;
             this.power = power;
             this.actionId = actionId;
+
+            this.cardState = CardState.Library;
             
             this.UpdateGraphic();
         }
@@ -74,11 +96,18 @@ public class Card : MonoBehaviour
         /// <summary>
         /// Toggles the highlight graphic based on the parameter.
         /// </summary>
-        /// <param name="selected"></param>
-        public void SelectCard(bool selected)
+        /// <param name="isActive"></param>
+        public void ToggleHighlight(bool isActive)
         {
-            this.highlights.SetActive(selected);
+            this.highlights.SetActive(isActive);
         }
 
-        #endregion
+    #endregion
+}
+
+public enum CardState
+{
+    Library,
+    Hand,
+    Field
 }

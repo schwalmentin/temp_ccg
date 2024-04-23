@@ -43,10 +43,10 @@ public class PlaytestManager : NetworkSingleton<PlaytestManager>
         /// Returns a "unique" id that is incrementally increased.
         /// </summary>
         /// <returns></returns>
-        public ulong GetIncrementalId()
+        public int GetIncrementalId()
         {
             this.idCounter++;
-            return Convert.ToUInt64(this.idCounter);
+            return this.idCounter;
         }
 
     #endregion

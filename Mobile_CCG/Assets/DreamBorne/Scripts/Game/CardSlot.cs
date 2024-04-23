@@ -3,7 +3,10 @@ using UnityEngine;
 public class CardSlot : MonoBehaviour
 {
     [SerializeField] private GameObject graphic;
-    private Card card;
+
+    public Card Card { get; set; }
+    public Vector2Int FieldPosition { get; set; }
+
     private void Awake()
     {
         this.ToggleGraphic(false);

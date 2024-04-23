@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -65,14 +66,6 @@ public class PlayerEngine : MonoBehaviour
                 Debug.LogException(e);
             }
         }
-        public void DrawCard(DrawCardParams drawCardParams)
-        {
-            // Instantiate card
-            
-            // Add card to library
-            
-            // Update UI
-        }
 
         private void PlayCard(string jsonParams)
         {
@@ -86,15 +79,21 @@ public class PlayerEngine : MonoBehaviour
                 Debug.LogException(e);
             }
         }
-        public void PlayCard(PlayCardParams playCardParams)
-        {
-            
-        }
 
     #endregion
 
     #region PlayerEngine Methods
 
+        public void PassTurn()
+        {
+            
+        }
+
+        public void Undo()
+        {
+            
+        }
+        
         public void ArrangeHand(List<Card> exceptions)
         {
             int exceptionCount = exceptions?.Count ?? 0;
@@ -119,6 +118,34 @@ public class PlayerEngine : MonoBehaviour
                 card.transform.position = firstPosition;
                 firstPosition.x += currentCardRadius * 2;
             }
+        }
+        
+        public void PlayCard(PlayCardParams playCardParams)
+        {
+            // Get params
+            Card playedCard = this.playerData.Hand.FirstOrDefault(x => x.UniqueId == playCardParams.uniqueId);
+            if (playedCard == null || playCardParams.position.x > 1 || playCardParams.position.y > 2) return;
+            CardSlot cardSlot = this.playerData.PlayerField[playCardParams.position.x, playCardParams.position.y];
+
+            // Update card
+            this.playerData.Hand.Remove(playedCard);
+            playedCard.CardState = CardState.Field;
+            playedCard.transform.position = cardSlot.transform.position;
+                
+            // Update card slot
+            cardSlot.Card = playedCard;
+            
+            // Update mana
+            this.playerData.currentMana -= playedCard.Cost;
+        }
+
+        public void DrawCard(DrawCardParams drawCardParams)
+        {
+            // Instantiate card
+            
+            // Add card to library
+            
+            // Update UI
         }
 
     #endregion
