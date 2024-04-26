@@ -1,50 +1,123 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour
 {
     #region Variables
     
-        // Data
-        [Header("Data")]
-        [SerializeField] private CardSlot[] cardSlots;
-        private CardSlot[,] playerField;
-        private Card[,] opponentField;
-        [SerializeField] private List<Card> hand;
+        // Field
+        [FormerlySerializedAs("cardSlots")]
+        [Header("Field")]
+        [SerializeField] private CardSlot[] playerCardSlots;
+        [SerializeField] private CardSlot[] opponentCardSlots;
+        public CardSlot[,] PlayerField { get; private set; }
+        public CardSlot[,] OpponentField { get; private set; }
+
+        // Cards
+        public List<Card> Hand { get; private set; }
+        public Stack<CardSlot> PlayedCards { get; private set; }
+        
+        // Game Data
+        public int Turn
+        {
+            get => this.turn;
+            set
+            {
+                this.turn = value;
+                for (int i = 0; i < this.turnGui.Length; i++)
+                {
+                    this.turnGui[i].gameObject.SetActive(this.turn > i);
+                }
+            }
+        }
+        private int turn;
+        
+        public int Mana
+        {
+            get => this.mana;
+            set
+            {
+                this.mana = value;
+                this.manaGui.text = this.mana.ToString();
+            }
+        }
+        private int mana;
+
+        public int PlayerPoints
+        {
+            get => this.playerPoints;
+            set
+            {
+                this.playerPoints = value;
+                this.playerPointsGui.text = this.playerPoints.ToString();
+            }
+        }
+        private int playerPoints;
+
+        public int OpponentPoints
+        {
+            get => this.opponentPoints;
+            set
+            {
+                this.opponentPoints = value;
+                this.opponentPointsGui.text = this.opponentPoints.ToString();
+            }
+        }
+        private int opponentPoints;
+        
+        public string OpponentName
+        {
+            get => this.opponentName;
+            set
+            {
+                this.opponentName = value;
+                this.opponentNameGui.text = this.opponentName;
+            }
+        }
+        private string opponentName;
 
         // Game UI
         [Header("Game UI")]
-        [SerializeField] private TextMeshProUGUI playerName;
+        [SerializeField] private TextMeshProUGUI playerNameGui;
         [SerializeField] private Image playerIcon;
-        [SerializeField] private TextMeshProUGUI playerPoints;
+        [SerializeField] private TextMeshProUGUI playerPointsGui;
         [Space]
-        [SerializeField] private TextMeshProUGUI opponentName;
+        [SerializeField] private TextMeshProUGUI opponentNameGui;
         [SerializeField] private Image opponentIcon;
-        [SerializeField] private TextMeshProUGUI opponentPoints;
+        [SerializeField] private TextMeshProUGUI opponentPointsGui;
         [Space]
-        [SerializeField] private Image[] turn;
-        [SerializeField] private TextMeshProUGUI mana;
-        public int currentMana;
-
-        // Properties
-        public List<Card> Hand => this.hand;
-        public CardSlot[,] PlayerField => this.playerField;
-        public Card[,] OpponentField => this.opponentField;
-
-        #endregion
+        [SerializeField] private TextMeshProUGUI manaGui;
+        [SerializeField] private Image[] turnGui;
+        [Space]
+        [SerializeField] private Button passTurnButton;
+        public Button PassTurnButton => this.passTurnButton;
+        public Button UndoButton => this.undoButton;
+        [SerializeField] private Button undoButton;
+        
+    #endregion
 
     #region Unity Methods
 
         private void Awake()
         {
-            this.playerName.text = PlaytestManager.Instance.GetRandomName();
-            this.currentMana = 5;
-            // this.hand = new List<Card>();
-            this.playerField = this.CardSlotsToField(this.cardSlots, new Vector2Int(2, 3));
-            this.opponentField = new Card[2, 3];
-            this.UpdateTurn(1);
+            // Initialize Fields
+            this.PlayerField = this.CardSlotsToField(this.playerCardSlots, new Vector2Int(2, 3));
+            this.OpponentField = this.CardSlotsToField(this.opponentCardSlots, new Vector2Int(2, 3));
+            
+            // Initialize Cards
+            this.Hand = new List<Card>();
+            this.PlayedCards = new Stack<CardSlot>();
+            
+            // UI
+            this.UndoButton.interactable = false;
+            
+            // Experimental
+            this.playerNameGui.text = PlaytestManager.Instance.GetRandomName();
+            this.Mana = 5;
+            this.Turn = 1;
         }
 
     #endregion
@@ -58,77 +131,23 @@ public class PlayerData : MonoBehaviour
         /// <param name="fieldSize"></param>
         /// <returns></returns>
         private CardSlot[,] CardSlotsToField(CardSlot[] cardSlots, Vector2Int fieldSize)
-    {
-        if (fieldSize.x * fieldSize.y != cardSlots.Length)
         {
-            return null;
-        }
-        
-        CardSlot[,] field = new CardSlot[fieldSize.x, fieldSize.y];
-        
-        for (int i = 0; i < cardSlots.Length; i++)
-        {
-            int x = i % fieldSize.x;
-            int y = Mathf.FloorToInt(i / fieldSize.x);
-            field[x, y] = cardSlots[i];
-            this.cardSlots[i].FieldPosition = new Vector2Int(x, y);
-        }
-
-        return field;
-    }
-        
-        /// <summary>
-        /// Initializes the UI of the players user data (name, icon, ...).
-        /// </summary>
-        /// <param name="playerName"></param>
-        /// <param name="playerIcon"></param>
-        public void InitializePlayer(string playerName, Sprite playerIcon)
-        {
-            this.playerName.text = playerName;
-            this.playerIcon.sprite = playerIcon;
-        }
-
-        /// <summary>
-        /// Initializes the UI of the opponents user data (name, icon, ...).
-        /// </summary>
-        /// <param name="opponentName"></param>
-        /// <param name="opponentIcon"></param>
-        public void InitializeOpponent(string opponentName, Sprite opponentIcon)
-        {
-            this.opponentName.text = opponentName;
-            this.opponentIcon.sprite = opponentIcon;
-        }
-
-        /// <summary>
-        /// Updates the UI both the players and opponents points.
-        /// </summary>
-        /// <param name="playerPoints"></param>
-        /// <param name="opponentPoints"></param>
-        public void UpdatePoints(int playerPoints, int opponentPoints)
-        {
-            this.playerPoints.text = playerPoints.ToString();
-            this.opponentPoints.text = opponentPoints.ToString();
-        }
-
-        /// <summary>
-        /// Updates the UI for the turn count.
-        /// </summary>
-        /// <param name="turn"></param>
-        public void UpdateTurn(int turn)
-        {
-            for (int i = 0; i < this.turn.Length; i++)
+            if (fieldSize.x * fieldSize.y != cardSlots.Length)
             {
-                this.turn[i].gameObject.SetActive(turn > i);
+                return null;
             }
-        }
+            
+            CardSlot[,] field = new CardSlot[fieldSize.x, fieldSize.y];
+            
+            for (int i = 0; i < cardSlots.Length; i++)
+            {
+                int x = i % fieldSize.x;
+                int y = Mathf.FloorToInt(i / fieldSize.x);
+                field[x, y] = cardSlots[i];
+                this.playerCardSlots[i].FieldPosition = new Vector2Int(x, y);
+            }
 
-        /// <summary>
-        /// Updates the UI of the mana amount.
-        /// </summary>
-        /// <param name="mana"></param>
-        public void UpdateMana(int mana)
-        {
-            this.mana.text = mana.ToString();
+            return field;
         }
         
     #endregion

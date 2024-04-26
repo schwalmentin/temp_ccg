@@ -81,7 +81,7 @@ public class TestingManager : MonoBehaviour
             // this.pressed = true;
             try
             {
-                Card card = DatabaseManager.Instance.GetCardById(1);
+                Card card = DatabaseManager.Instance.GetCardById(1, 69);
             }
             catch(KeyNotFoundException e)
             {

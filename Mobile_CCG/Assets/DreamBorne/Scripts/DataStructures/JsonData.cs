@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #region Action Params
 
@@ -78,12 +79,29 @@ using UnityEngine;
     [System.Serializable]
     public struct SyncPlayerParams
     {
-        public int[] playedCards;
+        public int[] playedCardUniqueIds;
         public string[] actionParams;
 
-        public SyncPlayerParams(int[] playedCards, string[] actionParams)
+        public SyncPlayerParams(int[] playedCardUniqueIds, string[] actionParams)
         {
-            this.playedCards = playedCards;
+            this.playedCardUniqueIds = playedCardUniqueIds;
+            this.actionParams = actionParams;
+        }
+    }
+
+    [System.Serializable]
+    public struct SyncOpponentParams
+    {
+        public int[] playedCardIds;
+        public int[] playedCardUniqueIds;
+        public Vector2Int[] positions;
+        public string[] actionParams;
+        
+        public SyncOpponentParams(int[] playedCardIds, int[] playedCardUniqueIds, Vector2Int[] positions, string[] actionParams)
+        {
+            this.playedCardIds = playedCardIds;
+            this.playedCardUniqueIds = playedCardUniqueIds;
+            this.positions = positions;
             this.actionParams = actionParams;
         }
     }
@@ -93,11 +111,15 @@ using UnityEngine;
     {
         public int drawnCardId;
         public int drawnCardUniqueId;
+        public int mana;
+        public int turn;
 
-        public EndTurnParams(int drawnCardId, int drawnCardUniqueId)
+        public EndTurnParams(int drawnCardId, int drawnCardUniqueId, int mana, int turn)
         {
             this.drawnCardId = drawnCardId;
             this.drawnCardUniqueId = drawnCardUniqueId;
+            this.mana = mana;
+            this.turn = turn;
         }
     }
 

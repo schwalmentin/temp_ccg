@@ -258,7 +258,7 @@ public class InputHandler : MonoBehaviour
         /// </summary>
         public void Undo()
         {
-            this.playerEngine.Undo();
+            this.playerEngine.UndoCard();
         }
 
         /// <summary>

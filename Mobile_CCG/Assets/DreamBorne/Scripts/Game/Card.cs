@@ -11,7 +11,7 @@ public class Card : MonoBehaviour
         private string cardName;
         private int cost;
         private int power;
-        private int actionId;
+        private string actionId;
 
         private CardState cardState;
 
@@ -27,6 +27,7 @@ public class Card : MonoBehaviour
         // Properties
         public int UniqueId => this.uniqueId;
         public int Cost => this.cost;
+        public string ActionId => this.actionId;
         public CardState CardState
         {
             get { return this.cardState; }
@@ -34,15 +35,6 @@ public class Card : MonoBehaviour
         }
 
     #endregion
-
-    private void Start()
-    {
-        this.uniqueId = PlaytestManager.Instance.GetIncrementalId();
-        this.cardName = PlaytestManager.Instance.GetRandomName();
-        this.cost = 5;
-        this.UpdateGraphic();
-        this.cardState = CardState.Hand;
-    }
 
     #region Card Methods
 
@@ -55,7 +47,7 @@ public class Card : MonoBehaviour
         /// <param name="cost"></param>
         /// <param name="power"></param>
         /// <param name="actionId"></param>
-        public void Initialize(int id, int uniqueId, string name, int cost, int power, int actionId)
+        public void Initialize(int id, int uniqueId, string name, int cost, int power, string actionId)
         {
             this.id = id;
             this.uniqueId = uniqueId;
