@@ -25,6 +25,7 @@ public class Card : MonoBehaviour
         [SerializeField] private TextMeshProUGUI powerGui;
         
         // Properties
+        public int Id => this.id;
         public int UniqueId => this.uniqueId;
         public int Cost => this.cost;
         public string ActionId => this.actionId;

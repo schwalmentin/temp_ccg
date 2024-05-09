@@ -40,9 +40,6 @@ public class PlayerEngine : MonoBehaviour
             EventManager.Instance.s_syncOpponent += this.SyncOpponent;
             EventManager.Instance.s_endTurn += this.EndTurn;
             EventManager.Instance.s_endGame += this.EndGame;
-            
-            this.StartMatch(JsonUtility.ToJson(new StartMatchParams(new int[]{1,2,3,4}, new int[]{1,2,3,4}, "Simba")));
-            this.ArrangeHand(null);
         }
 
         private void OnDestroy()
@@ -225,6 +222,10 @@ public class PlayerEngine : MonoBehaviour
             
             // Set opponent
             this.playerData.OpponentName = startMatchParams.opponentName;
+            
+            // Set mana and turn
+            this.playerData.Mana = startMatchParams.mana;
+            this.playerData.Turn = startMatchParams.turn;
 
             // Draw starting hand
             for (int i = 0; i < startMatchParams.handIds.Length; i++)

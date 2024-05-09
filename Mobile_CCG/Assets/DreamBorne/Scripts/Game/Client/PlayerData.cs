@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,7 +10,6 @@ public class PlayerData : MonoBehaviour
     #region Variables
     
         // Field
-        [FormerlySerializedAs("cardSlots")]
         [Header("Field")]
         [SerializeField] private CardSlot[] playerCardSlots;
         [SerializeField] private CardSlot[] opponentCardSlots;
@@ -17,6 +17,9 @@ public class PlayerData : MonoBehaviour
         public CardSlot[,] OpponentField { get; private set; }
 
         // Cards
+        [Header("Deck")]
+        [SerializeField] private int[] deckIds;
+        public int[] Deck => this.deckIds;
         public List<Card> Hand { get; private set; }
         public Stack<CardSlot> PlayedCards { get; private set; }
         
@@ -113,14 +116,17 @@ public class PlayerData : MonoBehaviour
             
             // UI
             this.UndoButton.interactable = false;
-            
-            // Experimental
-            this.playerNameGui.text = PlaytestManager.Instance.GetRandomName();
-            this.Mana = 5;
-            this.Turn = 1;
         }
 
-    #endregion
+        private void Start()
+        {
+            // Join Match
+            JoinMatchParams joinMatchParams = new JoinMatchParams(this.Deck, PlaytestManager.Instance.GetRandomName());
+            string jsonParams = JsonUtility.ToJson(joinMatchParams);
+            EventManager.Instance.JoinMatchServerRpc(jsonParams);
+        }
+
+        #endregion
 
     #region PlayerData Methods
 

@@ -1,7 +1,10 @@
+using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour, new()
 {
+    // private static GameObject manager;
     private static T instance = null;
     private static readonly object padlock = new object();
 
@@ -15,6 +18,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour, new(
                 {
                     if (instance == null)
                     {
+                        // manager = Resources.Load("Manager") as GameObject;
+                        // Instantiate(manager);
+                        // instance = manager.AddComponent<T>();
                         instance = new T();
                     }
                 }
@@ -32,6 +38,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour, new(
             return;
         }
 
+        // manager = Resources.Load("Manager") as GameObject;
         DontDestroyOnLoad(this.gameObject);
         instance = this as T;
     }

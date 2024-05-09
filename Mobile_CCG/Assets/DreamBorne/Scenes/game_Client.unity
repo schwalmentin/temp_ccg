@@ -1000,13 +1000,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1552934b618b4134f8c32616b9d25efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardSlots:
+  playerCardSlots:
   - {fileID: 400968917}
   - {fileID: 492310586}
   - {fileID: 1795989193}
   - {fileID: 1397086494}
   - {fileID: 1613579050}
   - {fileID: 795552054}
+  opponentCardSlots: []
+  deckIds: 0100000002000000030000000400000005000000060000000700000008000000090000000a000000
   playerNameGui: {fileID: 1039623061}
   playerIcon: {fileID: 2109771513}
   playerPointsGui: {fileID: 1442760723}
@@ -3563,7 +3565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1066566994
 Transform:
   m_ObjectHideFlags: 0
@@ -4883,7 +4885,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627223414}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 094cc585f6b759b459c69c8c0582e97d, type: 3}
   m_Name: 

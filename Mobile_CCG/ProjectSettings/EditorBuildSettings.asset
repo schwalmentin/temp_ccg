@@ -14,10 +14,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/DreamBorne/Scripts/Testing/Test.unity
     guid: 226433bd288a07149bb4932cd678c01e
-  - enabled: 1
+  - enabled: 0
     path: Assets/DreamBorne/Scripts/Testing/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/DreamBorne/Scenes/Game.unity
+    path: Assets/DreamBorne/Scenes/game_Client.unity
     guid: aea06ec62c8a6cf4fa7f718a42315169
+  - enabled: 1
+    path: Assets/DreamBorne/Scenes/game_Server.unity
+    guid: d7fb59fe767d0cf4eba8097882521f4b
   m_configObjects: {}

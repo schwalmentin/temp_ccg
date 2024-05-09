@@ -67,12 +67,16 @@ using UnityEngine.Serialization;
         public int[] handIds;
         public int[] handUniqueIds;
         public string opponentName;
+        public int mana;
+        public int turn;
 
-        public StartMatchParams(int[] handIds, int[] handUniqueIds, string opponentName)
+        public StartMatchParams(int[] handIds, int[] handUniqueIds, string opponentName, int mana, int turn)
         {
             this.handIds = handIds;
             this.handUniqueIds = handUniqueIds;
             this.opponentName = opponentName;
+            this.mana = mana;
+            this.turn = turn;
         }
     }
 

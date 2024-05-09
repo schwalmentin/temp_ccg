@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TestingManager : MonoBehaviour
 {
@@ -70,7 +72,7 @@ public class TestingManager : MonoBehaviour
 
         this.staticActions.Add("test1", this.StaticTest1);
         this.staticActions.Add("test2", this.StaticTest2);
-        
+
         this.TestJsonConverter();
     }
     
@@ -104,4 +106,14 @@ public class TestingManager : MonoBehaviour
             this.dynamicActions["test1"].DynamicInvoke(1, 2, 3);
         }
     }
+    
+
+    [SerializeField] private GameObject player;
+    
+    private void TestClass()
+    {
+        Vector3 velocity = new Vector3(5 * Time.deltaTime, 0, 0);
+        this.player.transform.position = velocity;
+    }
+    
 }

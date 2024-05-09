@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EventManager : NetworkSingleton<EventManager>
 {
+    private bool debuggingEnabled = true;
+    
     #region Player Events
 
         public event Action<string, ServerRpcParams> p_joinMatch;
@@ -31,6 +33,7 @@ public class EventManager : NetworkSingleton<EventManager>
         [ServerRpc(RequireOwnership = false)]
         public void JoinMatchServerRpc(string jsonParams, ServerRpcParams serverRpcParams = default)
         {
+            if (this.debuggingEnabled) Debug.Log($"Player {serverRpcParams.Receive.SenderClientId} joined the match.");
             this.p_joinMatch?.Invoke(jsonParams, serverRpcParams);
         }
 
@@ -42,6 +45,7 @@ public class EventManager : NetworkSingleton<EventManager>
         [ServerRpc(RequireOwnership = false)]
         public void PassTurnServerRpc(string jsonParams, ServerRpcParams serverRpcParams = default)
         {
+            if (this.debuggingEnabled) Debug.Log($"Player {serverRpcParams.Receive.SenderClientId} passed the turn.");
             this.p_passTurn?.Invoke(jsonParams, serverRpcParams);
         }
 
@@ -58,6 +62,7 @@ public class EventManager : NetworkSingleton<EventManager>
         [ClientRpc]
         public void StartMatchClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
         {
+            if (this.debuggingEnabled) Debug.Log($"Server started the match.");
             this.s_startMatch?.Invoke(jsonParams);
         }
         
@@ -70,6 +75,7 @@ public class EventManager : NetworkSingleton<EventManager>
         [ClientRpc]
         public void SyncPlayerClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
         {
+            if (this.debuggingEnabled) Debug.Log($"Server synced the player.");
             this.s_syncPlayer?.Invoke(jsonParams);
         }
         
@@ -82,6 +88,7 @@ public class EventManager : NetworkSingleton<EventManager>
         [ClientRpc]
         public void SyncOpponentClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
         {
+            if (this.debuggingEnabled) Debug.Log($"Server synced the opponent.");
             this.s_syncOpponent?.Invoke(jsonParams);
         }
         
@@ -94,6 +101,7 @@ public class EventManager : NetworkSingleton<EventManager>
         [ClientRpc]
         public void EndTurnClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
         {
+            if (this.debuggingEnabled) Debug.Log($"Server ended the turn.");
             this.s_endTurn?.Invoke(jsonParams);
         }
         
@@ -106,6 +114,7 @@ public class EventManager : NetworkSingleton<EventManager>
         [ClientRpc]
         public void EndGameClientRpc(string jsonParams, ClientRpcParams clientRpcParams)
         {
+            if (this.debuggingEnabled) Debug.Log($"Server ended the game.");
             this.s_endGame?.Invoke(jsonParams);
         }
 
