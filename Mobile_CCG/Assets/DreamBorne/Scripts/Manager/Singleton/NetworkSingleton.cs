@@ -15,6 +15,7 @@ public abstract class NetworkSingleton<T> : NetworkBehaviour where T : NetworkBe
                 {
                     if (instance == null)
                     {
+                        // ReSharper disable once Unity.IncorrectMonoBehaviourInstantiation
                         instance = new T();
                     }
                 }

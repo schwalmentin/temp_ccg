@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ServerSetup : MonoBehaviour
@@ -12,6 +12,7 @@ public class ServerSetup : MonoBehaviour
         [Header("Server Engine")]
         [SerializeField] private int startingHandAmount;
         [SerializeField] private int maxTurnAmount;
+        [SerializeField] private GameObject[] cardHolders;
         private ServerEngine serverEngine;
 
     #endregion
@@ -20,7 +21,7 @@ public class ServerSetup : MonoBehaviour
 
         private void Awake()
         {
-            this.serverEngine = new ServerEngine(this.startingHandAmount, this.maxTurnAmount);
+            this.serverEngine = new ServerEngine(this.startingHandAmount, this.maxTurnAmount, new Stack<GameObject>(this.cardHolders));
             this.validationEngine = new ValidationEngine(this.serverEngine, this.deckSize);
         }
 

@@ -31,8 +31,13 @@ public class ValidationEngine
 
     #endregion
     
-    #region Observable Methods
+    #region Observable Validation Methods
 
+        /// <summary>
+        /// Observes the players and checks if they fulfill the requirements to join the match.
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="serverRpcParams"></param>
         private void JoinMatch(string jsonParams, ServerRpcParams serverRpcParams)
         {
             // Get params
@@ -64,6 +69,11 @@ public class ValidationEngine
             this.serverDataProxy.Add(playerId, this.serverEngine.JoinMatch(playerId, joinMatchParams));
         }
 
+        /// <summary>
+        /// Observes the players and checks if they fulfill the requirements to pass their turn. 
+        /// </summary>
+        /// <param name="jsonParams"></param>
+        /// <param name="serverRpcParams"></param>
         private void PassTurn(string jsonParams, ServerRpcParams serverRpcParams)
         {
             // Get params
@@ -87,19 +97,39 @@ public class ValidationEngine
             }
             
             // Check if the player can pass the turn
-            if (this.serverDataProxy[playerId].PlayerPhase != PlayerPhase.Deploy) return;
+            if (this.serverDataProxy[playerId].PlayerPhase != PlayerPhase.Deploy)
+            {
+                Logger.LogError($"Player with id {playerId} is not in the deploy phase.");
+                return;
+            }
             
             // Check if every played card has a position
-            if (passTurnParams.positions.Length != passTurnParams.playedCardUniqueIds.Length) return;
+            if (passTurnParams.positions.Length != passTurnParams.playedCardUniqueIds.Length)
+            {
+                Logger.LogError($"Player with id {playerId} doesn't have the same amount of card ids and positions.");
+                return;
+            }
             
             // Check if the cards exist in hand
-            if (cards.Count != passTurnParams.playedCardUniqueIds.Length) return;
+            if (cards.Count != passTurnParams.playedCardUniqueIds.Length)
+            {
+                Logger.LogError($"Player with id {playerId} played a card that is not in their hand. {cards.Count} | {passTurnParams.playedCardUniqueIds.Length}");
+                return;
+            }
 
             // Check if the right amount of mana was spent
-            if (cards.Sum(x=>x.Cost) > this.serverDataProxy[playerId].Mana) return;
+            if (cards.Sum(x => x.Cost) > this.serverDataProxy[playerId].Mana)
+            {
+                Logger.LogError($"Player with id {playerId} spent an illegal amount of mana.");
+                return;
+            }
             
             // Check if the positions are valid
-            if (passTurnParams.positions.Any(position => this.serverDataProxy[playerId].Field[position.x, position.y] != null)) return;
+            if (passTurnParams.positions.Any(position => this.serverDataProxy[playerId].Field[position.x, position.y] != null))
+            {
+                Logger.LogError($"Player with id {playerId} played a card on an illegal position.");
+                return;
+            }
             
             // Pass Turn
             this.serverEngine.PassTurn(playerId, passTurnParams);

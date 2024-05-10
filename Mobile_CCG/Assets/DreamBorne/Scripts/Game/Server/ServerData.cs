@@ -12,17 +12,20 @@ public class ServerData
     public Dictionary<Vector2Int, Card> PlayedCards { get; private set; }
     public Card[,] Field { get; private set; }
     public ClientRpcParams ClientRpcParams { get; private set; }
+    public GameObject CardHolder { get; private set; }
 
     public int Points { get; set; }
     public int Turn { get; set; }
     public int Mana { get; set; }
     public PlayerPhase PlayerPhase { get; set; }
     
-    public ServerData(string name, ulong playerId, int[] deckIds)
+    
+    public ServerData(string name, ulong playerId, int[] deckIds, GameObject cardHolder)
     {
         Random rnd = new Random();
         List<int> deckList = deckIds.ToList();
         this.Library = new Stack<int>(deckList.OrderBy(x => rnd.Next()));
+        this.CardHolder = cardHolder;
         
         this.Name = name;
         this.Hand = new List<Card>();

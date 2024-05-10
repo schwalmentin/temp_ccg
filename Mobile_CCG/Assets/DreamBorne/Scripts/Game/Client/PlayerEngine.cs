@@ -61,10 +61,14 @@ public class PlayerEngine : MonoBehaviour
 
     #region Action Methods
 
+        /// <summary>
+        /// Receives a debug message from the server and prints it.
+        /// </summary>
+        /// <param name="jsonParams"></param>
         private void TestAction(string jsonParams)
         {
             TestActionParams testActionParams = JsonUtility.FromJson<TestActionParams>(jsonParams);
-            Debug.Log(testActionParams.testMessage);
+            global::Logger.LogAction(testActionParams.testMessage);
         }
 
     #endregion
@@ -77,6 +81,10 @@ public class PlayerEngine : MonoBehaviour
         /// <warning>Invokes a server rpc!</warning>
         public void PassTurn()
         {
+            // Disable buttons
+            this.playerData.UndoButton.interactable = false;
+            this.playerData.PassTurnButton.interactable = false;
+            
             // Get json params
             PassTurnParams passTurnParams = new PassTurnParams(
                 this.playerData.PlayedCards.Select(x => x.Card.UniqueId).Reverse().ToArray(),
@@ -84,12 +92,11 @@ public class PlayerEngine : MonoBehaviour
             
             string jsonParams = JsonUtility.ToJson(passTurnParams);
             
+            // Reset played cards
+            this.playerData.PlayedCards.Clear();
+            
             // Invoke pass turn event
             EventManager.Instance.PassTurnServerRpc(jsonParams);
-            Debug.Log($"Pass Turn Rpc: {jsonParams}");
-            // Disable buttons
-            this.playerData.UndoButton.interactable = false;
-            this.playerData.PassTurnButton.interactable = false;
         }
 
         /// <summary>
@@ -195,7 +202,7 @@ public class PlayerEngine : MonoBehaviour
     #endregion
 
     #region Observable Methods
-
+    
         private void StartMatch(string jsonParams)
         {
             // Get params
@@ -222,25 +229,28 @@ public class PlayerEngine : MonoBehaviour
         {
             // Get params
             SyncPlayerParams syncPlayerParams = JsonUtility.FromJson<SyncPlayerParams>(jsonParams);
-
+            
             // Perform every cards action
             for (int i = 0; i < syncPlayerParams.playedCardUniqueIds.Length; i++)
             {
-                Card card = this.playerData.PlayedCards.FirstOrDefault(x =>
-                    x.Card.UniqueId == syncPlayerParams.playedCardUniqueIds[i])?.Card;
-                
+                 Card card = this.playerData.PlayerField.Cast<CardSlot>().ToList()
+                    .Find(x => x.Card?.UniqueId == syncPlayerParams.playedCardUniqueIds[i]).Card;
+                 
                 if (card == null) continue;
                 if (card.ActionId == "") continue;
                 
                 this.actions[card.ActionId].Invoke(syncPlayerParams.actionParams[i]);
             }
+            
+            // Update Points
+            this.playerData.PlayerPoints = syncPlayerParams.points;
         }
 
         private void SyncOpponent(string jsonParams)
         {
             // Get params
             SyncOpponentParams syncOpponentParams = JsonUtility.FromJson<SyncOpponentParams>(jsonParams);
-            
+
             // Play every card and perform its action
             for (int i = 0; i < syncOpponentParams.playedCardIds.Length; i++)
             {
@@ -258,6 +268,9 @@ public class PlayerEngine : MonoBehaviour
                 if (card.ActionId == "") continue;
                 this.actions[card.ActionId].Invoke(syncOpponentParams.actionParams[i]);
             }
+            
+            // Update Points
+            this.playerData.OpponentPoints = syncOpponentParams.points;
         }
 
         private void EndTurn(string jsonParams)
@@ -278,8 +291,13 @@ public class PlayerEngine : MonoBehaviour
         {
             EndGameParams endGameParams = JsonUtility.FromJson<EndGameParams>(jsonParams);
 
-            string message = endGameParams.won ? "You won the game!" : "You lost the game!";
-            print(message);
+            if (endGameParams.won)
+            {
+                Logger.LogWarning( "You WON the game!");
+                return;
+            }
+            
+            Logger.LogError("You LOST the game!");
         }
 
     #endregion

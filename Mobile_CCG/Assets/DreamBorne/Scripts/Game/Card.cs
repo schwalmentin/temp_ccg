@@ -28,6 +28,7 @@ public class Card : MonoBehaviour
         public int Id => this.id;
         public int UniqueId => this.uniqueId;
         public int Cost => this.cost;
+        public int Power => this.power;
         public string ActionId => this.actionId;
         public CardState CardState
         {

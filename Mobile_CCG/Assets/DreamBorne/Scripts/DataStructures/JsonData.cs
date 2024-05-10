@@ -95,11 +95,13 @@ using UnityEngine;
     {
         public int[] playedCardUniqueIds;
         public string[] actionParams;
+        public int points;
 
-        public SyncPlayerParams(int[] playedCardUniqueIds, string[] actionParams)
+        public SyncPlayerParams(int[] playedCardUniqueIds, string[] actionParams, int points)
         {
             this.playedCardUniqueIds = playedCardUniqueIds;
             this.actionParams = actionParams;
+            this.points = points;
         }
     }
 
@@ -110,13 +112,15 @@ using UnityEngine;
         public int[] playedCardUniqueIds;
         public Vector2Int[] positions;
         public string[] actionParams;
+        public int points;
         
-        public SyncOpponentParams(int[] playedCardIds, int[] playedCardUniqueIds, Vector2Int[] positions, string[] actionParams)
+        public SyncOpponentParams(int[] playedCardIds, int[] playedCardUniqueIds, Vector2Int[] positions, string[] actionParams, int points)
         {
             this.playedCardIds = playedCardIds;
             this.playedCardUniqueIds = playedCardUniqueIds;
             this.positions = positions;
             this.actionParams = actionParams;
+            this.points = points;
         }
     }
 

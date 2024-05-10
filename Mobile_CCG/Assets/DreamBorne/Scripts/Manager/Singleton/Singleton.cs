@@ -21,6 +21,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour, new(
                         // manager = Resources.Load("Manager") as GameObject;
                         // Instantiate(manager);
                         // instance = manager.AddComponent<T>();
+                        // ReSharper disable once Unity.IncorrectMonoBehaviourInstantiation
                         instance = new T();
                     }
                 }
