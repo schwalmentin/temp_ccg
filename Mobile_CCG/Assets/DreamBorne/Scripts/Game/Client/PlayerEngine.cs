@@ -30,8 +30,6 @@ public class PlayerEngine : MonoBehaviour
 
             this.actions = new Dictionary<string, Action<string>>
             {
-                { "DrawCard", this.DrawCard },
-                { "PlayCard", this.PlayCard },
                 { "TestAction", this.TestAction }
             };
 
@@ -40,6 +38,14 @@ public class PlayerEngine : MonoBehaviour
             EventManager.Instance.s_syncOpponent += this.SyncOpponent;
             EventManager.Instance.s_endTurn += this.EndTurn;
             EventManager.Instance.s_endGame += this.EndGame;
+        }
+        
+        private void Start()
+        {
+            // Join Match
+            JoinMatchParams joinMatchParams = new JoinMatchParams(this.playerData.Deck, this.playerData.PlayerName);
+            string jsonParams = JsonUtility.ToJson(joinMatchParams);
+            EventManager.Instance.JoinMatchServerRpc(jsonParams);
         }
 
         private void OnDestroy()
@@ -55,35 +61,10 @@ public class PlayerEngine : MonoBehaviour
 
     #region Action Methods
 
-        private void DrawCard(string jsonParams)
-        {
-            try
-            {
-                DrawCardParams drawCardParams = JsonUtility.FromJson<DrawCardParams>(jsonParams);
-                this.DrawCard(drawCardParams);
-            }
-            catch (JsonException e)
-            {
-                Debug.LogException(e);
-            }
-        }
-
-        private void PlayCard(string jsonParams)
-        {
-            try
-            {
-                PlayCardParams playCardParams = JsonUtility.FromJson<PlayCardParams>(jsonParams);
-                this.PlayCard(playCardParams);
-            }
-            catch (JsonException e)
-            {
-                Debug.LogException(e);
-            }
-        }
-
         private void TestAction(string jsonParams)
         {
-            print("Test Action was invoked");
+            TestActionParams testActionParams = JsonUtility.FromJson<TestActionParams>(jsonParams);
+            Debug.Log(testActionParams.testMessage);
         }
 
     #endregion

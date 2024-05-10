@@ -86,6 +86,12 @@ public class ValidationEngine
                 cards.AddRange(this.serverDataProxy[playerId].Hand.Where(x => x.UniqueId == cardUniqueId));
             }
             
+            // Check if the player can pass the turn
+            if (this.serverDataProxy[playerId].PlayerPhase != PlayerPhase.Deploy) return;
+            
+            // Check if every played card has a position
+            if (passTurnParams.positions.Length != passTurnParams.playedCardUniqueIds.Length) return;
+            
             // Check if the cards exist in hand
             if (cards.Count != passTurnParams.playedCardUniqueIds.Length) return;
 

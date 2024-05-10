@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 #region Action Params
 
@@ -26,6 +25,17 @@ using UnityEngine.Serialization;
         {
             this.uniqueId = uniqueId;
             this.position = position;
+        }
+    }
+
+    [System.Serializable]
+    public struct TestActionParams
+    {
+        public string testMessage;
+
+        public TestActionParams(string testMessage)
+        {
+            this.testMessage = testMessage;
         }
     }
 

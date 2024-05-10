@@ -4,6 +4,7 @@ public class ServerDataProxy
 {
     private ServerData serverData;
     public int Mana => this.serverData.Mana;
+    public PlayerPhase PlayerPhase => this.serverData.PlayerPhase;
     
     // rework maybe
     public IEnumerable<Card> Hand => this.serverData.Hand;

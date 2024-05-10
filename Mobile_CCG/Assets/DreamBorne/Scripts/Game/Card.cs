@@ -34,6 +34,7 @@ public class Card : MonoBehaviour
             get { return this.cardState; }
             set { this.cardState = value; }
         }
+        public string ActionParams { get; set; }
 
     #endregion
 

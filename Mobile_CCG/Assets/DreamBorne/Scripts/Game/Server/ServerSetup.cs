@@ -11,6 +11,7 @@ public class ServerSetup : MonoBehaviour
 
         [Header("Server Engine")]
         [SerializeField] private int startingHandAmount;
+        [SerializeField] private int maxTurnAmount;
         private ServerEngine serverEngine;
 
     #endregion
@@ -19,7 +20,7 @@ public class ServerSetup : MonoBehaviour
 
         private void Awake()
         {
-            this.serverEngine = new ServerEngine(this.startingHandAmount);
+            this.serverEngine = new ServerEngine(this.startingHandAmount, this.maxTurnAmount);
             this.validationEngine = new ValidationEngine(this.serverEngine, this.deckSize);
         }
 

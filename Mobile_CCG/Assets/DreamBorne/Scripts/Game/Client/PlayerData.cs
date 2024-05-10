@@ -71,6 +71,17 @@ public class PlayerData : MonoBehaviour
         }
         private int opponentPoints;
         
+        public string PlayerName
+        {
+            get => this.playerName;
+            set
+            {
+                this.playerName = value;
+                this.playerNameGui.text = this.playerName;
+            }
+        }
+        private string playerName;
+        
         public string OpponentName
         {
             get => this.opponentName;
@@ -116,17 +127,10 @@ public class PlayerData : MonoBehaviour
             
             // UI
             this.UndoButton.interactable = false;
+            this.PlayerName = PlaytestManager.Instance.GetRandomName();
         }
 
-        private void Start()
-        {
-            // Join Match
-            JoinMatchParams joinMatchParams = new JoinMatchParams(this.Deck, PlaytestManager.Instance.GetRandomName());
-            string jsonParams = JsonUtility.ToJson(joinMatchParams);
-            EventManager.Instance.JoinMatchServerRpc(jsonParams);
-        }
-
-        #endregion
+    #endregion
 
     #region PlayerData Methods
 
