@@ -81,6 +81,16 @@ public static class Logger
             .Size(14));
     }
 
+    public static void LogEndGame(bool won)
+    {
+        if (!isLogging) return;
+        
+        Debug.Log($"You {(won ? "WON" : "LOST")} the game!"
+            .Bold()
+            .Color(won ? warningColor : errorColor)
+            .Size(24));
+    }
+
     public static void LogDefault(string message)
     {
         if (!isLogging) return;

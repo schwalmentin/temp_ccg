@@ -73,7 +73,7 @@ public class TestingManager : MonoBehaviour
         this.staticActions.Add("test1", this.StaticTest1);
         this.staticActions.Add("test2", this.StaticTest2);
 
-        this.TestJsonConverter();
+        // this.TestJsonConverter();
     }
     
     private void Update()
@@ -81,14 +81,19 @@ public class TestingManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             // this.pressed = true;
+            /*
             try
             {
                 Card card = DatabaseManager.Instance.GetCardById(1, 69);
+                print(card.name);
             }
             catch(KeyNotFoundException e)
             {
                 Debug.LogException(e);
             }
+            */
+            
+            print(LobbyManager.Instance.name);
         }
 
         if (Input.GetKeyDown(KeyCode.D))

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using Mono.Data.Sqlite;
 using UnityEngine;
@@ -9,7 +8,7 @@ public class DatabaseManager : Singleton<DatabaseManager>
     #region Variables
 
         [Header("Database")]
-        [SerializeField] private string dbName;
+        [SerializeField] private string dbName = "DataBase";
         [SerializeField] private Card cardPrefab;
 
     #endregion

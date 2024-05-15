@@ -1,10 +1,7 @@
-using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour, new()
 {
-    // private static GameObject manager;
     private static T instance = null;
     private static readonly object padlock = new object();
 
@@ -16,14 +13,17 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour, new(
             {
                 lock (padlock)
                 {
+                    /*
                     if (instance == null)
                     {
-                        // manager = Resources.Load("Manager") as GameObject;
-                        // Instantiate(manager);
-                        // instance = manager.AddComponent<T>();
-                        // ReSharper disable once Unity.IncorrectMonoBehaviourInstantiation
-                        instance = new T();
+                        GameObject manager = new GameObject
+                        {
+                            name = typeof(T).Name
+                        };
+                        Instantiate(manager);
+                        instance = manager.AddComponent<T>();
                     }
+                    */
                 }
             }
 
@@ -39,14 +39,13 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour, new(
             return;
         }
 
-        // manager = Resources.Load("Manager") as GameObject;
         DontDestroyOnLoad(this.gameObject);
         instance = this as T;
     }
 
     protected virtual void OnApplicationQuit()
     {
-        instance = null;
         Destroy(this.gameObject);
+        instance = null;
     }
 }

@@ -291,13 +291,7 @@ public class PlayerEngine : MonoBehaviour
         {
             EndGameParams endGameParams = JsonUtility.FromJson<EndGameParams>(jsonParams);
 
-            if (endGameParams.won)
-            {
-                Logger.LogWarning( "You WON the game!");
-                return;
-            }
-            
-            Logger.LogError("You LOST the game!");
+            Logger.LogEndGame(endGameParams.won);
         }
 
     #endregion

@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using UnityEngine;
 
 public abstract class NetworkSingleton<T> : NetworkBehaviour where T : NetworkBehaviour, new()
 {
@@ -15,8 +16,16 @@ public abstract class NetworkSingleton<T> : NetworkBehaviour where T : NetworkBe
                 {
                     if (instance == null)
                     {
-                        // ReSharper disable once Unity.IncorrectMonoBehaviourInstantiation
-                        instance = new T();
+                        /*
+                        GameObject manager = new GameObject
+                        {
+                            name = typeof(T).Name
+                        };
+                        Instantiate(manager);
+                        manager.AddComponent(typeof(NetworkObject));
+                        instance = manager.AddComponent<T>();
+                        */
+                        return new T();
                     }
                 }
             }
