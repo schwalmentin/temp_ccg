@@ -169,10 +169,6 @@ public class ServerEngine
             // End Turn
             foreach (ulong id in this.serverData.Keys)
             {
-                Logger.LogServerInfo("Player: " + this.serverData[id].Name +
-                                     " | Turn: " + this.serverData[id].Turn +
-                                     " | Max Turn: " + this.maxTurnAmount);
-                
                 // End Game if all turns are over
                 if (this.serverData[id].Turn >= this.maxTurnAmount)
                 {
