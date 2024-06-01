@@ -31,7 +31,7 @@ public class EventManager : NetworkSingleton<EventManager>
         [ServerRpc(RequireOwnership = false)]
         public void JoinMatchServerRpc(string jsonParams, ServerRpcParams serverRpcParams = default)
         {
-            global::Logger.LogServerRpc($"Player {serverRpcParams.Receive.SenderClientId} joined the match.");
+            Logger.LogServerRpc($"Player {serverRpcParams.Receive.SenderClientId} joined the match.");
             this.p_joinMatch?.Invoke(jsonParams, serverRpcParams);
         }
 

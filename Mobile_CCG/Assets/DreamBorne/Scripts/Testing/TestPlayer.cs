@@ -10,19 +10,19 @@ public class TestPlayer : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             // Server RPC
-            sServerRPC();
+            this.sServerRPC();
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
             // Client RPC
-            cClientRPC();
+            this.cClientRPC();
         }
 
         if (Input.GetKeyDown(KeyCode.X))
         {
             // Client RPC
-            xServerRPC(" parameters are possible");
+            this.xServerRPC(" parameters are possible");
         }
     }
 

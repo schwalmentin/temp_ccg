@@ -22,6 +22,8 @@ public class PlayerData : MonoBehaviour
         public int[] Deck => this.deckIds;
         public List<Card> Hand { get; private set; }
         public Stack<CardSlot> PlayedCards { get; private set; }
+
+        public PlayerPhase PlayerPhase { get; set; }
         
         // Game Data
         public int Turn
@@ -107,10 +109,23 @@ public class PlayerData : MonoBehaviour
         [SerializeField] private Image[] turnGui;
         [Space]
         [SerializeField] private Button passTurnButton;
+        [SerializeField] private Button undoButton;
+        [Space]
+        [SerializeField] private GameObject cardInformation;
+        [SerializeField] private TextMeshProUGUI infoName;
+        [SerializeField] private TextMeshProUGUI infoPower;
+        [SerializeField] private TextMeshProUGUI infoCost;
+        [SerializeField] private TextMeshProUGUI infoAbility;
+            
+        // Game UI Properties
         public Button PassTurnButton => this.passTurnButton;
         public Button UndoButton => this.undoButton;
-        [SerializeField] private Button undoButton;
-        
+        public GameObject CardInformation => this.cardInformation;
+        public TextMeshProUGUI InfoName => this.infoName;
+        public TextMeshProUGUI InfoPower => this.infoPower;
+        public TextMeshProUGUI InfoCost => this.infoCost;
+        public TextMeshProUGUI InfoAbility => this.infoAbility;
+
     #endregion
 
     #region Unity Methods
@@ -128,6 +143,9 @@ public class PlayerData : MonoBehaviour
             // UI
             this.UndoButton.interactable = false;
             this.PlayerName = PlaytestManager.Instance.GetRandomName();
+            
+            // Initialize player
+            this.PlayerPhase = PlayerPhase.Deploy;
         }
 
     #endregion

@@ -68,7 +68,7 @@ public class PlayerEngine : MonoBehaviour
         private void TestAction(string jsonParams)
         {
             TestActionParams testActionParams = JsonUtility.FromJson<TestActionParams>(jsonParams);
-            global::Logger.LogAction(testActionParams.testMessage);
+            Logger.LogAction(testActionParams.testMessage);
         }
 
     #endregion
@@ -94,6 +94,9 @@ public class PlayerEngine : MonoBehaviour
             
             // Reset played cards
             this.playerData.PlayedCards.Clear();
+            
+            // Update player phase
+            this.playerData.PlayerPhase = PlayerPhase.Synchronize;
             
             // Invoke pass turn event
             EventManager.Instance.PassTurnServerRpc(jsonParams);
@@ -121,6 +124,22 @@ public class PlayerEngine : MonoBehaviour
             
             // Update undo button
             this.playerData.UndoButton.interactable = this.playerData.PlayedCards.Count > 0;
+        }
+
+        /// <summary>
+        /// Displays the information of a given card in the UI;
+        /// </summary>
+        /// <param name="card"></param>
+        public void ShowCardInformation(Card card)
+        {
+            // Set information
+            this.playerData.InfoName.text = card.name;
+            this.playerData.InfoPower.text = card.Power.ToString();
+            this.playerData.InfoCost.text = card.Cost.ToString();
+            this.playerData.InfoAbility.text = card.ActionId;
+            
+            // Enable card information
+            this.playerData.CardInformation.SetActive(true);
         }
         
         /// <summary>
@@ -285,6 +304,9 @@ public class PlayerEngine : MonoBehaviour
             this.playerData.PassTurnButton.interactable = true;
             this.playerData.Mana = endTurnParams.mana;
             this.playerData.Turn = endTurnParams.turn;
+            
+            // Update player state
+            this.playerData.PlayerPhase = PlayerPhase.Deploy;
         }
         
         private void EndGame(string jsonParams)

@@ -9,6 +9,7 @@ public class PlayerDataProxy : MonoBehaviour
         
         // Properties
         public int Mana => this.playerData.Mana;
+        public PlayerPhase PlayerPhase => this.playerData.PlayerPhase;
 
     #endregion
 

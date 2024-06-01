@@ -197,7 +197,7 @@ public class ServerEngine
             StartMatchParams startMatchParams = new StartMatchParams(
                 this.serverData[playerId].Hand.Select(x => x.Id).ToArray(),
                 this.serverData[playerId].Hand.Select(x => x.UniqueId).ToArray(),
-                this.serverData[GetOpponentId(playerId)].Name,
+                this.serverData[this.GetOpponentId(playerId)].Name,
                 this.serverData[playerId].Mana,
                 this.serverData[playerId].Turn);
 

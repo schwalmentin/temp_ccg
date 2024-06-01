@@ -5,7 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6482e687-d718-43c2-a611-8d14765a610f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.Sqlite.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/sqlite3.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources/9c861649-f69f-49a1-859a-d6d6805fa295.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources/9c861649-f69f-49a1-859a-d6d6805fa295.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/InputHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerDataProxy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerDataProxy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerEngine.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerEngine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/EventManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/EventManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/LobbyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/LobbyManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/DebugManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/DebugManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestingManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestingManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,30 +68,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;bachelor-thesis-2-prototype&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;CodeLensConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "bachelor-thesis-2-prototype",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\schwa\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\schwa\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\schwa\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\schwa\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\schwa\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\schwa\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/../../DreamBorne_DevelopmentBuilds\DreamBorne.exe" />
@@ -157,6 +177,7 @@
       <workItem from="1715720578775" duration="2171000" />
       <workItem from="1715789236990" duration="3579000" />
       <workItem from="1715799825367" duration="3555000" />
+      <workItem from="1717204570119" duration="7405000" />
     </task>
     <servers />
   </component>
@@ -185,24 +206,5 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/DatabaseManager.cs</url>
-          <line>30</line>
-          <properties documentPath="C:\Users\schwa\Documents\Mobile_CCG\temp_ccg\Mobile_CCG\Assets\DreamBorne\Scripts\Manager\DatabaseManager.cs" containingFunctionPresentation="Method 'GetCardById'">
-            <startOffsets>
-              <option value="948" />
-            </startOffsets>
-            <endOffsets>
-              <option value="966" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

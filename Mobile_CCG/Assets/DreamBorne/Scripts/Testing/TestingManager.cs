@@ -13,7 +13,7 @@ public class TestingManager : MonoBehaviour
         
         private IEnumerator Timer()
         {
-            while (!pressed)
+            while (!this.pressed)
             {
                 yield return new WaitForSeconds(3);
                 print("Trying: " + this.pressed);

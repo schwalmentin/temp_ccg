@@ -20,6 +20,7 @@ public class InputHandler : MonoBehaviour
         private Card currentCard;
         private Card selectedCard;
         private CardSlot currentCardSlot;
+        private bool displayCardInformation;
         
         // Input
         [Header("Input")]
@@ -71,6 +72,8 @@ public class InputHandler : MonoBehaviour
         /// <returns>Next TouchState</returns>
         private TouchState OnInputDown()
         {
+            if (this.displayCardInformation) return TouchState.NotTouching;
+            
             // Update starting touch position
             this.touchPositionStarted = this.touchPosition;
             
@@ -87,7 +90,7 @@ public class InputHandler : MonoBehaviour
             }
                     
             // Check if an old card is selected
-            if (this.selectedCard == null) return TouchState.NotTouching;
+            if (this.selectedCard == null || this.playerDataProxy.PlayerPhase != PlayerPhase.Deploy) return TouchState.NotTouching;
 
             this.currentCard = this.selectedCard;
             return TouchState.Dragging;
@@ -103,6 +106,11 @@ public class InputHandler : MonoBehaviour
             {
                 // -----> |SHORT PRESS| INVOCATION HAPPENS HERE <-----
                 case TouchState.Pressing:
+                    if (this.playerDataProxy.PlayerPhase != PlayerPhase.Deploy)
+                    {
+                        break;
+                    }
+                    
                     if (this.selectedCard == null)
                     {
                         this.SetSelectedCard(this.currentCard);
@@ -137,6 +145,7 @@ public class InputHandler : MonoBehaviour
             this.currentCardSlot?.ToggleGraphic(false);
             this.currentCardSlot = null;
             this.currentCard = null;
+            this.longPressTimer = 0;
             return TouchState.NotTouching;
         }
 
@@ -156,12 +165,13 @@ public class InputHandler : MonoBehaviour
                 this.longPressTimer = 0;
                 
                 // -----> |LONG PRESS| INVOCATION HAPPENS HERE <-----
-                this.currentCard?.ShowInfo();
+                this.displayCardInformation = true;
+                this.playerEngine.ShowCardInformation(this.currentCard);
                 return;
             }
                 
             // Check for drag and drop
-            if (Vector2.Distance(this.touchPositionStarted, this.touchPosition) > this.maxDragOffset)
+            if (Vector2.Distance(this.touchPositionStarted, this.touchPosition) > this.maxDragOffset && this.playerDataProxy.PlayerPhase == PlayerPhase.Deploy)
             {
                 if (this.currentCard.CardState != CardState.Hand)
                 {
@@ -250,6 +260,8 @@ public class InputHandler : MonoBehaviour
         /// </summary>
         public void PassTurn()
         {
+            this.currentCard = null;
+            this.SetSelectedCard(null);
             this.playerEngine.PassTurn();
         }
 
@@ -259,6 +271,14 @@ public class InputHandler : MonoBehaviour
         public void Undo()
         {
             this.playerEngine.UndoCard();
+        }
+
+        /// <summary>
+        /// Is invoked via UI and enables card interaction by setting displayCardInformation to false.
+        /// </summary>
+        public void CloseCardInformation()
+        {
+            this.displayCardInformation = false;
         }
 
         /// <summary>

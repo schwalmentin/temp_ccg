@@ -80,15 +80,6 @@ public class Card : MonoBehaviour
         }
 
         /// <summary>
-        /// Displays a detailed version of the card including all important information about it.
-        /// (Only prints the card name and its action for now!)
-        /// </summary>
-        public void ShowInfo()
-        {
-            Debug.Log($"{this.cardName}: {this.actionId}");
-        }
-
-        /// <summary>
         /// Toggles the highlight graphic based on the parameter.
         /// </summary>
         /// <param name="isActive"></param>

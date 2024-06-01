@@ -113,7 +113,7 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
             Debug.Log($"Cannot find a lobby: {e}");
 
             // If there is no lobby to join create one
-            CreateMatch();
+            this.CreateMatch();
         }
     }
 
@@ -137,7 +137,7 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
             };
 
             // Retrieve join code
-            hostData.joinCode = await Relay.Instance.GetJoinCodeAsync(allocation.AllocationId);
+            this.hostData.joinCode = await Relay.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
             // Add lobby options
             CreateLobbyOptions options = new CreateLobbyOptions();
@@ -145,25 +145,20 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
             options.Data = new Dictionary<string, DataObject>()
             {
                 {
-                    "joinCode", new DataObject(DataObject.VisibilityOptions.Member, hostData.joinCode)
+                    "joinCode", new DataObject(DataObject.VisibilityOptions.Member, this.hostData.joinCode)
                 },
             };
 
             // Create lobby
             this.lobby = await Lobbies.Instance.CreateLobbyAsync("game_lobby", this.maxPlayers, options);
-            Debug.Log($"Create lobby: {lobby.Id}");
+            Debug.Log($"Create lobby: {this.lobby.Id}");
 
             // Ping lobby
-            this.heartBeatCoroutine = this.HeartbeatLobbyCoroutine(lobby.Id, this.heartbeatInterval);
-            StartCoroutine(this.heartBeatCoroutine);
+            this.heartBeatCoroutine = this.HeartbeatLobbyCoroutine(this.lobby.Id, this.heartbeatInterval);
+            this.StartCoroutine(this.heartBeatCoroutine);
 
             // Set transport data
-            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(
-                hostData.ipV4Address,
-                hostData.port,
-                hostData.allocationIdBytes,
-                hostData.key,
-                hostData.connectionData
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(this.hostData.ipV4Address, this.hostData.port, this.hostData.allocationIdBytes, this.hostData.key, this.hostData.connectionData
             );
 
             // Start host
@@ -192,7 +187,8 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
             await LobbyService.Instance.DeleteLobbyAsync(this.lobby.Id);
             Debug.Log($"Cancel lobby: {this.lobby.Id}");
 
-            if (this.heartBeatCoroutine != null) { StopCoroutine(this.heartBeatCoroutine); }
+            if (this.heartBeatCoroutine != null) {
+                this.StopCoroutine(this.heartBeatCoroutine); }
             this.lobby = null;
             NetworkManager.Singleton.Shutdown();
         }
@@ -233,7 +229,7 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
 
         if (this.IsServer)
         {
-            NetworkManager.OnClientConnectedCallback += OnClientConnectedCallback;
+            this.NetworkManager.OnClientConnectedCallback += this.OnClientConnectedCallback;
             this.playersInLobby.Add(NetworkManager.Singleton.LocalClientId);
         }
     }
