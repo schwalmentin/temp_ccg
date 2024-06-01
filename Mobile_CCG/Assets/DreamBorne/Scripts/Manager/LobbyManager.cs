@@ -179,12 +179,22 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
                 if (this.heartBeatCoroutine != null) {
                     this.StopCoroutine(this.heartBeatCoroutine); }
                 this.lobby = null;
+                this.playersInLobby.Clear();
                 NetworkManager.Singleton.Shutdown();
             }
             catch (LobbyServiceException e)
             {
                 Debug.LogException(e);
             }
+        }
+
+        /// <summary>
+        /// Depending on the host or client, it deletes or leaves the current lobby and switches to the lobby scene.
+        /// </summary>
+        public async void EndMatch()
+        {
+            this.CloseMatch();
+            CustomSceneManager.Instance.SwitchSceneAsync("Lobby", false);
         }
 
         /// <summary>

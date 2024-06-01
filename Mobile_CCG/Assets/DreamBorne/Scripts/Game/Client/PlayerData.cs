@@ -116,6 +116,9 @@ public class PlayerData : MonoBehaviour
         [SerializeField] private TextMeshProUGUI infoPower;
         [SerializeField] private TextMeshProUGUI infoCost;
         [SerializeField] private TextMeshProUGUI infoAbility;
+        [Space]
+        [SerializeField] private GameObject endingScreen;
+        [SerializeField] private TextMeshProUGUI endingMessage;
             
         // Game UI Properties
         public Button PassTurnButton => this.passTurnButton;
@@ -125,6 +128,8 @@ public class PlayerData : MonoBehaviour
         public TextMeshProUGUI InfoPower => this.infoPower;
         public TextMeshProUGUI InfoCost => this.infoCost;
         public TextMeshProUGUI InfoAbility => this.infoAbility;
+        public GameObject EndingScreen => this.endingScreen;
+        public TextMeshProUGUI EndingMessage => this.endingMessage;
 
     #endregion
 

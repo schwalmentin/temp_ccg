@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
@@ -173,7 +172,7 @@ public class PlayerEngine : MonoBehaviour
         }
         
         /// <summary>
-        /// Places a card onto the battlefield and updates associeted properties (mana, ...).
+        /// Places a card onto the battlefield and updates associated properties (mana, ...).
         /// </summary>
         /// <param name="playCardParams"></param>
         public void PlayCard(PlayCardParams playCardParams)
@@ -205,7 +204,7 @@ public class PlayerEngine : MonoBehaviour
         /// Instantiates a new card and adds it to the hand.
         /// </summary>
         /// <param name="drawCardParams"></param>
-        public void DrawCard(DrawCardParams drawCardParams)
+        private void DrawCard(DrawCardParams drawCardParams)
         {
             // Instantiate card
             Card card = DatabaseManager.Instance.GetCardById(drawCardParams.id, drawCardParams.uniqueId);
@@ -249,7 +248,7 @@ public class PlayerEngine : MonoBehaviour
             // Get params
             SyncPlayerParams syncPlayerParams = JsonUtility.FromJson<SyncPlayerParams>(jsonParams);
             
-            // Perform every cards action
+            // Perform every card's action
             for (int i = 0; i < syncPlayerParams.playedCardUniqueIds.Length; i++)
             {
                  Card card = this.playerData.PlayerField.Cast<CardSlot>().ToList()
@@ -311,9 +310,16 @@ public class PlayerEngine : MonoBehaviour
         
         private void EndGame(string jsonParams)
         {
+            // Get params
             EndGameParams endGameParams = JsonUtility.FromJson<EndGameParams>(jsonParams);
 
+            // Log end game
             Logger.LogEndGame(endGameParams.won);
+            
+            // Enable ending screen
+            this.playerData.EndingScreen.SetActive(true);
+            this.playerData.EndingMessage.text = $"You {(endGameParams.won ? "won" : "lost")} the game!";
+            this.playerData.EndingMessage.color = endGameParams.won ? new Color(0.953f, 0.753f, 0.255f) : new Color(1f, 0.333f, 0.286f);
         }
 
     #endregion

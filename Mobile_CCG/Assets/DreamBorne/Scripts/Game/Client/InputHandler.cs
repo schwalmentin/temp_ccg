@@ -282,6 +282,14 @@ public class InputHandler : MonoBehaviour
         }
 
         /// <summary>
+        /// Leaves/deletes the lobby and switches back to lobby scene.
+        /// </summary>
+        public void EndMatch()
+        {
+            LobbyManager.Instance.EndMatch();
+        }
+
+        /// <summary>
         /// Is invoked via the new input system, when a touch down/up action is performed.
         /// </summary>
         /// <param name="context"></param>
