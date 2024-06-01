@@ -26,7 +26,7 @@ public class AuthenticationManager : Singleton<AuthenticationManager>
         base.Awake();
 
         this.LoginAnonymously();
-        CustomSceneManager.Instance.SwitchSceneAsync("Lobby");
+        CustomSceneManager.Instance.SwitchSceneAsync("Lobby", false);
     }
 
     #endregion
