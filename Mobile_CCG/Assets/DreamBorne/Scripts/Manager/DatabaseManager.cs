@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlTypes;
+using System.IO;
+using System.Threading.Tasks;
 using Mono.Data.Sqlite;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class DatabaseManager : Singleton<DatabaseManager>
 {
@@ -10,10 +14,23 @@ public class DatabaseManager : Singleton<DatabaseManager>
         [Header("Database")]
         [SerializeField] private string dbName = "DataBase";
         [SerializeField] private Card cardPrefab;
+        private string dbPath;
 
     #endregion
 
-    #region DatabaseManager Methods
+    #region Unity Methods
+
+        protected override async void Awake()
+        {
+            base.Awake();
+
+            this.dbPath = this.GetDbPath(this.dbName);
+            await this.CopyDbFromStreamingAssets(this.dbName, this.dbPath);
+        }
+
+    #endregion
+
+    #region DataBase Public Methods
 
         /// <summary>
         /// Gets the card properties from the DB and instantiates a new card object.
@@ -24,8 +41,8 @@ public class DatabaseManager : Singleton<DatabaseManager>
         /// <exception cref="KeyNotFoundException"></exception>
         public Card GetCardById(int cardId, int uniqueId)
         {
-            SqliteConnection connection = new SqliteConnection(this.GetDatabasePath(this.dbName));
-            
+            SqliteConnection connection = new SqliteConnection($"URI=file:{this.dbPath}");
+                
             try
             {
                 connection.Open();
@@ -34,15 +51,15 @@ public class DatabaseManager : Singleton<DatabaseManager>
                 command.CommandText = $"SELECT * FROM cards WHERE id = {cardId}";
 
                 IDataReader reader = command.ExecuteReader();
-                
+                    
                 while (reader.Read())
                 {
                     Card card = Instantiate(this.cardPrefab);
-                    
+                        
                     string actionId;
                     try { actionId = reader.GetString(4) == null ? "" : reader.GetString(4); }
                     catch { actionId = ""; }
-                    
+                        
                     card.Initialize(
                         reader.GetInt32(0),
                         uniqueId,
@@ -61,23 +78,64 @@ public class DatabaseManager : Singleton<DatabaseManager>
                 connection.Close();
             }
 
-            throw new KeyNotFoundException($"The card with the requested id {cardId} does not exist!");
+            throw new SqlNullValueException($"The card with the requested id {cardId} does not exist!");
         }
+
+    #endregion
+
+    #region DatabaseManager Methods
         
         /// <summary>
         /// Returns the DB path of the current system.
+        /// Supports Unity, Windows and Android.
         /// </summary>
         /// <param name="dbName"></param>
-        /// <returns>DB path.</returns>
-        private string GetDatabasePath(string dbName)
+        /// <returns>dbPath</returns>
+        private string GetDbPath(string dbName)
         {
-            #if UNITY_EDITOR
-            return $"URI=file:{Application.dataPath}/Resources/{dbName}.db"; //Path to database
-            #endif
+            return Application.platform switch
+            {
+                // Android
+                RuntimePlatform.Android => $"{Application.persistentDataPath}/{dbName}.db",
+                
+                // IOS
+                RuntimePlatform.IPhonePlayer => $"...",
+                
+                // Unity Editor, Windows
+                _ => $"{Application.streamingAssetsPath}/{dbName}.db"
+            };
+        }
 
-            #pragma warning disable CS0162 // Unreachable code detected
-            return "URI=file:" + Application.persistentDataPath + "/" + dbName + ".db"; //Path to database.
-            #pragma warning restore CS0162 // Unreachable code detected
+        /// <summary>
+        /// Copies the database file from the streaming asset folder to a persistent data path, in case of Android or IOS
+        /// </summary>
+        /// <param name="dbName"></param>
+        /// <param name="targetPath"></param>
+        private async Task CopyDbFromStreamingAssets(string dbName, string targetPath)
+        {
+            // Return if the platform is not mobile
+            if (Application.platform != RuntimePlatform.Android && Application.platform != RuntimePlatform.IPhonePlayer) return;
+            
+            // Define source path from streaming assets
+            string sourcePath = $"{Application.streamingAssetsPath}/{dbName}.db";
+
+            // Download database from source path
+            using UnityWebRequest www = UnityWebRequest.Get(sourcePath);
+            UnityWebRequestAsyncOperation operation = www.SendWebRequest();
+            while (!operation.isDone)
+            {
+                await Task.Yield();
+            }
+            
+            // Check if download was successful
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Failed to load database: " + www.error);
+                return;
+            }
+
+            // Save the database to target path
+            await File.WriteAllBytesAsync(targetPath, www.downloadHandler.data);
         }
 
     #endregion

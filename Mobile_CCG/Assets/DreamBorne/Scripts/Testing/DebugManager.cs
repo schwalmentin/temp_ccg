@@ -24,11 +24,12 @@ public class DebugManager : MonoBehaviour
     public void Log(string logString, string stackTrace, LogType type)
     {
         // for onscreen...
-        this.myLog = this.myLog + " " + logString;
+        this.myLog = this.myLog + " " + logString + "\n \n";
         if (this.myLog.Length > this.kChars) {
             this.myLog = this.myLog.Substring(this.myLog.Length - this.kChars); }
 
         // for the file ...
+        /*
         if (this.filename == "")
         {
             string d = System.Environment.GetFolderPath(
@@ -39,15 +40,17 @@ public class DebugManager : MonoBehaviour
         }
         try
         {
-            System.IO.File.AppendAllText(this.filename, logString + " "); }
+            System.IO.File.AppendAllText(this.filename, logString + " "); 
+        }
         catch { }
+        */
     }
 
     void OnGUI()
     {
         if (!this.doShow) { return; }
         GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity,
-           new Vector3(Screen.width / 1200.0f, Screen.height / 800.0f, 1.0f));
+           new Vector3(0.4f, 0.5f, 1.0f));
         GUI.TextArea(new Rect(10, 10, 540, 370), this.myLog);
     }
 }

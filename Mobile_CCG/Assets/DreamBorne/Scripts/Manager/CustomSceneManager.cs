@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
@@ -6,12 +7,13 @@ public class CustomSceneManager : Singleton<CustomSceneManager>
     #region Scene Manager Methods
 
         /// <summary>
-        /// Switch the current scene asyncronous based on the parameter sceneName.
+        /// Either switch to (additive = false) or add (additive = true) a scene asynchronously based on the parameter sceneName.
         /// </summary>
         /// <param name="sceneName"></param>
-        public void SwitchSceneAsync(string sceneName, bool additive)
+        public Task SwitchSceneAsync(string sceneName, bool additive)
         {
             SceneManager.LoadSceneAsync(sceneName, additive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -24,7 +26,7 @@ public class CustomSceneManager : Singleton<CustomSceneManager>
         }
 
         /// <summary>
-        /// Switch the current scene asyncronous based on the parameter sceneName during a host session.
+        /// Switch the current scene asynchronous based on the parameter sceneName during a host session.
         /// </summary>
         /// <param name="sceneName"></param>
         public void SwitchNetworkScene(string sceneName)

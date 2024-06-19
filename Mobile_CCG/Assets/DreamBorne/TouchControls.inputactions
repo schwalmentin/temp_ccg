@@ -38,9 +38,31 @@
                 },
                 {
                     "name": "",
+                    "id": "b1700931-5371-404c-95a6-0d89e65e7f47",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d0f367a1-9d3b-4033-9e37-2cb7b96a296a",
                     "path": "<Touchscreen>/Press",
-                    "interactions": "Press(behavior=1)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ec34fa3-7410-4370-a502-66077a988418",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "TouchInput",

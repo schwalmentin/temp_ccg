@@ -194,7 +194,7 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
         public async void EndMatch()
         {
             this.CloseMatch();
-            CustomSceneManager.Instance.SwitchSceneAsync("Lobby", false);
+            await CustomSceneManager.Instance.SwitchSceneAsync("Lobby", false);
         }
 
         /// <summary>
@@ -251,7 +251,8 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
 
                 // Switch to the game scene for all players
                 // CustomSceneManager.Instance.SwitchNetworkScene("GameScene");
-                CustomSceneManager.Instance.SwitchScene("game_Server");
+                // CustomSceneManager.Instance.SwitchScene("game_Server");
+                this.LoadServerSceneClientRpc();
                 this.LoadClientSceneClientRpc();
             }
         }
@@ -261,6 +262,12 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
     [ClientRpc]
     private void LoadClientSceneClientRpc()
     {
-        CustomSceneManager.Instance.SwitchSceneAsync("game_Client", this.IsServer);
+        CustomSceneManager.Instance.SwitchSceneAsync("game_Client", true);
+    }
+    
+    [ClientRpc]
+    private void LoadServerSceneClientRpc()
+    {
+        CustomSceneManager.Instance.SwitchSceneAsync("game_Server", false);
     }
 }
