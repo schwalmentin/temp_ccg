@@ -97,11 +97,13 @@ public class ServerEngine
         /// <param name="card"></param>
         private void TestAction(ulong playerId, Card card)
         {
+            // Execute action
+            Logger.LogAction($"This is a TestAction processed by the Server by {this.serverData[playerId].Name}");
+
+            // Prepare action parameters for client
             TestActionParams testActionParams = new TestActionParams($"This is a TestAction message invoked by {this.serverData[playerId].Name}!");
             string jsonParams = JsonUtility.ToJson(testActionParams);
             card.ActionParams = jsonParams;
-            
-            Logger.LogAction($"This is a TestAction processed by the Server by {this.serverData[playerId].Name}");
         }
 
     #endregion

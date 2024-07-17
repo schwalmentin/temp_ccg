@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class LobbyOrchestra : MonoBehaviour
@@ -10,11 +11,12 @@ public class LobbyOrchestra : MonoBehaviour
         LobbyManager.Instance.JoinMatch();
     }
 
-    /// <summary>
-    /// Provides the method to close a match with the lobby manager to unity editor event.
-    /// </summary>
-    public void CancelGame()
+    public void QuitGame()
     {
-        LobbyManager.Instance.CloseMatch();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        
+        Application.Quit();
     }
 }

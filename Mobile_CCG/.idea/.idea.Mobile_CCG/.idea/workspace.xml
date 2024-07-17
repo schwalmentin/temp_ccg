@@ -5,53 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6482e687-d718-43c2-a611-8d14765a610f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Manager/DatabaseManager.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Manager/DatabaseManager.prefab.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Android.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Android/libsqlite3.so" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Android/libsqlite3.so.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.SqliteClient.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.SqliteClient.dll.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Configuration.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Configuration.dll.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Data.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Data.dll.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.EnterpriseServices.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.EnterpriseServices.dll.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Security.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Security.dll.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/Mono.Data.Sqlite.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/Mono.Data.Sqlite.dll.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/Mono.Data.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/Mono.Data.dll.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/sqlite3.def" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/sqlite3.def.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/sqlite3.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/sqlite3.dll.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/StreamingAssets.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/StreamingAssets/DataBase.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/StreamingAssets/DataBase.db.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Animation/LoadingField.controller" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Animation/LoadingField.controller.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Animation/anim_Loading.anim" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Animation/anim_Loading.anim.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Authenticate.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Authenticate.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Lobby.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/AuthenticationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/AuthenticationManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/CustomSceneManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/CustomSceneManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/DatabaseManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/DatabaseManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/LobbyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/LobbyManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/DebugManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/DebugManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/TouchControls.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/TouchControls.inputactions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.Sqlite.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.Sqlite.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.Sqlite.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.Sqlite.dll.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.dll.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/sqlite3.def" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/sqlite3.def.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/sqlite3.dll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/sqlite3.dll.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/DataBase.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/DataBase.db.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerEngine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Lobby/LobbyOrchestra.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Lobby/LobbyOrchestra.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +23,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/Desktop/Test.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/PlayerPhase.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/TouchState.cs" root0="FORCE_HIGHLIGHTING" />
@@ -211,6 +173,9 @@
       <workItem from="1718375071087" duration="8166000" />
       <workItem from="1718747122423" duration="2000" />
       <workItem from="1718747155952" duration="5041000" />
+      <workItem from="1718755841625" duration="56000" />
+      <workItem from="1719601972656" duration="6049000" />
+      <workItem from="1721234394401" duration="1110000" />
     </task>
     <servers />
   </component>
