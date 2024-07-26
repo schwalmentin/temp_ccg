@@ -33,12 +33,11 @@ public class DatabaseManager : Singleton<DatabaseManager>
     #region DataBase Public Methods
 
         /// <summary>
-        /// Gets the card properties from the DB and instantiates a new card object.
+        /// Fetches the card properties from the DB and instantiates a new card object.
         /// </summary>
         /// <param name="cardId"></param>
         /// <param name="uniqueId"></param>
         /// <returns>Returns an instantiated card object.</returns>
-        /// <exception cref="KeyNotFoundException"></exception>
         public Card GetCardById(int cardId, int uniqueId)
         {
             SqliteConnection connection = new SqliteConnection($"URI=file:{this.dbPath}");
@@ -48,24 +47,27 @@ public class DatabaseManager : Singleton<DatabaseManager>
                 connection.Open();
 
                 SqliteCommand command = connection.CreateCommand();
-                command.CommandText = $"SELECT * FROM cards WHERE id = {cardId}";
+                command.CommandText = $"SELECT * FROM card WHERE id = {cardId}";
 
                 IDataReader reader = command.ExecuteReader();
                     
                 while (reader.Read())
                 {
                     Card card = Instantiate(this.cardPrefab);
+                    
+                    string description;
+                    try { description = reader.GetString(4); } catch { description = ""; }
                         
                     string actionId;
-                    try { actionId = reader.GetString(4) == null ? "" : reader.GetString(4); }
-                    catch { actionId = ""; }
-                        
+                    try { actionId = reader.GetString(5); } catch { actionId = ""; }
+
                     card.Initialize(
                         reader.GetInt32(0),
                         uniqueId,
                         reader.GetString(1),
                         reader.GetInt32(2),
                         reader.GetInt32(3),
+                        description,
                         actionId);
 
                     connection.Close();
@@ -78,7 +80,8 @@ public class DatabaseManager : Singleton<DatabaseManager>
                 connection.Close();
             }
 
-            throw new SqlNullValueException($"The card with the requested id {cardId} does not exist!");
+            Logger.LogError($"The card with the requested id {cardId} does not exist!");
+            return null;
         }
 
     #endregion

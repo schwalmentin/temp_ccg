@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Reflection;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TestingManager : MonoBehaviour
 {
@@ -44,6 +43,8 @@ public class TestingManager : MonoBehaviour
         {
             
         }
+
+        private readonly Dictionary<string, IActionClient> actions = new Dictionary<string, IActionClient>();
 
     #endregion
 
@@ -93,12 +94,12 @@ public class TestingManager : MonoBehaviour
             }
             */
             
-            print(LobbyManager.Instance.name);
+            this.InvokeAction("TestAction");
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            this.staticActions["test1"].Invoke("test");
+            this.InvokeAction("Tetionasdf");
         }
         
         if (Input.GetKeyDown(KeyCode.F))
@@ -111,14 +112,29 @@ public class TestingManager : MonoBehaviour
             this.dynamicActions["test1"].DynamicInvoke(1, 2, 3);
         }
     }
-    
 
-    [SerializeField] private GameObject player;
-    
-    private void TestClass()
+    private void DbTest()
     {
-        Vector3 velocity = new Vector3(5 * Time.deltaTime, 0, 0);
-        this.player.transform.position = velocity;
+        Card card = DatabaseManager.Instance.GetCardById(7, 69);
+        print(card.name);
+        print(card.Description);
     }
-    
+
+    private void InvokeAction(string actionId)
+    {
+        if (!this.actions.ContainsKey(actionId))
+        {
+            IActionClient action = (IActionClient) Assembly.GetExecutingAssembly().CreateInstance(actionId + "Client");
+            
+            if (action == null)
+            {
+                Logger.LogError($"Action with the name {actionId}Client does not exist!");
+                return;
+            }
+            
+            this.actions.Add("TestAction", action);
+        }
+        
+        this.actions[actionId].Execute(null, JsonUtility.ToJson(new TestActionParams("wtf is a kilometer! RAAAAHHHH")));
+    }
 }

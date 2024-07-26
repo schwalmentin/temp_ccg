@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class PlayerEngine : MonoBehaviour
@@ -11,7 +12,7 @@ public class PlayerEngine : MonoBehaviour
         private PlayerData playerData;
         
         // Actions
-        private Dictionary<string, Action<string>> actions;
+        private Dictionary<string, IActionClient> actions;
         
         // Handcards Rendering
         [Header("Handcard Rendering")]
@@ -27,10 +28,7 @@ public class PlayerEngine : MonoBehaviour
         {
             this.playerData = FindObjectOfType<PlayerData>();
 
-            this.actions = new Dictionary<string, Action<string>>
-            {
-                { "TestAction", this.TestAction }
-            };
+            this.actions = new Dictionary<string, IActionClient>();
 
             EventManager.Instance.s_startMatch += this.StartMatch;
             EventManager.Instance.s_syncPlayer += this.SyncPlayer;
@@ -61,13 +59,26 @@ public class PlayerEngine : MonoBehaviour
     #region Action Methods
 
         /// <summary>
-        /// Receives a debug message from the server and prints it.
+        /// Invokes an action based on its corresponding id.
         /// </summary>
+        /// <param name="actionId"></param>
         /// <param name="jsonParams"></param>
-        private void TestAction(string jsonParams)
+        private void InvokeAction(string actionId, string jsonParams)
         {
-            TestActionParams testActionParams = JsonUtility.FromJson<TestActionParams>(jsonParams);
-            Logger.LogAction(testActionParams.testMessage);
+            if (!this.actions.ContainsKey(actionId))
+            {
+                IActionClient action = (IActionClient) Assembly.GetExecutingAssembly().CreateInstance(actionId + "Client");
+            
+                if (action == null)
+                {
+                    Logger.LogError($"Action with the name {actionId}Client does not exist!");
+                    return;
+                }
+            
+                this.actions.Add("TestAction", action);
+            }
+        
+            this.actions[actionId].Execute(this, jsonParams);
         }
 
     #endregion
@@ -135,7 +146,7 @@ public class PlayerEngine : MonoBehaviour
             this.playerData.InfoName.text = card.name;
             this.playerData.InfoPower.text = card.Power.ToString();
             this.playerData.InfoCost.text = card.Cost.ToString();
-            this.playerData.InfoAbility.text = card.ActionId;
+            this.playerData.InfoAbility.text = card.Description;
             
             // Enable card information
             this.playerData.CardInformation.SetActive(true);
@@ -257,7 +268,7 @@ public class PlayerEngine : MonoBehaviour
                 if (card == null) continue;
                 if (card.ActionId == "") continue;
                 
-                this.actions[card.ActionId].Invoke(syncPlayerParams.actionParams[i]);
+                this.InvokeAction(card.ActionId, syncPlayerParams.actionParams[i]);
             }
             
             // Update Points
@@ -283,8 +294,8 @@ public class PlayerEngine : MonoBehaviour
                 card.transform.position = cardSlot.transform.position;
                 
                 // Perform action
-                if (card.ActionId == "") continue;
-                this.actions[card.ActionId].Invoke(syncOpponentParams.actionParams[i]);
+                if (card.ActionId == "" || syncOpponentParams.actionParams[i] == "NaN") continue;
+                this.InvokeAction(card.ActionId, syncOpponentParams.actionParams[i]);    
             }
             
             // Update Points

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class LobbyOrchestra : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     /// <summary>
     /// Provides the method to join a match with the lobby manager to unity editor event.

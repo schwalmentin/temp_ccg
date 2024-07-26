@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class ServerEngine
@@ -9,7 +10,7 @@ public class ServerEngine
 
         // Mappings
         private readonly Dictionary<ulong, ServerData> serverData;
-        private readonly Dictionary<string, Action<ulong, Card>> actions;
+        private readonly Dictionary<string, IActionServer> actions;
         
         // Properties
         private int uniqueIdCounter;
@@ -27,10 +28,7 @@ public class ServerEngine
             this.cardHolders = cardHolders;
             
             // Actions
-            this.actions = new Dictionary<string, Action<ulong, Card>>
-            {
-                { "TestAction", this.TestAction }
-            };
+            this.actions = new Dictionary<string, IActionServer>();
         }
 
         public void OnDestroy()
@@ -91,19 +89,27 @@ public class ServerEngine
     #region Action Methods
 
         /// <summary>
-        /// Creates a debug message and saves it into the params of the card.
+        /// Invokes an action based on its corresponding id.
         /// </summary>
-        /// <param name="playerId"></param>
+        /// <param name="actionId"></param>
+        /// <param name="serverData"></param>
         /// <param name="card"></param>
-        private void TestAction(ulong playerId, Card card)
+        private void InvokeAction(string actionId, ServerData serverData, Card card)
         {
-            // Execute action
-            Logger.LogAction($"This is a TestAction processed by the Server by {this.serverData[playerId].Name}");
-
-            // Prepare action parameters for client
-            TestActionParams testActionParams = new TestActionParams($"This is a TestAction message invoked by {this.serverData[playerId].Name}!");
-            string jsonParams = JsonUtility.ToJson(testActionParams);
-            card.ActionParams = jsonParams;
+            if (!this.actions.ContainsKey(actionId))
+            {
+                IActionServer action = (IActionServer) Assembly.GetExecutingAssembly().CreateInstance(actionId + "Server");
+                
+                if (action == null)
+                {
+                    Logger.LogError($"Action with the name {actionId}Server does not exist!");
+                    return;
+                }
+                
+                this.actions.Add("TestAction", action);
+            }
+            
+            this.actions[actionId].Execute(this, serverData, card);
         }
 
     #endregion
@@ -150,7 +156,7 @@ public class ServerEngine
                 
                 // Perform action
                 if (card.ActionId == "") continue;
-                this.actions[card.ActionId].Invoke(playerId, card);
+                this.InvokeAction(card.ActionId, this.serverData[playerId], card);
             }
 
             // Check if both players passed the turn
@@ -232,6 +238,17 @@ public class ServerEngine
         private void SyncOpponent(ulong playerId)
         {
             ulong opponentId = this.GetOpponentId(playerId);
+
+            // Filter action params
+            foreach (Card card in this.serverData[opponentId].PlayedCards.Values)
+            {
+                if (!card.PerformOpponent)
+                {
+                    card.ActionParams = "NaN";
+                }
+            }
+            
+            // Create params
             SyncOpponentParams syncOpponentParams = new SyncOpponentParams(
                 this.serverData[opponentId].PlayedCards.Values.Select(x => x.Id).ToArray(),
                 this.serverData[opponentId].PlayedCards.Values.Select(x => x.UniqueId).ToArray(),

@@ -28,17 +28,6 @@ using UnityEngine;
         }
     }
 
-    [System.Serializable]
-    public struct TestActionParams
-    {
-        public string testMessage;
-
-        public TestActionParams(string testMessage)
-        {
-            this.testMessage = testMessage;
-        }
-    }
-
 #endregion
 
 #region Rpc Params

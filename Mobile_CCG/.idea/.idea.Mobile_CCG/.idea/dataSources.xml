@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Cards_Database" uuid="9c861649-f69f-49a1-859a-d6d6805fa295">
+    <data-source source="LOCAL" name="DataBase.db" uuid="8274b1fc-5069-4bd8-bbac-6875d3724556">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\schwa\Documents\Mobile_CCG\temp_ccg\Mobile_CCG\Assets\Resources\DataBase.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Assets/StreamingAssets/DataBase.db</jdbc-url>
+      <jdbc-additional-properties>
+        <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
+      </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

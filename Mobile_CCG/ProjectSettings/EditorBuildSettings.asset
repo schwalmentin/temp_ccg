@@ -12,10 +12,10 @@ EditorBuildSettings:
     path: Assets/DreamBorne/Scenes/Lobby.unity
     guid: 465c61adbe7ff2147bda105b3cb7ca84
   - enabled: 0
-    path: Assets/DreamBorne/Scripts/Testing/Test.unity
+    path: Assets/DreamBorne/Testing/Scenes/Test.unity
     guid: 226433bd288a07149bb4932cd678c01e
   - enabled: 0
-    path: Assets/DreamBorne/Scripts/Testing/GameScene.unity
+    path: Assets/DreamBorne/Testing/Scenes/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/DreamBorne/Scenes/game_Client.unity
