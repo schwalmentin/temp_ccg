@@ -6,7 +6,19 @@ using Random = System.Random;
 
 public class ServerData
 {
-    public Stack<int> Library { get; private set; }
+    private Stack<int> library;
+    public Stack<int> Library
+    {
+        get
+        {
+            if (this.library.Count != 0) return this.library;
+            Random rnd = new Random();
+            this.library = new Stack<int>(this.DeckList.OrderBy(x => rnd.Next()));
+            return this.library;
+        }
+    }
+
+    private List<int> DeckList { get; }
     public string Name { get; private set; }
     public List<Card> Hand { get; private set; }
     public Dictionary<Vector2Int, Card> PlayedCards { get; private set; }
@@ -22,9 +34,9 @@ public class ServerData
     
     public ServerData(string name, ulong playerId, int[] deckIds, GameObject cardHolder)
     {
+        this.DeckList = deckIds.ToList();
         Random rnd = new Random();
-        List<int> deckList = deckIds.ToList();
-        this.Library = new Stack<int>(deckList.OrderBy(x => rnd.Next()));
+        this.library = new Stack<int>(this.DeckList.OrderBy(x => rnd.Next()));
         this.CardHolder = cardHolder;
         
         this.Name = name;

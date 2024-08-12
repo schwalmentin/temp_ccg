@@ -5,128 +5,94 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6482e687-d718-43c2-a611-8d14765a610f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/TouchControls.inputactions" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/TouchControls.inputactions.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/TestActionClient.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/TestActionClient.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/IAction.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/IAction.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/TestActionServer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/TestActionServer.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Cards.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Cards/Card.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Cards/Card.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Cards/CardSlot.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Cards/CardSlot.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/InputHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/InputHandler.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerDataProxy.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerDataProxy.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerEngine.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerEngine.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerDataProxy.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerDataProxy.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerEngine.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerEngine.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerSetup.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerSetup.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ValidationEngine.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ValidationEngine.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Menu.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Menu/MainMenu.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Menu/MainMenu.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scenes.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scenes/GameScene.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scenes/GameScene.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scenes/Test.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scenes/Test.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scenes/Testing.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scenes/Testing.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/DebugManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/DebugManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/NetworkButtons.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/NetworkButtons.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/PlaytestManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/PlaytestManager.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/TestPlayer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/TestPlayer.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/TestingManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/TestingManager.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources/9c861649-f69f-49a1-859a-d6d6805fa295.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources/9c861649-f69f-49a1-859a-d6d6805fa295/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/DeckImages.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/DeckImages/card_dealer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/DeckImages/card_dealer.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/DeckImages/goldfish.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/DeckImages/goldfish.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/DeckImages/skull.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/DeckImages/skull.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/Icons/Square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/Icons/Square.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/Icons/diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Art/2DSprites/Icons/diamond.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/CreateTwoSheepClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/CreateTwoSheepClient.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DrawACardClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DrawACardClient.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DrawCardsEqualsHandClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DrawCardsEqualsHandClient.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DrawThreeCardsClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DrawThreeCardsClient.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DuplicateCardClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DuplicateCardClient.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/PowerIncreaseByHandClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/PowerIncreaseByHandClient.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/SacrificeUnitsClient.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/SacrificeUnitsClient.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/CreateTwoSheepServer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/CreateTwoSheepServer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DrawACardServer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DrawACardServer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DrawCardsEqualsHandServer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DrawCardsEqualsHandServer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DrawThreeCardsServer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DrawThreeCardsServer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DuplicateCardServer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DuplicateCardServer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/PowerIncreaseByHandServer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/PowerIncreaseByHandServer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/SacrificeUnitsServer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/SacrificeUnitsServer.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Prefabs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Prefabs/LogMessage.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Prefabs/LogMessage.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Prefabs/OnScreenConsole.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Prefabs/OnScreenConsole.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Scripts.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Scripts/OnScreenConsole.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Scripts/OnScreenConsole/OnScreenConsole.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Scripts/OnScreenConsole/OnScreenConsole.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Scripts/Testing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Plugins/DebugKit/Scripts/Testing.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/StreamingAssets/Cards.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/StreamingAssets/Cards.json.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources/8274b1fc-5069-4bd8-bbac-6875d3724556.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/dataSources/8274b1fc-5069-4bd8-bbac-6875d3724556.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mobile_CCG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Player.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Player.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/TestPlayer.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/TestPlayer.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client/LightingData.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client/LightingData.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client/ReflectionProbe-0.exr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client/ReflectionProbe-0.exr.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Card.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/CardSlot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/CardSlot.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/InputHandler.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/InputHandler.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerDataProxy.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerDataProxy.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerEngine.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Client/PlayerEngine.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerDataProxy.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerDataProxy.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerEngine.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerEngine.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerSetup.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ServerSetup.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ValidationEngine.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Game/Server/ValidationEngine.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Lobby.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Lobby/LobbyOrchestra.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Lobby/LobbyOrchestra.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game/Card.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Prefabs/Game/Card.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Authenticate.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Authenticate.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Lobby.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/Lobby.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Client.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Server.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scenes/game_Server.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/TestActionClient.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/TestActionClient.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/IAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/IAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/TestActionServer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/TestActionServer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Cards/Card.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Cards/Card.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/InputHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/InputHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerEngine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/GameLogic/Server/ServerEngine.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/DatabaseManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/DatabaseManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/DebugManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/DebugManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/GameScene.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/GameScene.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/NetworkButtons.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/NetworkButtons.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/PlaytestManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/PlaytestManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/Test.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/Test.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestPlayer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestPlayer.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/Testing.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/Testing.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestingManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Testing/TestingManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/TouchControls.inputactions" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/TouchControls.inputactions.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/LobbyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/LobbyManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Menu/MainMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Scripts/Menu/MainMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/TestingManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DreamBorne/Testing/Scripts/TestingManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Android.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Android.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Android/libsqlite3.so.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Android/libsqlite3.so.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.Sqlite.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.Sqlite.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.SqliteClient.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.SqliteClient.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Mono.Data.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Configuration.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Configuration.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Data.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Data.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.EnterpriseServices.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.EnterpriseServices.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Security.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/System.Security.dll.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/Mono.Data.Sqlite.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/Mono.Data.Sqlite.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/Mono.Data.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/Mono.Data.dll.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/sqlite3.def.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/sqlite3.def.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/sqlite3.dll.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/sqlite/Windows/sqlite3.dll.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/StreamingAssets/DataBase.db" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/StreamingAssets/DataBase.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
@@ -140,19 +106,32 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/Desktop/Test.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/CreateTwoSheepClient.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/DrawACardClient.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Client/PowerIncreaseByHandClient.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/CreateTwoSheepServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DrawACardServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/DrawCardsEqualsHandServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/PowerIncreaseByHandServer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/SacrificeUnitsServer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Abilities/Server/TestActionServer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/JsonData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/PlayerPhase.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/DataStructures/TouchState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DreamBorne/Scripts/Manager/Logger.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Plugins/DebugKit/Scripts/OnScreenConsole/OnScreenConsole.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.2/Runtime/Core/NetworkBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.2/Runtime/Core/NetworkManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@1.5.2/Tests/Editor/Messaging/MessageSendingTests.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/EventSystem/UIBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Mobile_CCG_clone_0/Assets/DreamBorne/Scripts/GameLogic/Client/PlayerEngine.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Mobile_CCG_clone_0/Assets/DreamBorne/Scripts/GameLogic/Server/ServerEngine.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Mobile_CCG_clone_0/Assets/DreamBorne/Scripts/GameLogic/Server/ValidationEngine.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Mobile_CCG_clone_0/Assets/DreamBorne/Scripts/Manager/EventManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Mobile_CCG_clone_0/Assets/DreamBorne/Scripts/Manager/LobbyManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Mobile_CCG_clone_0/Assets/DreamBorne/Scripts/Manager/Singleton/Singleton.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../Mobile_CCG_clone_0/Library/PackageCache/com.unity.netcode.gameobjects@1.5.2/Runtime/Core/NetworkBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Mobile_CCG_clone_0/Library/PackageCache/com.unity.netcode.gameobjects@1.5.2/Runtime/Messaging/Messages/RpcMessages.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -193,7 +172,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/Desktop/WindowsBuild/Build2\DreamBorne.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/WindowsBuild/Build3\DreamBorne.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\schwa\Documents\Mobile_CCG\DreamBorne_DevelopmentBuilds" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -300,6 +279,14 @@
       <workItem from="1722013599203" duration="99000" />
       <workItem from="1722016107902" duration="7913000" />
       <workItem from="1722033481871" duration="2160000" />
+      <workItem from="1722174852611" duration="3405000" />
+      <workItem from="1722248858166" duration="9467000" />
+      <workItem from="1722292243037" duration="4534000" />
+      <workItem from="1722301587627" duration="2586000" />
+      <workItem from="1722304191373" duration="1038000" />
+      <workItem from="1722353385148" duration="9963000" />
+      <workItem from="1722442774451" duration="6940000" />
+      <workItem from="1723487087195" duration="7343000" />
     </task>
     <servers />
   </component>

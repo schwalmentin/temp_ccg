@@ -27,6 +27,7 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
         private string playerName;
 
         public string PlayerName { get { return this.playerName; } }
+        public int[] Deck { get; set; }
 
     #endregion
 

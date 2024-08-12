@@ -135,6 +135,6 @@ public class TestingManager : MonoBehaviour
             this.actions.Add("TestAction", action);
         }
         
-        this.actions[actionId].Execute(null, JsonUtility.ToJson(new TestActionParams("wtf is a kilometer! RAAAAHHHH")));
+        // this.actions[actionId].Execute(null, JsonUtility.ToJson(new TestActionParams("wtf is a kilometer! RAAAAHHHH")));
     }
 }

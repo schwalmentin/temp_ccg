@@ -288,6 +288,14 @@ public class InputHandler : MonoBehaviour
         {
             LobbyManager.Instance.EndMatch();
         }
+        
+        /// <summary>
+        /// Rearranges the cards in the players hand.
+        /// </summary>
+        public void ArrangeHand()
+        {
+            this.playerEngine.ArrangeHand(null);
+        }
 
         /// <summary>
         /// Is invoked via the new input system, when a touch down/up action is performed.

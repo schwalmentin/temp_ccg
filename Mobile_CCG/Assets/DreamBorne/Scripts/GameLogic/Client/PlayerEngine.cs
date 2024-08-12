@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class PlayerEngine : MonoBehaviour
 {
     #region Variables
 
         // Model Reference
-        private PlayerData playerData;
-        
+        public PlayerData PlayerData { get; private set; }
+
         // Actions
         private Dictionary<string, IActionClient> actions;
         
-        // Handcards Rendering
+        // Handcard Rendering
         [Header("Handcard Rendering")]
+        [SerializeField] private Slider cardSlider;
         [SerializeField] private Transform handTransform;
-        [SerializeField] private float maxHandWidth;
+        [FormerlySerializedAs("maxHandWidth")] [SerializeField] private float handRadius;
         [SerializeField] private float cardRadius;
 
     #endregion
@@ -26,7 +29,7 @@ public class PlayerEngine : MonoBehaviour
 
         private void Awake()
         {
-            this.playerData = FindObjectOfType<PlayerData>();
+            this.PlayerData = FindObjectOfType<PlayerData>();
 
             this.actions = new Dictionary<string, IActionClient>();
 
@@ -40,7 +43,7 @@ public class PlayerEngine : MonoBehaviour
         private void Start()
         {
             // Join Match
-            JoinMatchParams joinMatchParams = new JoinMatchParams(this.playerData.Deck, this.playerData.PlayerName);
+            JoinMatchParams joinMatchParams = new JoinMatchParams(this.PlayerData.Deck, this.PlayerData.PlayerName);
             string jsonParams = JsonUtility.ToJson(joinMatchParams);
             EventManager.Instance.JoinMatchServerRpc(jsonParams);
         }
@@ -63,7 +66,7 @@ public class PlayerEngine : MonoBehaviour
         /// </summary>
         /// <param name="actionId"></param>
         /// <param name="jsonParams"></param>
-        private void InvokeAction(string actionId, string jsonParams)
+        private void InvokeAction(string actionId, string jsonParams, bool isOpponent)
         {
             if (!this.actions.ContainsKey(actionId))
             {
@@ -71,14 +74,13 @@ public class PlayerEngine : MonoBehaviour
             
                 if (action == null)
                 {
-                    Logger.LogError($"Action with the name {actionId}Client does not exist!");
                     return;
                 }
-            
-                this.actions.Add("TestAction", action);
+
+                this.actions.Add(actionId, action);
             }
         
-            this.actions[actionId].Execute(this, jsonParams);
+            this.actions[actionId].Execute(this, jsonParams, isOpponent);
         }
 
     #endregion
@@ -92,21 +94,21 @@ public class PlayerEngine : MonoBehaviour
         public void PassTurn()
         {
             // Disable buttons
-            this.playerData.UndoButton.interactable = false;
-            this.playerData.PassTurnButton.interactable = false;
+            this.PlayerData.UndoButton.interactable = false;
+            this.PlayerData.PassTurnButton.interactable = false;
             
             // Get json params
             PassTurnParams passTurnParams = new PassTurnParams(
-                this.playerData.PlayedCards.Select(x => x.Card.UniqueId).Reverse().ToArray(),
-                this.playerData.PlayedCards.Select(x => x.FieldPosition).Reverse().ToArray());
+                this.PlayerData.PlayedCards.Select(x => x.Card.UniqueId).Reverse().ToArray(),
+                this.PlayerData.PlayedCards.Select(x => x.FieldPosition).Reverse().ToArray());
             
             string jsonParams = JsonUtility.ToJson(passTurnParams);
             
             // Reset played cards
-            this.playerData.PlayedCards.Clear();
+            this.PlayerData.PlayedCards.Clear();
             
             // Update player phase
-            this.playerData.PlayerPhase = PlayerPhase.Synchronize;
+            this.PlayerData.PlayerPhase = PlayerPhase.Synchronize;
             
             // Invoke pass turn event
             EventManager.Instance.PassTurnServerRpc(jsonParams);
@@ -118,22 +120,22 @@ public class PlayerEngine : MonoBehaviour
         public void UndoCard()
         {
             // Get last played card
-            CardSlot cardSlot = this.playerData.PlayedCards.Pop();
+            CardSlot cardSlot = this.PlayerData.PlayedCards.Pop();
             if (cardSlot == null) return;
             
             // Add card to hand
-            this.playerData.Hand.Add(cardSlot.Card);
+            this.PlayerData.Hand.Add(cardSlot.Card);
             cardSlot.Card.CardState = CardState.Hand;
             this.ArrangeHand(null);
             
             // Add mana
-            this.playerData.Mana += cardSlot.Card.Cost;
+            this.PlayerData.Mana += cardSlot.Card.Cost;
             
             // Remove card from battlefield
             cardSlot.Card = null;
             
             // Update undo button
-            this.playerData.UndoButton.interactable = this.playerData.PlayedCards.Count > 0;
+            this.PlayerData.UndoButton.interactable = this.PlayerData.PlayedCards.Count > 0;
         }
 
         /// <summary>
@@ -143,13 +145,13 @@ public class PlayerEngine : MonoBehaviour
         public void ShowCardInformation(Card card)
         {
             // Set information
-            this.playerData.InfoName.text = card.name;
-            this.playerData.InfoPower.text = card.Power.ToString();
-            this.playerData.InfoCost.text = card.Cost.ToString();
-            this.playerData.InfoAbility.text = card.Description;
+            this.PlayerData.InfoName.text = card.name;
+            this.PlayerData.InfoPower.text = card.Power.ToString();
+            this.PlayerData.InfoCost.text = card.Cost.ToString();
+            this.PlayerData.InfoAbility.text = card.Description;
             
             // Enable card information
-            this.playerData.CardInformation.SetActive(true);
+            this.PlayerData.CardInformation.SetActive(true);
         }
         
         /// <summary>
@@ -158,27 +160,43 @@ public class PlayerEngine : MonoBehaviour
         /// <param name="exceptions"></param>
         public void ArrangeHand(List<Card> exceptions)
         {
+            // Get card numbers
             int exceptionCount = exceptions?.Count ?? 0;
+            int totalCards = this.PlayerData.Hand.Count - exceptionCount;
+            float totalRadius = (totalCards - 1) * this.cardRadius;
 
-            // Ugly Code, please refactor asap
-            float currentCardRadius = this.cardRadius * (this.playerData.Hand.Count - exceptionCount - 1) < this.maxHandWidth / 2 ? 
-                this.cardRadius : this.maxHandWidth / 2 / (this.playerData.Hand.Count);
+            Vector3 startingPosition;
+            
+            // Set visibility of slider
+            this.cardSlider.gameObject.SetActive(totalCards > 4);
+            
+            // Use slider
+            if (totalCards > 4)
+            {
+                // Calculate starting position
+                Vector3 handRadiusPosition = this.handTransform.position - new Vector3(this.handRadius, 0, 0);
+                float remainingWidth = (totalRadius - this.handRadius) * 2;
+                float sliderOffset = remainingWidth * this.cardSlider.value;
 
-            Vector3 firstPosition = this.handTransform.position;
-            firstPosition.x -= currentCardRadius * (this.playerData.Hand.Count - exceptionCount - 1);
+                startingPosition = handRadiusPosition - new Vector3(sliderOffset, 0, 0);
+            }
+            // Do NOT use slider
+            else
+            {
+                // Calculate starting position
+                startingPosition = this.handTransform.position - new Vector3(totalRadius, 0, 0);
+            }
 
-            foreach (Card card in this.playerData.Hand)
+            // Set card positions
+            foreach (Card card in this.PlayerData.Hand)
             {
                 if (exceptions != null)
                 {
-                    if (exceptions.Contains(card))
-                    {
-                        continue;
-                    }
+                    if (exceptions.Contains(card)) continue;
                 }
-                
-                card.transform.position = firstPosition;
-                firstPosition.x += currentCardRadius * 2;
+
+                card.transform.position = startingPosition;
+                startingPosition.x += this.cardRadius * 2;
             }
         }
         
@@ -189,12 +207,12 @@ public class PlayerEngine : MonoBehaviour
         public void PlayCard(PlayCardParams playCardParams)
         {
             // Get params
-            Card playedCard = this.playerData.Hand.FirstOrDefault(x => x.UniqueId == playCardParams.uniqueId);
+            Card playedCard = this.PlayerData.Hand.FirstOrDefault(x => x.UniqueId == playCardParams.uniqueId);
             if (playedCard == null || playCardParams.position.x > 1 || playCardParams.position.y > 2) return;
-            CardSlot cardSlot = this.playerData.PlayerField[playCardParams.position.x, playCardParams.position.y];
+            CardSlot cardSlot = this.PlayerData.PlayerField[playCardParams.position.x, playCardParams.position.y];
 
             // Update card
-            this.playerData.Hand.Remove(playedCard);
+            this.PlayerData.Hand.Remove(playedCard);
             playedCard.CardState = CardState.Field;
             playedCard.transform.position = cardSlot.transform.position;
                 
@@ -202,26 +220,26 @@ public class PlayerEngine : MonoBehaviour
             cardSlot.Card = playedCard;
             
             // Update mana
-            this.playerData.Mana -= playedCard.Cost;
+            this.PlayerData.Mana -= playedCard.Cost;
             
             // Update played cards
-            this.playerData.PlayedCards.Push(cardSlot);
+            this.PlayerData.PlayedCards.Push(cardSlot);
             
             // Update undo button
-            this.playerData.UndoButton.interactable = true;
+            this.PlayerData.UndoButton.interactable = true;
         }
 
         /// <summary>
         /// Instantiates a new card and adds it to the hand.
         /// </summary>
         /// <param name="drawCardParams"></param>
-        private void DrawCard(DrawCardParams drawCardParams)
+        public void DrawCard(DrawCardParams drawCardParams)
         {
             // Instantiate card
             Card card = DatabaseManager.Instance.GetCardById(drawCardParams.id, drawCardParams.uniqueId);
 
             // Add card to library
-            this.playerData.Hand.Add(card);
+            this.PlayerData.Hand.Add(card);
             card.CardState = CardState.Hand;
 
             // Update UI
@@ -238,11 +256,11 @@ public class PlayerEngine : MonoBehaviour
             StartMatchParams startMatchParams = JsonUtility.FromJson<StartMatchParams>(jsonParams);
             
             // Set opponent
-            this.playerData.OpponentName = startMatchParams.opponentName;
+            this.PlayerData.OpponentName = startMatchParams.opponentName;
             
             // Set mana and turn
-            this.playerData.Mana = startMatchParams.mana;
-            this.playerData.Turn = startMatchParams.turn;
+            this.PlayerData.Mana = startMatchParams.mana;
+            this.PlayerData.Turn = startMatchParams.turn;
 
             // Draw starting hand
             for (int i = 0; i < startMatchParams.handIds.Length; i++)
@@ -251,7 +269,7 @@ public class PlayerEngine : MonoBehaviour
             }
             
             // Enable buttons
-            this.playerData.PassTurnButton.interactable = true;
+            this.PlayerData.PassTurnButton.interactable = true;
         }
 
         private void SyncPlayer(string jsonParams)
@@ -262,17 +280,17 @@ public class PlayerEngine : MonoBehaviour
             // Perform every card's action
             for (int i = 0; i < syncPlayerParams.playedCardUniqueIds.Length; i++)
             {
-                 Card card = this.playerData.PlayerField.Cast<CardSlot>().ToList()
+                 Card card = this.PlayerData.PlayerField.Cast<CardSlot>().ToList()
                     .Find(x => x.Card?.UniqueId == syncPlayerParams.playedCardUniqueIds[i]).Card;
                  
                 if (card == null) continue;
                 if (card.ActionId == "") continue;
                 
-                this.InvokeAction(card.ActionId, syncPlayerParams.actionParams[i]);
+                this.InvokeAction(card.ActionId, syncPlayerParams.actionParams[i], false);
             }
             
             // Update Points
-            this.playerData.PlayerPoints = syncPlayerParams.points;
+            this.PlayerData.PlayerPoints = syncPlayerParams.points;
         }
 
         private void SyncOpponent(string jsonParams)
@@ -287,7 +305,7 @@ public class PlayerEngine : MonoBehaviour
                 Card card = DatabaseManager.Instance.GetCardById(syncOpponentParams.playedCardIds[i],
                     syncOpponentParams.playedCardUniqueIds[i]);
 
-                CardSlot cardSlot = this.playerData.OpponentField[syncOpponentParams.positions[i].x,
+                CardSlot cardSlot = this.PlayerData.OpponentField[syncOpponentParams.positions[i].x,
                     syncOpponentParams.positions[i].y];
 
                 cardSlot.Card = card;
@@ -295,11 +313,11 @@ public class PlayerEngine : MonoBehaviour
                 
                 // Perform action
                 if (card.ActionId == "" || syncOpponentParams.actionParams[i] == "NaN") continue;
-                this.InvokeAction(card.ActionId, syncOpponentParams.actionParams[i]);    
+                this.InvokeAction(card.ActionId, syncOpponentParams.actionParams[i], true); 
             }
             
             // Update Points
-            this.playerData.OpponentPoints = syncOpponentParams.points;
+            this.PlayerData.OpponentPoints = syncOpponentParams.points;
         }
 
         private void EndTurn(string jsonParams)
@@ -311,12 +329,12 @@ public class PlayerEngine : MonoBehaviour
             this.DrawCard(new DrawCardParams(endTurnParams.drawnCardId, endTurnParams.drawnCardUniqueId));
             
             // Update UI
-            this.playerData.PassTurnButton.interactable = true;
-            this.playerData.Mana = endTurnParams.mana;
-            this.playerData.Turn = endTurnParams.turn;
+            this.PlayerData.PassTurnButton.interactable = true;
+            this.PlayerData.Mana = endTurnParams.mana;
+            this.PlayerData.Turn = endTurnParams.turn;
             
             // Update player state
-            this.playerData.PlayerPhase = PlayerPhase.Deploy;
+            this.PlayerData.PlayerPhase = PlayerPhase.Deploy;
         }
         
         private void EndGame(string jsonParams)
@@ -328,9 +346,9 @@ public class PlayerEngine : MonoBehaviour
             Logger.LogEndGame(endGameParams.won);
             
             // Enable ending screen
-            this.playerData.EndingScreen.SetActive(true);
-            this.playerData.EndingMessage.text = $"You {(endGameParams.won ? "won" : "lost")} the game!";
-            this.playerData.EndingMessage.color = endGameParams.won ? new Color(0.953f, 0.753f, 0.255f) : new Color(1f, 0.333f, 0.286f);
+            this.PlayerData.EndingScreen.SetActive(true);
+            this.PlayerData.EndingMessage.text = $"You {(endGameParams.won ? "won" : "lost")} the game!";
+            this.PlayerData.EndingMessage.color = endGameParams.won ? new Color(0.953f, 0.753f, 0.255f) : new Color(1f, 0.333f, 0.286f);
         }
 
     #endregion

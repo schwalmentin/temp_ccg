@@ -584,7 +584,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.25, y: 0.25}
+  m_SizeDelta: {x: 0.3919, y: 0.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2393426276319664932
 CanvasRenderer:
@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: nightmare
+  m_text: card name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3a8ff1787cc68ad43b3dadac719b24ea, type: 2}
   m_sharedMaterial: {fileID: -2290452952693301147, guid: 3a8ff1787cc68ad43b3dadac719b24ea, type: 2}
@@ -1171,7 +1171,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.25, y: 0.25}
+  m_SizeDelta: {x: 0.4021, y: 0.25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7871251431684097673
 CanvasRenderer:

@@ -135,11 +135,14 @@ public class PlayerData : MonoBehaviour
 
         private void Awake()
         {
-            // Initialize Fields
+            // Initialize fields
             this.PlayerField = this.CardSlotsToField(this.playerCardSlots, new Vector2Int(2, 3));
             this.OpponentField = this.CardSlotsToField(this.opponentCardSlots, new Vector2Int(2, 3));
             
-            // Initialize Cards
+            // Initialize deck
+            this.deckIds = LobbyManager.Instance.Deck;
+            
+            // Initialize cards
             this.Hand = new List<Card>();
             this.PlayedCards = new Stack<CardSlot>();
             

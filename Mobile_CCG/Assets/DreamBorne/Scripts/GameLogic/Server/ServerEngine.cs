@@ -9,7 +9,8 @@ public class ServerEngine
     #region Variables
 
         // Mappings
-        private readonly Dictionary<ulong, ServerData> serverData;
+        public Dictionary<ulong, ServerData> ServerData { get; }
+
         private readonly Dictionary<string, IActionServer> actions;
         
         // Properties
@@ -21,7 +22,7 @@ public class ServerEngine
         public ServerEngine(int startingHandAmount, int maxTurnAmount, Stack<GameObject> cardHolders)
         {
             // Properties
-            this.serverData = new Dictionary<ulong, ServerData>();
+            this.ServerData = new Dictionary<ulong, ServerData>();
             this.uniqueIdCounter = 0;
             this.startingHandAmount = startingHandAmount;
             this.maxTurnAmount = maxTurnAmount;
@@ -45,23 +46,23 @@ public class ServerEngine
         /// </summary>
         /// <param name="playerId"></param>
         /// <returns></returns>
-        private Card DrawCard(ulong playerId)
+        public Card DrawCard(ulong playerId)
         {
             // Get card id
-            if (this.serverData[playerId].Library.Count == 0)
+            if (this.ServerData[playerId].Library.Count == 0)
             {
                 Debug.LogError("No more cards available");
                 return null;
             }
             
-            int cardId = this.serverData[playerId].Library.Pop();
+            int cardId = this.ServerData[playerId].Library.Pop();
             
             // Create card
             Card card = DatabaseManager.Instance.GetCardById(cardId, this.GetUniqueId());
-            card.transform.parent = this.serverData[playerId].CardHolder.transform;
+            card.transform.parent = this.ServerData[playerId].CardHolder.transform;
             
             // Place card in hand
-            this.serverData[playerId].Hand.Add(card);
+            this.ServerData[playerId].Hand.Add(card);
             return card;
         }
 
@@ -69,7 +70,7 @@ public class ServerEngine
         /// Returns a unique integer id by counting up from 0.
         /// </summary>
         /// <returns></returns>
-        private int GetUniqueId()
+        public int GetUniqueId()
         {
             return this.uniqueIdCounter++;
         }
@@ -81,7 +82,7 @@ public class ServerEngine
         /// <returns></returns>
         private ulong GetOpponentId(ulong playerId)
         {
-            return this.serverData.Keys.FirstOrDefault(id => id != playerId);
+            return this.ServerData.Keys.FirstOrDefault(id => id != playerId);
         }
 
     #endregion
@@ -94,22 +95,21 @@ public class ServerEngine
         /// <param name="actionId"></param>
         /// <param name="serverData"></param>
         /// <param name="card"></param>
-        private void InvokeAction(string actionId, ServerData serverData, Card card)
+        private void InvokeAction(string actionId, ulong playerId, Card card)
         {
             if (!this.actions.ContainsKey(actionId))
             {
                 IActionServer action = (IActionServer) Assembly.GetExecutingAssembly().CreateInstance(actionId + "Server");
-                
+
                 if (action == null)
                 {
                     Logger.LogError($"Action with the name {actionId}Server does not exist!");
                     return;
                 }
-                
-                this.actions.Add("TestAction", action);
+                this.actions.Add(actionId, action);
             }
             
-            this.actions[actionId].Execute(this, serverData, card);
+            this.actions[actionId].Execute(this, playerId, card);
         }
 
     #endregion
@@ -122,13 +122,13 @@ public class ServerEngine
             GameObject cardHolder = this.cardHolders.Pop();
             cardHolder.name = joinMatchParams.playerName;
             ServerData newServerData = new ServerData(joinMatchParams.playerName, playerId, joinMatchParams.deckIds, cardHolder);
-            this.serverData.Add(playerId, newServerData);
+            this.ServerData.Add(playerId, newServerData);
 
             // Check if both players joined the match
-            if (this.serverData.Count != 2) return new ServerDataProxy(newServerData);
+            if (this.ServerData.Count != 2) return new ServerDataProxy(newServerData);
             
             // Start match invocation
-            foreach (ulong id in this.serverData.Keys)
+            foreach (ulong id in this.ServerData.Keys)
             {
                 this.StartMatch(id);
             }
@@ -139,46 +139,48 @@ public class ServerEngine
         public void PassTurn(ulong playerId, PassTurnParams passTurnParams)
         {
             // Update Player Phase
-            this.serverData[playerId].PlayerPhase = PlayerPhase.Synchronize;
+            this.ServerData[playerId].PlayerPhase = PlayerPhase.Synchronize;
             
-            // Update player state
+            // Play cards
             for (int i = 0; i < passTurnParams.playedCardUniqueIds.Length; i++)
             {
                 // Place card
-                Card card = this.serverData[playerId].Hand.Find(x => x.UniqueId == passTurnParams.playedCardUniqueIds[i]);
+                Card card = this.ServerData[playerId].Hand.Find(x => x.UniqueId == passTurnParams.playedCardUniqueIds[i]);
                 Vector2Int position = passTurnParams.positions[i];
                 
-                this.serverData[playerId].Hand.Remove(card);
-                this.serverData[playerId].Field[position.x, position.y] = card;
+                this.ServerData[playerId].Hand.Remove(card);
+                this.ServerData[playerId].Field[position.x, position.y] = card;
                 
                 // Add to played cards
-                this.serverData[playerId].PlayedCards.Add(position, card);
-                
-                // Perform action
-                if (card.ActionId == "") continue;
-                this.InvokeAction(card.ActionId, this.serverData[playerId], card);
+                this.ServerData[playerId].PlayedCards.Add(position, card);
+            }
+            
+            // Invoke card actions
+            foreach (Card card in this.ServerData[playerId].PlayedCards.Values.Where(card => card.ActionId != ""))
+            {
+                this.InvokeAction(card.ActionId, playerId, card);
             }
 
             // Check if both players passed the turn
-            if (this.serverData[this.GetOpponentId(playerId)].PlayerPhase != PlayerPhase.Synchronize) return;
+            if (this.ServerData[this.GetOpponentId(playerId)].PlayerPhase != PlayerPhase.Synchronize) return;
 
             // Sync player
-            foreach (ulong id in this.serverData.Keys)
+            foreach (ulong id in this.ServerData.Keys)
             {
                 this.SyncPlayer(id);
             }
             
             // Sync opponent
-            foreach (ulong id in this.serverData.Keys)
+            foreach (ulong id in this.ServerData.Keys)
             {
                 this.SyncOpponent(id);
             }
             
             // End Turn
-            foreach (ulong id in this.serverData.Keys)
+            foreach (ulong id in this.ServerData.Keys)
             {
                 // End Game if all turns are over
-                if (this.serverData[id].Turn >= this.maxTurnAmount)
+                if (this.ServerData[id].Turn >= this.maxTurnAmount)
                 {
                     this.EndGame(id);
                     continue;
@@ -203,36 +205,36 @@ public class ServerEngine
             
             // Start Match
             StartMatchParams startMatchParams = new StartMatchParams(
-                this.serverData[playerId].Hand.Select(x => x.Id).ToArray(),
-                this.serverData[playerId].Hand.Select(x => x.UniqueId).ToArray(),
-                this.serverData[this.GetOpponentId(playerId)].Name,
-                this.serverData[playerId].Mana,
-                this.serverData[playerId].Turn);
+                this.ServerData[playerId].Hand.Select(x => x.Id).ToArray(),
+                this.ServerData[playerId].Hand.Select(x => x.UniqueId).ToArray(),
+                this.ServerData[this.GetOpponentId(playerId)].Name,
+                this.ServerData[playerId].Mana,
+                this.ServerData[playerId].Turn);
 
             string jsonParams = JsonUtility.ToJson(startMatchParams);
             
-            EventManager.Instance.StartMatchClientRpc(jsonParams, this.serverData[playerId].ClientRpcParams);
+            EventManager.Instance.StartMatchClientRpc(jsonParams, this.ServerData[playerId].ClientRpcParams);
         }
 
         private void SyncPlayer(ulong playerId)
         {
             // Update points
-            this.serverData[playerId].Points = 0;
+            this.ServerData[playerId].Points = 0;
 
-            foreach (Card card in this.serverData[playerId].Field)
+            foreach (Card card in this.ServerData[playerId].Field)
             {
                 if (card == null) continue;
-                this.serverData[playerId].Points += card.Power;
+                this.ServerData[playerId].Points += card.Power;
             }
             
             // Sync player
              SyncPlayerParams syncPlayerParams = new SyncPlayerParams(
-                this.serverData[playerId].PlayedCards.Values.Select(x => x.UniqueId).ToArray(),
-                this.serverData[playerId].PlayedCards.Values.Select(x => x.ActionParams).ToArray(),
-                this.serverData[playerId].Points);
+                this.ServerData[playerId].PlayedCards.Values.Select(x => x.UniqueId).ToArray(),
+                this.ServerData[playerId].PlayedCards.Values.Select(x => x.ActionParams).ToArray(),
+                this.ServerData[playerId].Points);
              
             string jsonParams = JsonUtility.ToJson(syncPlayerParams);
-            EventManager.Instance.SyncPlayerClientRpc(jsonParams, this.serverData[playerId].ClientRpcParams);
+            EventManager.Instance.SyncPlayerClientRpc(jsonParams, this.ServerData[playerId].ClientRpcParams);
         }
 
         private void SyncOpponent(ulong playerId)
@@ -240,7 +242,7 @@ public class ServerEngine
             ulong opponentId = this.GetOpponentId(playerId);
 
             // Filter action params
-            foreach (Card card in this.serverData[opponentId].PlayedCards.Values)
+            foreach (Card card in this.ServerData[opponentId].PlayedCards.Values)
             {
                 if (!card.PerformOpponent)
                 {
@@ -250,47 +252,47 @@ public class ServerEngine
             
             // Create params
             SyncOpponentParams syncOpponentParams = new SyncOpponentParams(
-                this.serverData[opponentId].PlayedCards.Values.Select(x => x.Id).ToArray(),
-                this.serverData[opponentId].PlayedCards.Values.Select(x => x.UniqueId).ToArray(),
-                this.serverData[opponentId].PlayedCards.Keys.ToArray(),
-                this.serverData[opponentId].PlayedCards.Values.Select(x => x.ActionParams).ToArray(),
-                this.serverData[opponentId].Points);
+                this.ServerData[opponentId].PlayedCards.Values.Select(x => x.Id).ToArray(),
+                this.ServerData[opponentId].PlayedCards.Values.Select(x => x.UniqueId).ToArray(),
+                this.ServerData[opponentId].PlayedCards.Keys.ToArray(),
+                this.ServerData[opponentId].PlayedCards.Values.Select(x => x.ActionParams).ToArray(),
+                this.ServerData[opponentId].Points);
             
             string jsonParams = JsonUtility.ToJson(syncOpponentParams);
-            EventManager.Instance.SyncOpponentClientRpc(jsonParams, this.serverData[playerId].ClientRpcParams);
+            EventManager.Instance.SyncOpponentClientRpc(jsonParams, this.ServerData[playerId].ClientRpcParams);
         }
 
         private void EndTurn(ulong playerId)
         {
             // Clear played cards
-            this.serverData[playerId].PlayedCards.Clear();
+            this.ServerData[playerId].PlayedCards.Clear();
             
             // Draw a card
             Card drawnCard = this.DrawCard(playerId);
             
             // Update Turn
-            this.serverData[playerId].Turn++;
-            this.serverData[playerId].Mana = this.serverData[playerId].Turn;
-            this.serverData[playerId].PlayerPhase = PlayerPhase.Deploy;
+            this.ServerData[playerId].Turn++;
+            this.ServerData[playerId].Mana = this.ServerData[playerId].Turn;
+            this.ServerData[playerId].PlayerPhase = PlayerPhase.Deploy;
             
             // End Turn
             EndTurnParams endTurnParams = new EndTurnParams(
                 drawnCard.Id,
                 drawnCard.UniqueId,
-                this.serverData[playerId].Mana,
-                this.serverData[playerId].Turn);
+                this.ServerData[playerId].Mana,
+                this.ServerData[playerId].Turn);
 
             string jsonParams = JsonUtility.ToJson(endTurnParams);
-            EventManager.Instance.EndTurnClientRpc(jsonParams, this.serverData[playerId].ClientRpcParams);
+            EventManager.Instance.EndTurnClientRpc(jsonParams, this.ServerData[playerId].ClientRpcParams);
         }
 
         private void EndGame(ulong playerId)
         {
             EndGameParams endGameParams = new EndGameParams(
-                this.serverData[playerId].Points >= this.serverData[this.GetOpponentId(playerId)].Points);
+                this.ServerData[playerId].Points >= this.ServerData[this.GetOpponentId(playerId)].Points);
 
             string jsonParams = JsonUtility.ToJson(endGameParams);
-            EventManager.Instance.EndGameClientRpc(jsonParams, this.serverData[playerId].ClientRpcParams);
+            EventManager.Instance.EndGameClientRpc(jsonParams, this.ServerData[playerId].ClientRpcParams);
         }
 
     #endregion

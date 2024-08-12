@@ -69,7 +69,7 @@ public class Card : MonoBehaviour
         /// <param name="power"></param>
         /// <param name="description"></param>
         /// <param name="actionId"></param>
-        public void Initialize(int id, int uniqueId, string name, int cost, int power, string description, string actionId)
+        public Card Initialize(int id, int uniqueId, string name, int cost, int power, string description, string actionId)
         {
             this.Id = id;
             this.UniqueId = uniqueId;
@@ -81,6 +81,8 @@ public class Card : MonoBehaviour
 
             this.CardState = CardState.Library;
             this.PerformOpponent = false;
+
+            return this;
         }
 
         /// <summary>

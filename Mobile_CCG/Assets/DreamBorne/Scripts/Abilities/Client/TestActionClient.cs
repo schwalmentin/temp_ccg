@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TestActionClient : IActionClient
 {
-    public void Execute(PlayerEngine playerEngine, string jsonParams)
+    public void Execute(PlayerEngine playerEngine, string jsonParams, bool isOpponent)
     {
         try
         {
