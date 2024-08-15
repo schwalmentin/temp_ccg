@@ -4,7 +4,7 @@
     "name": "Goldfish",
     "cost": 1,
     "power": 2,
-    "description": "",
+    "description": "\"I'm a cute goldfish.\"",
     "actionId": ""
   },
   "2": {
@@ -12,7 +12,7 @@
     "name": "Zitteraal",
     "cost": 2,
     "power": 3,
-    "description": "",
+    "description": "\"BZZZZZ...\"",
     "actionId": ""
   },
   "3": {
@@ -20,7 +20,7 @@
     "name": "Fischer",
     "cost": 3,
     "power": 5,
-    "description": "",
+    "description": "\"Let's catch some fish.\"",
     "actionId": ""
   },
   "4": {
@@ -28,7 +28,7 @@
     "name": "Rüdiger",
     "cost": 4,
     "power": 6,
-    "description": "",
+    "description": "\"Beware: Ice Age III Reference.\"",
     "actionId": ""
   },
   "5": {
@@ -36,7 +36,7 @@
     "name": "El Gato",
     "cost": 5,
     "power": 8,
-    "description": "",
+    "description": "\"Meow...\"",
     "actionId": ""
   },
   "6": {
@@ -105,10 +105,10 @@
   },
   "14": {
     "id": 14,
-    "name": "Hand Collosus",
+    "name": "Hand Colossus",
     "cost": 5,
     "power": 3,
-    "description": "Hand Collosus' power is increased by the amount of cards in your hand.",
+    "description": "Hand Colossus' power is increased by the amount of cards in your hand.",
     "actionId": "PowerIncreaseByHand"
   },
   "15": {

@@ -298,6 +298,17 @@ public class InputHandler : MonoBehaviour
         }
 
         /// <summary>
+        /// Unselect the current selected card.
+        /// </summary>
+        public void UnselectCard()
+        {
+            this.selectedCard?.ToggleHighlight(false);
+            this.selectedCard = null;
+            this.currentCard = null;
+            this.touchState = TouchState.NotTouching;
+        }
+
+        /// <summary>
         /// Is invoked via the new input system, when a touch down/up action is performed.
         /// </summary>
         /// <param name="context"></param>

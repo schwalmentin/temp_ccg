@@ -150,6 +150,9 @@ public class PlayerEngine : MonoBehaviour
             this.PlayerData.InfoCost.text = card.Cost.ToString();
             this.PlayerData.InfoAbility.text = card.Description;
             
+            Sprite image = Resources.Load<Sprite>($"CardImages/{card.name}");
+            this.PlayerData.InfoImage.sprite = image ?? Resources.Load<Sprite>("CardImages/NoImage");
+            
             // Enable card information
             this.PlayerData.CardInformation.SetActive(true);
         }

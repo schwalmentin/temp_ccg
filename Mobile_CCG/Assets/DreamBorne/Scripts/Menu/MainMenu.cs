@@ -1,22 +1,37 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Button playButton;
+    [SerializeField] private Image playButtonImage;
+    [SerializeField] private TextMeshProUGUI playButtonText;
     [Space]
     [SerializeField] private CardDeck[] cardDecks;
 
-    [SerializeField] private Color unselectedColor = new Color(0.4f, 0.4f, 0.4f);
+    [SerializeField] private Color unselectedColorText = new Color(0.6f, 0.6f, 0.6f);
+    [SerializeField] private Color selectedColorText = new Color(0.6f, 0.6f, 0.6f);
+    [Space]
+    [SerializeField] private Color unselectedColorPictures = new Color(0.4f, 0.4f, 0.4f);
+    [Space]
+    [SerializeField] private Color unselectedColorButton = new Color(0.6f, 0.6f, 0.6f);
+    [SerializeField] private Color selectedColorButton = new Color(0.6f, 0.6f, 0.6f);
+
     private int currentDeck;
-    private Image currentImage;
+    private CardDeck currentCardDeck;
 
     private void Awake()
     {
         foreach (CardDeck cardDeck in this.cardDecks)
         {
-            cardDeck.deckIcon.color = this.unselectedColor;
+            cardDeck.deckIcon.color = this.unselectedColorPictures;
+            cardDeck.deckName.color = this.unselectedColorText;
         }
+
+        this.playButtonImage.color = this.unselectedColorButton;
+        this.playButtonText.color = this.unselectedColorButton;
     }
 
     /// <summary>
@@ -43,17 +58,24 @@ public class MainMenu : MonoBehaviour
     {
         // Check if deck is valid
         if (this.cardDecks.Length < deck || deck < 0) return;
+        
+        // Enable play button
         this.playButton.interactable = true;
+        this.playButtonImage.color = this.selectedColorButton;
+        this.playButtonText.color = this.selectedColorButton;
+
         
         // Unselect current deck
-        if (this.currentImage != null)
+        if (this.currentCardDeck.deckIcon != null)
         {
-            this.currentImage.color = this.unselectedColor;
+            this.currentCardDeck.deckIcon.color = this.unselectedColorPictures;
+            this.currentCardDeck.deckName.color = this.unselectedColorText;
         }
         
         // Select new deck
-        this.currentImage = this.cardDecks[deck].deckIcon;
-        this.currentImage.color = new Color(1, 1, 1);
+        this.currentCardDeck = this.cardDecks[deck];
+        this.currentCardDeck.deckIcon.color = new Color(1, 1, 1);
+        this.currentCardDeck.deckName.color = this.selectedColorText;
         this.currentDeck = deck;
         
         // Submit deck
@@ -65,5 +87,6 @@ public class MainMenu : MonoBehaviour
 public struct CardDeck
 {
     public Image deckIcon;
+    public TextMeshProUGUI deckName;
     public int[] cards;
 }

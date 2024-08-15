@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Card : MonoBehaviour
         [SerializeField] private TextMeshProUGUI nameGui;
         [SerializeField] private TextMeshProUGUI costGui;
         [SerializeField] private TextMeshProUGUI powerGui;
+        [SerializeField] private Image imageGUI;
         
         // Properties
         public int Id { get; private set; }
@@ -78,6 +80,9 @@ public class Card : MonoBehaviour
             this.Power = power;
             this.Description = description;
             this.ActionId = actionId;
+            
+            Sprite image = Resources.Load<Sprite>($"CardImages/{name}");
+            this.imageGUI.sprite = image ?? Resources.Load<Sprite>("CardImages/NoImage");
 
             this.CardState = CardState.Library;
             this.PerformOpponent = false;

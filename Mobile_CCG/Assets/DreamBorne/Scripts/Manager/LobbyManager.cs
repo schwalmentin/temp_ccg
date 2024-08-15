@@ -263,7 +263,14 @@ public class LobbyManager : NetworkSingleton<LobbyManager>
     [ClientRpc]
     private void LoadClientSceneClientRpc()
     {
-        CustomSceneManager.Instance.SwitchSceneAsync("game_Client", true);
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            CustomSceneManager.Instance.SwitchSceneAsync("game_Client", true);
+            return;
+        }
+        
+        CustomSceneManager.Instance.SwitchSceneAsync("game_Client_Windows", true);
+
     }
     
     [ClientRpc]

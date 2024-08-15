@@ -114,6 +114,7 @@ public class PlayerData : MonoBehaviour
         [SerializeField] private TextMeshProUGUI infoPower;
         [SerializeField] private TextMeshProUGUI infoCost;
         [SerializeField] private TextMeshProUGUI infoAbility;
+        [SerializeField] private Image infoImage;
         [Space]
         [SerializeField] private GameObject endingScreen;
         [SerializeField] private TextMeshProUGUI endingMessage;
@@ -126,6 +127,7 @@ public class PlayerData : MonoBehaviour
         public TextMeshProUGUI InfoPower => this.infoPower;
         public TextMeshProUGUI InfoCost => this.infoCost;
         public TextMeshProUGUI InfoAbility => this.infoAbility;
+        public Image InfoImage => this.infoImage;
         public GameObject EndingScreen => this.endingScreen;
         public TextMeshProUGUI EndingMessage => this.endingMessage;
 
